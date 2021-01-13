@@ -1,3 +1,4 @@
+// FIXME: If notification failure, still will continue to chase target
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
