@@ -97,11 +97,20 @@ public class _TestGoto : MonoBehaviour
         Merchant shop = FindObjectOfType<Merchant>();
         foreach (Actor a in actors)
         {
-            IAgentAction goShop = new GotoTarget(a.gameObject, shop.gameObject, 1f);
+            IAgentAction goShop = new GotoTarget(a.gameObject, shop.gameObject, shop.AdmitRadius);
             IAgentAction enterTown = new EnterLocation(a.GetComponent<Actor>(), shop, Random.Range(4f, 7f));
 
             ActionSequence sequence = new ActionSequence(a.GetComponent<Actor>(), goShop, enterTown);
             sequence.Run();
         }
+    }
+
+    public void _2patrolAndChase1()
+    {
+        GameObject a1 = GameObject.Find("Capsule 2");
+        Town town = FindObjectOfType<Town>();
+        AggresiveGoto patrol = new AggresiveGoto(a1.GetComponent<Combatant>(), town.transform.position, 3);
+        a1.GetComponent<Actor>().SetCurrentAction(patrol);
+        patrol.Run();
     }
 }

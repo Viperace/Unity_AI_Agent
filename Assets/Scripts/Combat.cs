@@ -34,7 +34,7 @@ public class Combat
         else
             result = CombatResult.InitiatorLose;
         
-        Debug.Log(initiator + " " + result);
+        Debug.Log("Precomputed result: " + initiator + " " + result);
 
         switch (result)
         {

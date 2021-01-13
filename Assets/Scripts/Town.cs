@@ -18,7 +18,7 @@ public interface ILocation
 
 public class GenericLocation : MonoBehaviour, ILocation
 {
-    protected float admitRadius = 2f;
+    [SerializeField] protected float admitRadius = 2f;
     protected HashSet<Actor> actors;
     protected Dictionary<Actor, IEnumerator> actorCoroutines;
 
@@ -75,8 +75,6 @@ public class GenericLocation : MonoBehaviour, ILocation
 
 public class Town : GenericLocation
 {
-    [SerializeField] new float admitRadius = 2f;
-
     public override IEnumerator TrapActorForDurationCoroutine(Actor actor, float duration)
     {
         actor.gameObject.SetActive(false);

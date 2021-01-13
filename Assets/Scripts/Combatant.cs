@@ -24,6 +24,10 @@ public class Combatant : MonoBehaviour
 
     SlowLookAt slowLook;
 
+    System.Action onWinAction = null;
+    System.Action onLoseAction = null;
+    //System.Action onFleeAction;
+
     float _cooldown1 = 0;
     float _cooldown2 = 1;
 
@@ -135,7 +139,6 @@ public class Combatant : MonoBehaviour
             
             yield return new WaitForSeconds(0.1f);
         }
-        //navMeshAgent.velocity = Vector3.zero;
         navMeshAgent.SetDestination(navMeshAgent.transform.position);
         //navMeshAgent.transform.LookAt(target);
         slowLook.InitiateLookAt(target);
@@ -181,17 +184,52 @@ public class Combatant : MonoBehaviour
         // Set off
         IsFighting = false;
 
+        slowLook.StopLooking();
+
         // Do stuff based on result
         if (this == combat.winner)
+        {
+            OnWinAction();
             Debug.Log(this + " do victory lap");
+        }            
         else if (this == combat.loser)
+        {
+            OnLoseAction();
             Debug.Log(this + " do death");
+        }            
         else if (this == combat.runner)
+        {
+            OnFleeAction();
             Debug.Log(this + " do running away from " + combat.winner);
+        }
+            
 
         // Reset 
         combat = null;
     }
+
+    void OnWinAction()
+    {
+        if (onWinAction != null)
+            onWinAction();
+    }
+
+    void OnLoseAction()
+    {
+        actor.DoDeath();
+
+        if (onLoseAction != null)
+            onLoseAction();
+    }
+
+    void OnFleeAction()
+    {
+        throw new System.Exception("Not yet implemented");
+    }
+
+    public void AddOnWinAction(System.Action act) => onWinAction += act;
+
+    public void AddOnLoseAction(System.Action act) => onLoseAction += act;
 
     public float AttackRange { get { return _attackRange; } }
 }

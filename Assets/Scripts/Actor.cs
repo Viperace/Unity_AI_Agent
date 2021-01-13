@@ -49,6 +49,22 @@ public class Actor : MonoBehaviour
 		currentAction = null;
 	}
 
+	// All death animation and logic
+	public void DoDeath()
+    {		
+		// Turn off 
+		this.GetComponent<NavMeshAgent>().enabled = false;
+		this.GetComponent<SlowLookAt>().enabled = false;
+		this.GetComponent<Combatant>().enabled = false;
+		this.GetComponentInChildren<FieldOfView>().enabled = false;
+
+		// Do dead animation
+		this.transform.Rotate(Vector3.forward, 90);
+		this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 1f, this.transform.position.z);
+		this.enabled = false;
+
+	}
+
 	void Update()
 	{
 		if(currentAction != null)
