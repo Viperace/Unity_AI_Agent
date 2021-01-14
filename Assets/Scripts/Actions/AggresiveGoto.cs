@@ -49,6 +49,7 @@ public class AggresiveGoto : IAgentAction
 		// Start
 		navMeshAgent.destination = destination;
 
+		Debug.Log("Start patrolling " + destination);
 	}
 
 	public bool CheckIsCompleted()
@@ -60,12 +61,14 @@ public class AggresiveGoto : IAgentAction
 	
 	public void OnComplete()
 	{
-		if (onCompleteFunc != null)
-            onCompleteFunc();
-
 		// Stop
 		navMeshAgent.destination = navMeshAgent.transform.position;
-		Debug.Log(actor + " done patrolling.");
+		Debug.Log(actor + " done patrolling." + destination);
+
+		// Do addition func
+		if (onCompleteFunc != null)
+            onCompleteFunc();
+        
     }
 	
 	void ResumeGotoAndExcludeThisTarget(GameObject target)
@@ -95,7 +98,7 @@ public class AggresiveGoto : IAgentAction
 
 					System.Action resumeAct = () => ResumeGotoAndExcludeThisTarget(target.gameObject);
 
-					agent.ChaseAndAttack(target, resumeAct);
+					agent.ChaseAndAttack(target, resumeAct, onCompleteFunc);
 					agent.AddOnWinAction(resumeAct);
 
 					Debug.Log("Target found. Chasing!");
@@ -110,14 +113,17 @@ public class AggresiveGoto : IAgentAction
 			
 			// Do check Complete
 			if (_checkCompleteCooldown < 0)
-			{	
+			{
 				if (CheckIsCompleted())
 				{
 					IsDone = true;
 					OnComplete();
 				}
 				else
+				{
+					Debug.Log("Check " + destination);
 					_checkCompleteCooldown = checkCompletionPeriod;
+				}
 			}
 
 			// Check failure
@@ -164,7 +170,7 @@ public class AggresiveGoto : IAgentAction
 	{
 		Actor obj = target.GetComponent<Actor>();
 		// Check if it is friend or foe
-		if(obj)
+		if(obj && obj.enabled)
 			return true;
 		
 		return false;

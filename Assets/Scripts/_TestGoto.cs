@@ -113,4 +113,12 @@ public class _TestGoto : MonoBehaviour
         a1.GetComponent<Actor>().SetCurrentAction(patrol);
         patrol.Run();
     }
+
+    public void _2PatrolWaypoints()
+    {
+        GameObject a1 = GameObject.Find("Capsule 2");
+        Actor actor = a1.GetComponent<Actor>();
+        actor.PatrolWaypoints(4f, new Vector3(5, 0, 0), new Vector3(-5, 0, 0),
+            new Vector3(-5, 0, -5), new Vector3(5, 0, -5), new Vector3(5, 0, 5));
+    }
 }

@@ -43,6 +43,21 @@ public class Actor : MonoBehaviour
 		currentAction.Run();
 	}
 
+	public void PatrolWaypoints(float maxChaseDistance, params Vector3[] waypoints)
+	{
+		Combatant combatant = this.GetComponent<Combatant>();
+		if (combatant) 
+		{
+			ActionSequence sequence = new ActionSequence(this);
+			foreach (Vector3 pos in waypoints)
+			{
+				AggresiveGoto patrol = new AggresiveGoto(combatant, pos, maxChaseDistance);
+				sequence.Add(patrol);
+			}
+			sequence.Run();
+		}
+	}
+
 	public void StandAndWait()
     {
 		//TODO: Actual idle action

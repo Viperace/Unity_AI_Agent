@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +11,7 @@ using UnityEngine.AI;
 public class ActionSequence
 {
 	Actor actor;
-	IAgentAction[] actions;
+	List<IAgentAction> actions;
 	public bool IsComplete { get; private set; }
 
 	int numberOfCompletedAction = 0;
@@ -20,16 +21,25 @@ public class ActionSequence
 	public ActionSequence(Actor actor, params IAgentAction[] actions) 
 	{
 		this.actor = actor;
-		this.actions = actions;
 		this.IsComplete = false;
+
+		if(actions == null)
+			this.actions = new List<IAgentAction>();
+		else
+			this.actions = new List<IAgentAction>(actions);
 	}
+
+	public void Add(IAgentAction action)
+    {
+		this.actions.Add(action);
+    }
 
 	public void Run()
     {
 		ChainTheActions();
 
 		// Start the first one
-		if(actions.Length > 0)
+		if(actions.Count > 0)
         {
 			actor.SetCurrentAction(actions[0]);
 			actions[0].Run();
@@ -40,7 +50,7 @@ public class ActionSequence
 	// Loop onComplete of one action to the next
 	void ChainTheActions()
 	{
-		for(int i = 0; i < actions.Length - 1; i++)
+		for(int i = 0; i < actions.Count - 1; i++)
         {
 			IAgentAction act = actions[i];
 			IAgentAction nextAct = actions[i + 1];

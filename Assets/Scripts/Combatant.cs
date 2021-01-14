@@ -27,6 +27,7 @@ public class Combatant : MonoBehaviour
     System.Action onWinAction = null;
     System.Action onLoseAction = null;
     //System.Action onFleeAction;
+    System.Action onComplete = null;
 
     float _cooldown1 = 0;
     float _cooldown2 = 1;
@@ -46,10 +47,16 @@ public class Combatant : MonoBehaviour
 
     }
 
-    public void ChaseAndAttack(Combatant target, System.Action notifyFailureCallback = null)
+    public void ChaseAndAttack(Combatant target, System.Action notifyFailureCallback = null,
+         System.Action onCombatComplete = null)
     {
+        //Init
+        this.onComplete = onCombatComplete;
         Combatant combatant = this.GetComponent<Combatant>();
-        if (combatant)
+        Combatant targetCombatant = target.GetComponent<Combatant>();
+
+
+        if (combatant && combatant.enabled && targetCombatant)
         {
             System.Action attackNoticeCallback = () =>
             {
@@ -71,18 +78,23 @@ public class Combatant : MonoBehaviour
             chaseAction.Run();
         }
         else
-            Debug.Log(this.name + ".This actor cannot attack.");
+            Debug.Log(this.name + ".This actor/target cannot attack.");
     }
 
     bool NotifyCombat(Combatant target)
     {
         float dist = Vector3.Distance(target.transform.position, this.transform.position);
-        if (target.IsFighting)
+        if (!target.enabled)
+        {
+            Debug.Log("Target combatant not enabled");
+            return false;
+        }
+        else if (target.IsFighting)
         {
             Debug.Log(target + " is fighting. Not free.");
             return false;
         }
-        else if(dist > notifyDistance)
+        else if (dist > notifyDistance)
         {
             Debug.Log(target + " is too far to acknolwedge combat." + dist);
             return false;
@@ -202,10 +214,8 @@ public class Combatant : MonoBehaviour
             OnFleeAction();
             Debug.Log(this + " do running away from " + combat.winner);
         }
-            
 
-        // Reset 
-        combat = null;
+        OnComplete();        
     }
 
     void OnWinAction()
@@ -225,6 +235,16 @@ public class Combatant : MonoBehaviour
     void OnFleeAction()
     {
         throw new System.Exception("Not yet implemented");
+    }
+
+    void OnComplete()
+    {
+        // Reset 
+        combat = null;
+        actor.SetCurrentAction(null);
+
+        if (onComplete != null)
+            onComplete();        
     }
 
     public void AddOnWinAction(System.Action act) => onWinAction += act;
