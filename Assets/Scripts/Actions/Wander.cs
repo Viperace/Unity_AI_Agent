@@ -55,8 +55,7 @@ public class Wander : IAgentAction
 
     public bool CheckIsCompleted()
     {
-		return _totalCooldown < 0;
-		
+		return _totalCooldown < 0;		
 	}
 
     public void OnComplete()
@@ -76,7 +75,10 @@ public class Wander : IAgentAction
     {
 		IsStarted = true;
 
-		_totalCooldown = totalDuration;
+		if(totalDuration > 0)
+			_totalCooldown = totalDuration;
+		else
+			_totalCooldown = Mathf.Infinity;
 		_idleCooldown = 0;
 	}
 
@@ -102,17 +104,27 @@ public class Wander : IAgentAction
 		}
     }
 
+	public void Stop()
+    {
+		// Force stopv
+		navMeshAgent.SetDestination(navMeshAgent.transform.position);
+		IsDone = true;
+	}
+
 	void _MoveToRandomPos()
     {
 		Vector3 newPos = new Vector3(Random.Range(-radius, radius), 0, 
 										Random.Range(-radius, radius));
 		newPos += midPoint;
 
-		bool isValid = navMeshAgent.SetDestination(newPos);
-        if (!isValid)
+		bool isValid = false;
+		if (navMeshAgent)
+			isValid = navMeshAgent.SetDestination(newPos);
+        
+		if (!isValid)
         {
 			IsDone = true;
-			onFailureFunc();
+			OnFailure();
         }
 	}
 }

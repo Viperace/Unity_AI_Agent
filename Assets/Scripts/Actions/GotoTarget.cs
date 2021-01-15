@@ -51,7 +51,8 @@ public class GotoTarget : IAgentAction
 		if (onCompleteFunc != null)
             onCompleteFunc();
 
-		navMeshAgent.destination = navMeshAgent.transform.position;
+		if(navMeshAgent.enabled && navMeshAgent.gameObject.activeInHierarchy)
+			navMeshAgent.destination = navMeshAgent.transform.position;
 		Debug.Log("Arrive " + target.name);
     }
 
@@ -92,6 +93,13 @@ public class GotoTarget : IAgentAction
 			_checkCompleteCooldown -= Time.deltaTime;
 			_checkFailureCooldown -= Time.deltaTime;
 		}
+	}
+
+	public void Stop()
+	{
+		// Force stop
+		navMeshAgent.SetDestination(navMeshAgent.transform.position);
+		IsDone = true;
 	}
 
 	public void SetPathRecalcPeriod(float dur)

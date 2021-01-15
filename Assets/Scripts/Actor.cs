@@ -5,20 +5,17 @@ using UnityEngine.AI;
 
 public class Actor : MonoBehaviour
 {
-	IAgentAction currentAction;
+	protected IAgentAction currentAction;
 
-    void Start()
-    {
-    }
-
+    
 	public void SetCurrentAction(IAgentAction act)
     {
 		this.currentAction = act;
     }
 
-	public void WanderAround(Vector3 pos)
+	public void WanderAround(Vector3 pos, float radius = 5, float totalDuration = 30, float idleDuration = 4, float idleDurationVar = 5)
     {
-		IAgentAction wander = new Wander(this, pos, 5, 30);
+		IAgentAction wander = new Wander(this, pos, radius, totalDuration);
 		SetCurrentAction(wander);
 		wander.Run();
 	}
@@ -33,13 +30,14 @@ public class Actor : MonoBehaviour
 		sequence.Run();
 	}
 
-	public void GotoTarget(GameObject target, System.Action onCompleteAction = null)
+	public void GotoTarget(GameObject target, System.Action onCompleteAction = null, 
+		float distanceThreshold = 1.5f)
 	{
 		System.Action callback = null;
 		callback += () => Debug.Log("Arrived " + target);
 		callback += () => currentAction = null;
 		callback += onCompleteAction;
-		currentAction = new GotoTarget(this.gameObject, target, 1.5f, callback);
+		currentAction = new GotoTarget(this.gameObject, target, distanceThreshold, callback);
 		currentAction.Run();
 	}
 
@@ -66,7 +64,14 @@ public class Actor : MonoBehaviour
 
 	// All death animation and logic
 	public void DoDeath()
-    {		
+    {
+		// Stop all actions
+		if(currentAction != null)
+        {
+			currentAction.Stop();
+			SetCurrentAction(null);
+		}
+
 		// Turn off 
 		this.GetComponent<NavMeshAgent>().enabled = false;
 		this.GetComponent<SlowLookAt>().enabled = false;

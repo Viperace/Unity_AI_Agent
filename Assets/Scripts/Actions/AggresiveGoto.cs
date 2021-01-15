@@ -11,7 +11,7 @@ public class AggresiveGoto : IAgentAction
 	Actor actor;
 	Vector3 origin;		
 	Vector3 destination;
-	float destinationDistanceThreshold = 1.5f; 
+	float destinationDistanceThreshold = 2.5f;  // Must be bigger than collider bound
 	float maxChaseDistance; // Agent must keep within this distance from straight line drawn from origin to the destination.
 	float checkCompletionPeriod = 0.5f;
 	float scanTargetPeriod = 1f;
@@ -40,6 +40,7 @@ public class AggresiveGoto : IAgentAction
 		navMeshAgent = agent.GetComponent<NavMeshAgent>();
 		agentFov = agent.GetComponentInChildren<FieldOfView>();
 		actor = agent.GetComponent<Actor>();
+
 	}
 
 	public void Run()
@@ -47,7 +48,8 @@ public class AggresiveGoto : IAgentAction
 		IsStarted = true;
 
 		// Start
-		navMeshAgent.destination = destination;
+		if(navMeshAgent.enabled && navMeshAgent.gameObject.activeInHierarchy)
+			navMeshAgent.destination = destination;
 
 		Debug.Log("Start patrolling " + destination);
 	}
@@ -56,14 +58,14 @@ public class AggresiveGoto : IAgentAction
 	{
 		float dist = Vector3.Distance(agent.transform.position, destination);
 		
-		return dist < destinationDistanceThreshold;
+		return dist < destinationDistanceThreshold + navMeshAgent.stoppingDistance;
 	}
 	
 	public void OnComplete()
 	{
 		// Stop
 		navMeshAgent.destination = navMeshAgent.transform.position;
-		Debug.Log(actor + " done patrolling." + destination);
+		//Debug.Log(actor + " done patrolling." + destination);
 
 		// Do addition func
 		if (onCompleteFunc != null)
@@ -138,7 +140,12 @@ public class AggresiveGoto : IAgentAction
 		}
 	}
 
-
+	public void Stop()
+	{
+		// Force stop
+		navMeshAgent.SetDestination(navMeshAgent.transform.position);
+		IsDone = true;
+	}
 	float DistanceFromTargetToPath(Transform target)
 	{
 		Vector3 dir = (destination - origin).normalized;
@@ -146,14 +153,16 @@ public class AggresiveGoto : IAgentAction
 		return dist;
 	}
 	
+	// Hero would look for creeps and vice versa
 	List<Combatant> ScanForValidTargets()
 	{
+		// Extract valid combatant
 		List<Combatant> targets = new List<Combatant>();
-		foreach(Actor target in agentFov.actorsWithinView)
+		foreach (Actor target in agentFov.actorsWithinView)
 		{			 			
 			// Check if target is valid and target is within chasing range 
 			if( !_excludedTargets.Contains(target.gameObject) &&
-				IsDesiredTarget(target.gameObject) && 				
+				IsDesiredTarget(target.gameObject) && 
 				DistanceFromTargetToPath(target.transform) < maxChaseDistance )
 			{
 				Combatant c = target.GetComponent<Combatant>();
@@ -169,8 +178,11 @@ public class AggresiveGoto : IAgentAction
 	protected bool IsDesiredTarget(GameObject target)
 	{
 		Actor obj = target.GetComponent<Actor>();
-		// Check if it is friend or foe
-		if(obj && obj.enabled)
+
+		// 1. exists
+		// 2. Check if it is friend or foe
+		if(obj && obj.enabled &&
+			obj.CompareTag("Creeps") & actor.CompareTag("Hero") )
 			return true;
 		
 		return false;

@@ -37,10 +37,13 @@ PatrolAreaForCreep,
 HuntCreep?
 */
 
-public Interface IPlanExecutor
+using UnityEngine;
+using System.Collections.Generic;
+
+public interface IPlanExecutor
 {
-	public IList IdentifyCandidates();	
-	public float GetProbability(var candidate);	
+	public List<T> IdentifyCandidates<T>();	
+	public float GetProbability(object candidate);	
 	public void Execute(); 
 	public void Stop();
 }
@@ -50,18 +53,18 @@ public class ExecuteGoTown: IPlanExecutor
 {
 	Actor actor;
 	
-	public ExecuteGoTown(actor)
+	public ExecuteGoTown(Actor actor)
 	{
 		this.actor = actor;		
 	}
 	
-	public List<Town> IdentifyCandidates()
+	public List<Town> IdentifyCandidates<Town>()
 	{
 		// Find all towns within game
 		return null;
 	}
 	
-	public float GetProbability(var candidate)
+	public float GetProbability(object candidate)
 	{
 		// Convert var to GameObject
 		

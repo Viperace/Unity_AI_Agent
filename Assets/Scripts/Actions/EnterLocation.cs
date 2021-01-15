@@ -60,6 +60,10 @@ public class EnterLocation : IAgentAction
 		
 	}
 
+	public void Stop()
+	{
+		
+	}
 
 	public bool CheckFailure()
 	{

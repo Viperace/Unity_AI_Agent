@@ -13,5 +13,6 @@ public interface IAgentAction
 	public void AddOnCompleteFunc(System.Action onCompleteFunc);
 	public void AddOnFailureFunc(System.Action onFailureFunc);
 
+	public void Stop();
 	public void Update();
 }
