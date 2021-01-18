@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Lair : MonoBehaviour
 {
+    public static HashSet<Lair> lairs;
     public float enterRadius = 3f;
     [SerializeField] GameObject creepPrefab;
     HashSet<Creeps> creeps;
@@ -11,6 +12,15 @@ public class Lair : MonoBehaviour
     void Start()
     {
         creeps = new HashSet<Creeps>();
+        RegisterLair();
+    }
+
+    void RegisterLair()
+    {
+        if (lairs == null)
+            lairs = new HashSet<Lair>();
+        lairs.Add(this);
+        lairs.Remove(null);
     }
 
     public void SpawnCreeps()

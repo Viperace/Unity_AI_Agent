@@ -33,7 +33,6 @@ public class Combat
         combatResult = new CombatResult();
         combatResult.Simulate(initiatorStat, targetStat);
 
-        //Debug.Log("Precomputed result: " + initiator + " " + result);
         Debug.Log("Precomputed result: Winner lose HP: " + combatResult.winnerHPlost);
 
         // Declare winner/loser (runner if there is)

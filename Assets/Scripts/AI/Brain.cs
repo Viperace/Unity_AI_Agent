@@ -9,12 +9,17 @@ public class Brain : MonoBehaviour
 	NeedsBehavior needsBehavior;
 	Utility utility;
 
+	float _reevalPeriod = 3f;
+
 	void Start()
 	{
 		this.actor = GetComponent<Actor>();
 		this.planManager = new PlanManager();
 		this.needsBehavior = GetComponent<NeedsBehavior>();
 		utility = new Utility();
+
+		// Init thinking
+		StartCoroutine(_ThinkAndDoCoroutine(_reevalPeriod));
 	}
 
 	void Update()
@@ -22,23 +27,27 @@ public class Brain : MonoBehaviour
 		
 	}
 
-	IEnumerator _ThinkAndDoCoroutine()
+	IEnumerator _ThinkAndDoCoroutine(float reevalPeriod)
     {
 		while (true)
 		{
 			// Eval plan
-			HighLevelPlan bestPlan = planManager.EvaluateBestPlan(utility, needsBehavior.needs);
+			float bestScore;
+			HighLevelPlan bestPlan = planManager.EvaluateBestPlan(utility, needsBehavior.needs, out bestScore);
 
-			// Do plan 
-			ExecutePlan(bestPlan);
-
-			yield return new WaitForSeconds(3f);
+			// Do plan
+			if(planManager.currentPlan != bestPlan)
+            {
+				if(bestScore > 10f)
+                {
+					Debug.Log(actor.gameObject + " has New plan: " + bestPlan + " . Score:" + bestScore);
+				}
+				else
+					Debug.Log(actor.gameObject + " keep current plan");
+			}
+		
+			yield return new WaitForSeconds(reevalPeriod);
 		}
 	}
 
-
-	void ExecutePlan(HighLevelPlan plan)
-	{
-		//actor.DoSequence(plan);
-	}
 }

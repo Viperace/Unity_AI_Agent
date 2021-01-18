@@ -9,10 +9,9 @@ public class Actor : MonoBehaviour
 
 	protected ActionSequence currentActionSequence;
     
-	public void SetCurrentAction(IAgentAction act)
-    {
-		this.currentAction = act;
-    }
+	public void SetCurrentAction(IAgentAction act) => this.currentAction = act;
+    
+	public void SetCurrentActionSequence(ActionSequence seq	) => this.currentActionSequence = seq;
 
 	public void WanderAround(Vector3 pos, float radius = 5, float totalDuration = 30, float idleDuration = 4, float idleDurationVar = 5)
     {
@@ -89,7 +88,7 @@ public class Actor : MonoBehaviour
 		this.enabled = false;
 
 		// Do dead animation and Off		
-		StartCoroutine("DeathAnimation");
+		StartCoroutine(DeathAnimation());
 	}
 
 	IEnumerator DeathAnimation()
@@ -103,8 +102,8 @@ public class Actor : MonoBehaviour
 		yield return new WaitForSeconds(onSurfaceTime);
 
 		// Sink slowly
-		float sunkSpeed = 0.1f;		
-		float sunkTime = 6f;
+		float sunkSpeed = 0.05f;		
+		float sunkTime = 10f;
 		while (sunkTime > 0)
         {			
 			this.transform.position -= (3 * Vector3.up) * sunkSpeed * Time.deltaTime;

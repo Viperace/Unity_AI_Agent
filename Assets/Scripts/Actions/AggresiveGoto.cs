@@ -128,7 +128,7 @@ public class AggresiveGoto : IAgentAction
 				}
 				else
 				{
-					Debug.Log("Check " + destination);
+					//Debug.Log("Check " + destination);
 					_checkCompleteCooldown = checkCompletionPeriod;
 				}
 			}

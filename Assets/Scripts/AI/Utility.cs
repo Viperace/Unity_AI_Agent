@@ -7,7 +7,7 @@ public struct Needs
 		BloodLust = bloodLust;
 		Energy = energy;
 		Shopping = shopping;
-		HP = hp;  // <- to remove. This should be instinct, not plan.
+		HP = hp; 
 	}
 
 	public float BloodLust { get; set; }
@@ -42,10 +42,15 @@ public class Utility
 
 	public float AggregateScore(Needs needs)
 	{
-		float bloodUtility = GetBloodLustUtilityRate(needs.BloodLust) * needs.BloodLust;
-		float energytility = GetEnergyUtilityRate(needs.Energy) * needs.Energy;
-		float shoppingUtility = GetShoppingUtilityRate(needs.Shopping) * needs.Shopping;
-		float survivalUtility = GetHPUtilityRate(needs.HP) * needs.HP;
+		float bloodUtility = GetYfromRates(needs.BloodLust, GetBloodLustUtilityRate);
+		float energytility = GetYfromRates(needs.Energy, GetEnergyUtilityRate);
+		float shoppingUtility = GetYfromRates(needs.Shopping, GetShoppingUtilityRate);
+		float survivalUtility = GetYfromRates(needs.HP, GetHPUtilityRate);
+
+		//float bloodUtility = GetBloodLustUtilityRate(needs.BloodLust) * needs.BloodLust;
+		//float energytility = GetEnergyUtilityRate(needs.Energy) * needs.Energy;
+		//float shoppingUtility = GetShoppingUtilityRate(needs.Shopping) * needs.Shopping;
+		//float survivalUtility = GetHPUtilityRate(needs.HP) * needs.HP;
 
 		float score = bloodUtility + energytility + shoppingUtility + survivalUtility;
 
@@ -99,15 +104,29 @@ public class Utility
 			return 0f;
 	}
 
-	public float MarginalScore(Needs currentNeeds, Needs expectedNeeds)
+	// Give x, return Piecewise linear y
+	float GetYfromRates(float x, System.Func<float, float> rateFunc)
+	{
+		float y = 0;
+		float rate = 0;
+		for (int i = 0; i < x; i++)
+		{
+			rate = rateFunc((float)i);
+			y += rate * 1f;
+		}
+
+		return y;
+	}
+
+
+public float MarginalScore(Needs currentNeeds, Needs expectedNeeds)
 	{
 		float baseScore = AggregateScore(currentNeeds);
-		float newScore = AggregateScore(expectedNeeds);
+		float newScore = AggregateScore(currentNeeds + expectedNeeds);
 		float marginalScore = newScore - baseScore;
 		return marginalScore;
 	}
 
 }
-
 
 

@@ -104,12 +104,12 @@ public class Combatant : MonoBehaviour
         {
             // Combat Calculator
             combat = new Combat(this, target, this.combatStat, target.combatStat);
-            CombatResult combatResult = combat.ComputeResult();            
+            CombatResult combatResult = combat.ComputeResult();
 
             // Send result
             target.ReceiveCombatNotification(this, combat);
             this.IsFighting = true;
-
+            
             return true;
         }
     }
@@ -125,6 +125,7 @@ public class Combatant : MonoBehaviour
     {
         // Stop current task
         actor.SetCurrentAction(null);
+        actor.SetCurrentActionSequence(null);
 
         // Set combat reference
         this.combat = combat;
@@ -164,7 +165,6 @@ public class Combatant : MonoBehaviour
         
     }
 
-
     IEnumerator AttackAnimation(float endTime)
     {
         // Do attack (subject to cooldown), unttil time run out. Special atk prioritize
@@ -191,6 +191,7 @@ public class Combatant : MonoBehaviour
         DoneCombat();
     }
 
+    float hpToNeedsModifier = 10;
     // Stuff to set after finish combat
     // TODO: Make this to an event. 
     void DoneCombat()
@@ -211,7 +212,7 @@ public class Combatant : MonoBehaviour
             if (needsBehavior)
             {
                 Needs add = Needs.zero;
-                add.HP = -combatResult.winnerHPlost;
+                add.HP = -combatResult.winnerHPlost * hpToNeedsModifier;
                 add.BloodLust = combatResult.winnerBloodLustGained;
                 //add.HP = combatResult.winnerFameGained;
                 //add.HP = combatResult.winnerXPgained;
@@ -231,10 +232,8 @@ public class Combatant : MonoBehaviour
             if (needsBehavior)
             {
                 Needs add = Needs.zero;
-                add.HP = -combatResult.runnerHPlost;
+                add.HP = -combatResult.runnerHPlost * hpToNeedsModifier;
                 add.BloodLust = combatResult.runnerBloodLustGained;
-                //add.HP = combatResult.winnerFameGained;
-                //add.HP = combatResult.winnerXPgained;
                 needsBehavior.AddNeeds(add);
             }
 

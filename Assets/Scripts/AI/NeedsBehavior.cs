@@ -11,7 +11,6 @@ public class NeedsBehavior : MonoBehaviour
 
     void Start()
     {
-
         InitNeeds();
     }
 
@@ -19,7 +18,7 @@ public class NeedsBehavior : MonoBehaviour
     {
         // Initialize
         this._needs = new Needs();
-        _needs.BloodLust = 80 + Random.Range(-10, 10);
+        _needs.BloodLust = 40 + Random.Range(-10, 10);
         _needs.Shopping = 90 + Random.Range(-10, 10);
         _needs.Energy = 90 + Random.Range(-15, 15);
         _needs.HP = 100;

@@ -3,26 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public interface ILocation
-{
-    public IEnumerator TrapActorForDurationCoroutine(Actor actor, float duration);
-
-    public void TrapActorForDuration(Actor actor, float duration);
-
-    public void Release(Actor actor);
-
-    public void Admit(Actor actor, float duration);
-
-    public bool IsAdmitable(Actor actor);
-}
-
 public class GenericLocation : MonoBehaviour, ILocation
 {
     [SerializeField] protected float admitRadius = 2f;
     protected HashSet<Actor> actors;
     protected Dictionary<Actor, IEnumerator> actorCoroutines;
 
-    void Start()
+    protected void Start()
     {
         actors = new HashSet<Actor>();
         actorCoroutines = new Dictionary<Actor, IEnumerator>();
@@ -75,6 +62,22 @@ public class GenericLocation : MonoBehaviour, ILocation
 
 public class Town : GenericLocation
 {
+    public static HashSet<Town> towns;
+
+    protected new void Start()
+    {
+        base.Start();
+        RegisterSelf();
+    }
+
+    void RegisterSelf()
+    {
+        if (towns == null)
+            towns = new HashSet<Town>();
+        towns.Add(this);
+        towns.Remove(null);
+    }
+
     public override IEnumerator TrapActorForDurationCoroutine(Actor actor, float duration)
     {
         actor.gameObject.SetActive(false);
@@ -86,7 +89,6 @@ public class Town : GenericLocation
 
         Release(actor);
     }
-
 
     public override void Release(Actor actor)
     {

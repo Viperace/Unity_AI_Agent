@@ -20,9 +20,8 @@ public class PlanManager
 	// Dictionary to show completing this action yield how much value.	
 	Dictionary<HighLevelPlan, Needs> planBaseScoreDict = new Dictionary<HighLevelPlan, Needs>();
 
-	// Dictionary/Method to estimate 'expectedTimeToComplete'
-
-
+	public HighLevelPlan currentPlan { get; set; }
+	
 	public PlanManager() => _InitDictionary();
 
 	void _InitDictionary()
@@ -69,7 +68,7 @@ public class PlanManager
 			return new Needs();
 	}
 
-	public HighLevelPlan EvaluateBestPlan(Utility utility, Needs currentNeeds)
+	public HighLevelPlan EvaluateBestPlan(Utility utility, Needs currentNeeds, out float marginalScore)
 	{
 		HighLevelPlan bestPlan = HighLevelPlan.Idle;
 		float bestScore = -1000000;
@@ -87,7 +86,7 @@ public class PlanManager
 			}
 		}
 
-		Debug.Log("Best plan " + bestPlan + ": " + bestScore);
+		marginalScore = bestScore;
 		return bestPlan;
 	}
 

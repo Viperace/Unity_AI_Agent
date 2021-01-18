@@ -42,7 +42,8 @@ using System.Collections.Generic;
 
 public interface IPlanExecutor
 {
-	public List<T> IdentifyCandidates<T>();	
+	//public List<T> IdentifyCandidates<T>();
+
 	//public float GetProbability(Object candidate);	
 	public Object SelectCandidateRandomly();
 	public void Execute(); 
@@ -53,7 +54,7 @@ public interface IPlanExecutor
 public class ExecuteGoTown: IPlanExecutor
 {
 	Actor actor;
-	Dictionary<T, float> candidateWeightsDict;
+	Dictionary<Town, float> candidateWeightsDict;
 	float _totalWeights;
 	
 	
@@ -62,12 +63,9 @@ public class ExecuteGoTown: IPlanExecutor
 		this.actor = actor;		
 	}
 	
-	public List<Town> IdentifyCandidates<Town>()
+	public List<Town> IdentifyCandidates<T>()
 	{
-		// Find all towns within game
-		List<Town> candidates = new List<Town>();
-		candidates.Add(FindAllObjectsOfTypes<Town>());
-		
+		List<Town> candidates = new List<Town>(Town.towns);
 		return candidates;
 	}
 	
@@ -93,9 +91,12 @@ public class ExecuteGoTown: IPlanExecutor
 		}								
 	}
 	
-	public float GetProbability(Object candidate)
+	public float GetProbability(object candidate)
 	{
-		return candidateWeightsDict[candidate]/_totalWeights;		
+		if (candidate is Town)
+			return candidateWeightsDict[(Town)candidate] / _totalWeights;
+		else
+			return 0;
 	}
 	
 	// Based on probability 
@@ -127,79 +128,6 @@ public class ExecuteGoTown: IPlanExecutor
 		//Actor can stop all actions and sequence
 		actor.SetCurrentAction(null);
 	}
+
 }
 
-
-/* Stochastics and statistcs
-*/
-public static class MyStatistics
-{
-	
-	public static int RandomWeightedIndex(int[] x)
-	{
-		// Find cumsum
-		int[] xcum = new int[x.Length];
-		for(int i = 0; i < x.Length;i++)
-			if(i == 0)
-				xcum[i] = x[i];
-			else
-				xcum[i] = xcum[i - 1] + x[i];
-		
-		
-		// Roll
-		float rollVal = Random.Range(0, xcum[xcum.Length - 1]);
-		
-		// Decide which bucket it falls in.
-		for(int i = 1; i < x.Length;i++)
-			if(rollVal > xcum[i-1] && rollVal <= xcum[i])
-				return i;
-		
-		return -1; // Error, cannot be 
-	}
-}
-
-
-
-public virtual class GenericLocationPlan<T> : IPlanExecutor
-{
-	Actor actor;
-	Dictionary<T, float> candidateWeightsDict;
-	float _totalWeights;
-
-
-	public GenericLocationPlan(Actor actor)
-	{
-		this.actor = actor;
-	}
-	
-	public virtual List<T> IdentifyCandidates<T>()
-	{
-		// Find all lairs
-		
-	}
-
-	public float GetProbability<T>(Object candidate)
-	{
-		return candidateWeightsDict[candidate]/_totalWeights;		
-	}
-	
-	public Object SelectCandidateRandomly()
-	{		
-		List<T> towns = IdentifyCandidates<T>();
-		
-		//Dictionary<Town, float> townProbability = new Dictionary<Town, float>();
-		float[] probs = new float[towns.Count];
-		for(int i =0; i < towns.Count; i++){
-			probs[i] = GetProbability(towns[i]);
-		}
-		
-		int roll = MyStatistics.RandomWeightedIndex(probs);
-		return towns[roll];
-	}
-	
-	public virtual void Execute()
-	{}
-	
-	public virtual void Stop()
-	{}
-}
