@@ -9,7 +9,8 @@ public class Combat
     CombatStat initiatorStat;
     CombatStat targetStat;
 
-    CombatResult result;
+    //CombatResultEnum result;
+    CombatResult combatResult;
 
     public Combatant winner {get; private set; }
     public Combatant loser {get; private set; }
@@ -28,41 +29,97 @@ public class Combat
 
     public void ComputeResult()
     {
-        // Take in stat
-        if (Random.value > 0.5f)
-            result = CombatResult.InitiatorWin;
-        else
-            result = CombatResult.InitiatorLose;
-        
-        Debug.Log("Precomputed result: " + initiator + " " + result);
+        // Create result
+        combatResult = new CombatResult();
+        combatResult.Simulate(initiatorStat, targetStat);
 
-        switch (result)
+        //Debug.Log("Precomputed result: " + initiator + " " + result);
+        Debug.Log("Precomputed result: Winner lose HP: " + combatResult.winnerHPlost);
+
+        // Declare winner/loser (runner if there is)
+        switch (combatResult.result)
         {
-            case CombatResult.InitiatorWin:
+            case CombatResultEnum.InitiatorWin:
                 winner = initiator;
                 loser = target;
                 break;
-            case CombatResult.InitiatorLose:
+            case CombatResultEnum.InitiatorLose:
                 loser = initiator;
                 winner = target;
                 break;
-            case CombatResult.InitiatorFlee:
+            case CombatResultEnum.InitiatorFlee:
                 runner = initiator;
                 winner = target;
                 break;
-            case CombatResult.TargetFlee:
+            case CombatResultEnum.TargetFlee:
                 runner = target;
                 winner = initiator;
                 break;
         }
     }
 
+    public CombatResult GetResult() => combatResult;
 }
 
-public enum CombatResult
+public enum CombatResultEnum
 {
     InitiatorWin,
     InitiatorLose,
     InitiatorFlee,
     TargetFlee
+}
+
+public class CombatResult
+{
+    public CombatResultEnum result;
+    public int winnerHPlost;
+    public int energyUsed;
+    public int winnerBloodLustGained;
+    public int winnerXPgained;
+    public int winnerFameGained;
+    public int runnerBloodLustGained;
+    public int runnerXPgained;
+    public int runnerFameGained;
+
+    public CombatResult() 
+    {
+        energyUsed = 10;
+        winnerBloodLustGained = 10;
+        winnerXPgained = 1;
+        winnerFameGained = 1;
+        runnerBloodLustGained = 3;
+        runnerXPgained = 0;
+        runnerFameGained = 0;
+    }
+
+
+    // 3 rounds of combat, each combatant has 3 HP. Every combat result in loser -1 hp.
+    // By end of 3rd round, whoever has lesser HP lose the combat and killed.
+    // Survivor=winner, has actual hp being minused        
+    // Probability of attacker win (defender - 1hp) = A /(A + D)
+    // TODO: Attacker Flee! 
+    public void Simulate(CombatStat attackerStat, CombatStat defenderStat)
+    {
+        int nrounds = 3;
+        int aHP = nrounds;
+        int dHP = nrounds;
+        float probability_initiator_win = attackerStat.AttackPower / (attackerStat.AttackPower + defenderStat.AttackPower);
+        for (int i = 0; i < nrounds; i++)
+            if (Random.value < probability_initiator_win)
+                dHP--;
+            else
+                aHP--;
+
+        // Winner HP lost
+        winnerHPlost = nrounds - Mathf.Max(aHP, dHP);
+
+        // Result
+        if (aHP > dHP)
+            result = CombatResultEnum.InitiatorWin;
+        else if (dHP > aHP)
+            result = CombatResultEnum.InitiatorLose;
+        else
+            result = CombatResultEnum.InitiatorFlee;
+
+    }
 }

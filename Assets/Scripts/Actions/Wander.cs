@@ -117,14 +117,23 @@ public class Wander : IAgentAction
 										Random.Range(-radius, radius));
 		newPos += midPoint;
 
+		// If not valid, just go very near
 		bool isValid = false;
-		if (navMeshAgent)
-			isValid = navMeshAgent.SetDestination(newPos);
-        
-		if (!isValid)
+		if (navMeshAgent.enabled && navMeshAgent.gameObject.activeInHierarchy)
         {
-			IsDone = true;
-			OnFailure();
-        }
+			isValid = navMeshAgent.SetDestination(newPos);
+            if (!isValid)
+            {
+				Vector3 backupPos = new Vector3(Random.Range(-1.5f, 1.5f), 0, Random.Range(-1.5f, 1.5f));
+				navMeshAgent.SetDestination(navMeshAgent.transform.position + backupPos);
+			}			
+		}
+			
+
+		//if (!isValid)
+		//{
+		//IsDone = true;
+		//OnFailure();
+		//}
 	}
 }

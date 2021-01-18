@@ -28,6 +28,7 @@ public class Combatant : MonoBehaviour
     System.Action onLoseAction = null;
     //System.Action onFleeAction;
     System.Action onComplete = null;
+    System.Action onFailAction = null;
 
     float _cooldown1 = 0;
     float _cooldown2 = 1;
@@ -47,11 +48,12 @@ public class Combatant : MonoBehaviour
 
     }
 
-    public void ChaseAndAttack(Combatant target, System.Action notifyFailureCallback = null,
+    public void ChaseAndAttack(Combatant target, System.Action onFailCallback = null,
          System.Action onCombatComplete = null)
     {
         //Init
         this.onComplete = onCombatComplete;
+        this.onFailAction = onFailCallback;
         Combatant combatant = this.GetComponent<Combatant>();
         Combatant targetCombatant = target.GetComponent<Combatant>();
 
@@ -66,11 +68,7 @@ public class Combatant : MonoBehaviour
                     _BeginAttackSequence(target);
                 }
                 else
-                {
-                    if (notifyFailureCallback != null)
-                        notifyFailureCallback();
-                }
-                                   
+                    OnFailure();                                   
             };
 
             IAgentAction chaseAction = new GotoTarget(this.gameObject, target.gameObject, notifyDistance * 0.8f, attackNoticeCallback);
@@ -78,7 +76,10 @@ public class Combatant : MonoBehaviour
             chaseAction.Run();
         }
         else
+        {
             Debug.Log(this.name + ".This actor/target cannot attack.");
+            OnFailure();
+        }            
     }
 
     bool NotifyCombat(Combatant target)
@@ -104,6 +105,7 @@ public class Combatant : MonoBehaviour
             // Combat Calculator
             combat = new Combat(this, target, this.combatStat, target.combatStat);
             combat.ComputeResult();
+            CombatResult result = combat.GetResult();
 
             // Send result
             target.ReceiveCombatNotification(this, combat);
@@ -202,17 +204,17 @@ public class Combatant : MonoBehaviour
         if (this == combat.winner)
         {
             OnWinAction();
-            Debug.Log(this + " do victory lap");
+            Debug.Log(this.gameObject + " do victory lap");
         }            
         else if (this == combat.loser)
         {
             OnLoseAction();
-            Debug.Log(this + " do death");
+            Debug.Log(this.gameObject + " do death");
         }            
         else if (this == combat.runner)
         {
             OnFleeAction();
-            Debug.Log(this + " do running away from " + combat.winner);
+            Debug.Log(this.gameObject + " do running away from " + combat.winner);
         }
 
         OnComplete();        
@@ -247,9 +249,23 @@ public class Combatant : MonoBehaviour
             onComplete();        
     }
 
+    void OnFailure()
+    {
+        // Reset 
+        combat = null;
+        actor.SetCurrentAction(null);
+
+        if (onFailAction != null)
+            onFailAction();
+
+        Debug.Log("Attack fail");
+    }
+
     public void AddOnWinAction(System.Action act) => onWinAction += act;
 
     public void AddOnLoseAction(System.Action act) => onLoseAction += act;
+
+    public void AddOnFailAction(System.Action act) => onFailAction += act;
 
     public float AttackRange { get { return _attackRange; } }
 }

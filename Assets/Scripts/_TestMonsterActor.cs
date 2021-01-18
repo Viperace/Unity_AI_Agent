@@ -28,10 +28,13 @@ public class _TestMonsterActor : MonoBehaviour
         }
 
         Actor a1 = heros[0];
-        a1.PatrolWaypoints(7, a1.transform.position + new Vector3(8, 0, 0), a1.transform.position + new Vector3(-8, 0, 0));
+        a1.PatrolWaypointsLoop(7, 20, a1.transform.position + new Vector3(8, 0, 0), a1.transform.position + new Vector3(-8, 0, 0));
 
-        Actor a2 = heros[1];
-        a2.PatrolWaypoints(7, a2.transform.position + new Vector3(0, 0, 8), a1.transform.position + new Vector3(0, 0, -8));
+        if(heros.Count == 2)
+        {
+            Actor a2 = heros[1];
+            a2.PatrolWaypointsLoop(7, 20, a2.transform.position + new Vector3(0, 0, 8), a1.transform.position + new Vector3(0, 0, -8));
+        }        
     }
 
     public void _Spawn()

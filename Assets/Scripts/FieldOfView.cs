@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    public HashSet<Actor> actorsWithinView { get; private set; }
+    HashSet<Actor> actorsWithinView { get; set; }
 
     List<Actor> _creepsWithinView; 
 
@@ -16,6 +16,21 @@ public class FieldOfView : MonoBehaviour
         ownActor = GetComponentInParent<Actor>();
 
         _creepsWithinView = new List<Actor>();
+    }
+
+    void Update()
+    {
+           
+
+    }
+
+    void FlushNullItems()
+    {
+        // Flush destoryed creeps
+        _creepsWithinView.RemoveAll(item => item == null);
+
+        // Flush destoryed actors
+        actorsWithinView.Remove(null);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -46,4 +61,11 @@ public class FieldOfView : MonoBehaviour
         return _creepsWithinView;
     }
 
+    public HashSet<Actor> GetActorsWithinView()
+    {
+        // Flush first
+        FlushNullItems();
+        
+        return actorsWithinView;
+    }
 }

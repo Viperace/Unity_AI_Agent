@@ -41,6 +41,8 @@ public class Lair : MonoBehaviour
     // Summon creeps home
     public void CallbackAllCreeps()
     {
+        creeps.Remove(null);
+
         foreach (Creeps c in creeps)
             c.GoHome();
     }

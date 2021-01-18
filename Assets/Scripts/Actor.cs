@@ -7,6 +7,7 @@ public class Actor : MonoBehaviour
 {
 	protected IAgentAction currentAction;
 
+	protected ActionSequence currentActionSequence;
     
 	public void SetCurrentAction(IAgentAction act)
     {
@@ -26,8 +27,8 @@ public class Actor : MonoBehaviour
 		IAgentAction goTown = new GotoTarget(this.gameObject, town.gameObject, town.AdmitRadius*0.5f);
 		IAgentAction enterTown = new EnterLocation(this, town, stayDuration);
 
-		ActionSequence sequence = new ActionSequence(this, goTown, enterTown);
-		sequence.Run();
+		currentActionSequence = new ActionSequence(this, goTown, enterTown);
+		currentActionSequence.Run();
 	}
 
 	public void GotoTarget(GameObject target, System.Action onCompleteAction = null, 
@@ -43,18 +44,26 @@ public class Actor : MonoBehaviour
 
 	public void PatrolWaypoints(float maxChaseDistance, params Vector3[] waypoints)
 	{
+		PatrolWaypointsLoop(maxChaseDistance, 1, waypoints);
+	}
+
+	public void PatrolWaypointsLoop(float maxChaseDistance, int numberOfLoop, params Vector3[] waypoints)
+	{
 		Combatant combatant = this.GetComponent<Combatant>();
-		if (combatant) 
+		if (combatant)
 		{
-			ActionSequence sequence = new ActionSequence(this);
-			foreach (Vector3 pos in waypoints)
-			{
-				AggresiveGoto patrol = new AggresiveGoto(combatant, pos, maxChaseDistance);
-				sequence.Add(patrol);
-			}
-			sequence.Run();
+			currentActionSequence = new ActionSequence(this);
+			for(int i = 0; i < numberOfLoop; i++)
+				foreach (Vector3 pos in waypoints)
+				{
+					AggresiveGoto patrol = new AggresiveGoto(combatant, pos, maxChaseDistance);
+					currentActionSequence.Add(patrol);
+				}
+
+			currentActionSequence.Run();
 		}
 	}
+
 
 	public void StandAndWait()
     {
@@ -77,12 +86,34 @@ public class Actor : MonoBehaviour
 		this.GetComponent<SlowLookAt>().enabled = false;
 		this.GetComponent<Combatant>().enabled = false;
 		this.GetComponentInChildren<FieldOfView>().enabled = false;
-
-		// Do dead animation
-		this.transform.Rotate(Vector3.forward, 90);
-		this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 1f, this.transform.position.z);
 		this.enabled = false;
 
+		// Do dead animation and Off		
+		StartCoroutine("DeathAnimation");
+	}
+
+	IEnumerator DeathAnimation()
+    {		
+		// Do Rotate to death
+		this.transform.Rotate(Vector3.forward, 90);
+		this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - 1f, this.transform.position.z);
+
+		// Wait 1 sec
+		float onSurfaceTime = 5f;
+		yield return new WaitForSeconds(onSurfaceTime);
+
+		// Sink slowly
+		float sunkSpeed = 0.1f;		
+		float sunkTime = 6f;
+		while (sunkTime > 0)
+        {			
+			this.transform.position -= (3 * Vector3.up) * sunkSpeed * Time.deltaTime;
+			sunkTime -= Time.deltaTime;
+			yield return null;
+        }
+
+		// Do kill
+		Destroy(this.gameObject);		
 	}
 
 	void Update()
@@ -91,3 +122,4 @@ public class Actor : MonoBehaviour
 			currentAction.Update();
 	}
 }
+

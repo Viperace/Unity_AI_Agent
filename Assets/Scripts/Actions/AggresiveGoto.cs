@@ -51,7 +51,7 @@ public class AggresiveGoto : IAgentAction
 		if(navMeshAgent.enabled && navMeshAgent.gameObject.activeInHierarchy)
 			navMeshAgent.destination = destination;
 
-		Debug.Log("Start patrolling " + destination);
+		//Debug.Log("Start patrolling " + destination);
 	}
 
 	public bool CheckIsCompleted()
@@ -98,10 +98,15 @@ public class AggresiveGoto : IAgentAction
 				{
 					Combatant target = targets[0];
 
-					System.Action resumeAct = () => ResumeGotoAndExcludeThisTarget(target.gameObject);
+					System.Action resumeAct = () =>
+					{
+						if (target != null)
+							ResumeGotoAndExcludeThisTarget(target.gameObject);
+					};
 
 					agent.ChaseAndAttack(target, resumeAct, onCompleteFunc);
 					agent.AddOnWinAction(resumeAct);
+					agent.AddOnFailAction(onCompleteFunc);
 
 					Debug.Log("Target found. Chasing!");
 				}
@@ -158,10 +163,11 @@ public class AggresiveGoto : IAgentAction
 	{
 		// Extract valid combatant
 		List<Combatant> targets = new List<Combatant>();
-		foreach (Actor target in agentFov.actorsWithinView)
+		foreach (Actor target in agentFov.GetActorsWithinView())
 		{			 			
 			// Check if target is valid and target is within chasing range 
-			if( !_excludedTargets.Contains(target.gameObject) &&
+			if( target != null && 
+				!_excludedTargets.Contains(target.gameObject) &&
 				IsDesiredTarget(target.gameObject) && 
 				DistanceFromTargetToPath(target.transform) < maxChaseDistance )
 			{

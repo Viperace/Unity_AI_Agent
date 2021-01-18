@@ -48,7 +48,7 @@ public class PlanManager
 		planBaseScoreDict.Add(HighLevelPlan.GoShopping, needAdd);
 
 		needAdd = new Needs();
-		needAdd.Survival = 100;
+		needAdd.HP = 100;
 		planBaseScoreDict.Add(HighLevelPlan.FleeFromDanger, needAdd);
 
 		needAdd = new Needs();
