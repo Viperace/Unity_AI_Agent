@@ -104,15 +104,14 @@ public class Combatant : MonoBehaviour
         {
             // Combat Calculator
             combat = new Combat(this, target, this.combatStat, target.combatStat);
-            combat.ComputeResult();
-            CombatResult result = combat.GetResult();
+            CombatResult combatResult = combat.ComputeResult();            
 
             // Send result
             target.ReceiveCombatNotification(this, combat);
             this.IsFighting = true;
 
             return true;
-        }        
+        }
     }
 
     void  _BeginAttackSequence(Combatant target)
@@ -138,7 +137,7 @@ public class Combatant : MonoBehaviour
     IEnumerator AttackSequenceCoroutine;
 
     IEnumerator AttackAnimationCoroutine;
-
+    
     IEnumerator AttackSequence(Transform target)
     {
 
@@ -193,6 +192,7 @@ public class Combatant : MonoBehaviour
     }
 
     // Stuff to set after finish combat
+    // TODO: Make this to an event. 
     void DoneCombat()
     {
         // Set off
@@ -200,22 +200,48 @@ public class Combatant : MonoBehaviour
 
         slowLook.StopLooking();
 
-        // Do stuff based on result
+        // Apply results
+        NeedsBehavior needsBehavior = actor.GetComponent<NeedsBehavior>();
+        CombatResult combatResult = combat.GetResult();
         if (this == combat.winner)
-        {
+        {             
             OnWinAction();
-            Debug.Log(this.gameObject + " do victory lap");
+            Debug.Log("This winner will lose HP " + combatResult.winnerHPlost);
+
+            if (needsBehavior)
+            {
+                Needs add = Needs.zero;
+                add.HP = -combatResult.winnerHPlost;
+                add.BloodLust = combatResult.winnerBloodLustGained;
+                //add.HP = combatResult.winnerFameGained;
+                //add.HP = combatResult.winnerXPgained;
+
+                needsBehavior.AddNeeds(add);
+            }
         }            
         else if (this == combat.loser)
         {
             OnLoseAction();
-            Debug.Log(this.gameObject + " do death");
+            //Debug.Log(this.gameObject + " do death");
         }            
         else if (this == combat.runner)
         {
             OnFleeAction();
+
+            if (needsBehavior)
+            {
+                Needs add = Needs.zero;
+                add.HP = -combatResult.runnerHPlost;
+                add.BloodLust = combatResult.runnerBloodLustGained;
+                //add.HP = combatResult.winnerFameGained;
+                //add.HP = combatResult.winnerXPgained;
+                needsBehavior.AddNeeds(add);
+            }
+
             Debug.Log(this.gameObject + " do running away from " + combat.winner);
         }
+
+        
 
         OnComplete();        
     }
@@ -244,7 +270,8 @@ public class Combatant : MonoBehaviour
         // Reset 
         combat = null;
         actor.SetCurrentAction(null);
-
+        
+        // Other
         if (onComplete != null)
             onComplete();        
     }

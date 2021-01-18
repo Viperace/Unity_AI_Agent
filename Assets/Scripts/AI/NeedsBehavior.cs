@@ -45,7 +45,7 @@ public class NeedsBehavior : MonoBehaviour
     void FrameUpdateBloodLust()
     {
         float totDuration = 300f;
-        float rate = 100f * totDuration;
+        float rate = 100f / totDuration;
         _needs.BloodLust -= Time.deltaTime * rate;
         _needs.BloodLust = Mathf.Max(20f, _needs.BloodLust); // Floor at 20
     }

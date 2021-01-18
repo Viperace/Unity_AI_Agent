@@ -27,7 +27,7 @@ public class Combat
         winner = loser = runner = null;
     }
 
-    public void ComputeResult()
+    public CombatResult ComputeResult()
     {
         // Create result
         combatResult = new CombatResult();
@@ -56,6 +56,8 @@ public class Combat
                 winner = initiator;
                 break;
         }
+
+        return combatResult;
     }
 
     public CombatResult GetResult() => combatResult;
@@ -73,6 +75,7 @@ public class CombatResult
 {
     public CombatResultEnum result;
     public int winnerHPlost;
+    public int runnerHPlost;
     public int energyUsed;
     public int winnerBloodLustGained;
     public int winnerXPgained;

@@ -27,35 +27,29 @@ public class PlanManager
 
 	void _InitDictionary()
 	{
-		Needs needAdd;
+		Needs needAdd = Needs.zero;
 
-		needAdd = new Needs();
 		planBaseScoreDict.Add(HighLevelPlan.Idle, needAdd);
 
-		needAdd = new Needs();
+
 		needAdd.Energy = 100;
 		needAdd.Shopping = 10;
 		//needAdd.Socializing = 10;
 		planBaseScoreDict.Add(HighLevelPlan.GoTownAndSleep, needAdd);
 
-		needAdd = new Needs();
 		needAdd.Energy = 30;
 		needAdd.Shopping = -10;
 		planBaseScoreDict.Add(HighLevelPlan.EnactTentAndSleep, needAdd);
 
-		needAdd = new Needs();
 		needAdd.Shopping = 35;
 		planBaseScoreDict.Add(HighLevelPlan.GoShopping, needAdd);
 
-		needAdd = new Needs();
 		needAdd.HP = 100;
 		planBaseScoreDict.Add(HighLevelPlan.FleeFromDanger, needAdd);
 
-		needAdd = new Needs();
 		needAdd.BloodLust = 10;
 		planBaseScoreDict.Add(HighLevelPlan.PatrolAreaForCreep, needAdd);
 
-		needAdd = new Needs();
 		needAdd.BloodLust = 30;
 		needAdd.Shopping = -10;
 		planBaseScoreDict.Add(HighLevelPlan.HuntCreep, needAdd);

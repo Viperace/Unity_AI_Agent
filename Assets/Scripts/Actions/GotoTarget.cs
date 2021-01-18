@@ -53,7 +53,7 @@ public class GotoTarget : IAgentAction
 
 		if(navMeshAgent.enabled && navMeshAgent.gameObject.activeInHierarchy)
 			navMeshAgent.destination = navMeshAgent.transform.position;
-		Debug.Log("Arrive " + target.name);
+		//Debug.Log("Arrive " + target.name);
     }
 
 	float _pathRecalcCooldown = 0;
