@@ -43,7 +43,8 @@ using System.Collections.Generic;
 public interface IPlanExecutor
 {
 	public List<T> IdentifyCandidates<T>();	
-	public float GetProbability(object candidate);	
+	//public float GetProbability(Object candidate);	
+	public Object SelectCandidateRandomly();
 	public void Execute(); 
 	public void Stop();
 }
@@ -52,6 +53,9 @@ public interface IPlanExecutor
 public class ExecuteGoTown: IPlanExecutor
 {
 	Actor actor;
+	Dictionary<T, float> candidateWeightsDict;
+	float _totalWeights;
+	
 	
 	public ExecuteGoTown(Actor actor)
 	{
@@ -61,19 +65,55 @@ public class ExecuteGoTown: IPlanExecutor
 	public List<Town> IdentifyCandidates<Town>()
 	{
 		// Find all towns within game
-		return null;
+		List<Town> candidates = new List<Town>();
+		candidates.Add(FindAllObjectsOfTypes<Town>());
+		
+		return candidates;
 	}
 	
-	public float GetProbability(object candidate)
+	public void ComputeWeights(List<Object> candidates)
 	{
-		// Convert var to GameObject
-		
-		// Find distance between actor and this 
-		
-		// 1/dist 
-		return 0;
+		// Convert var to Town object
+		candidateWeightsDict = new Dictionary<Town, float>();	
+		_totalWeights = 0;
+		foreach(Object candidate in candidates){
+			if(candidate is Town){
+				Town t = (Town) candidate;
+				
+				// Find distance between actor and this 
+				float distance = Vector3.Distance(actor.transform.position, t.transform.position);
+				float weight = 1/Mathf.Sqrt(distance); // Formula is 1/sqrt(d) . 1/d too high
+				
+				// Convert to weight
+				candidateWeightsDict.Add(t, weight);
+				
+				// Save total weight
+				_totalWeights += weight;
+			}
+		}								
 	}
 	
+	public float GetProbability(Object candidate)
+	{
+		return candidateWeightsDict[candidate]/_totalWeights;		
+	}
+	
+	// Based on probability 
+	public Object SelectCandidateRandomly()
+	{
+		List<Town> towns = IdentifyCandidates<Town>();
+		
+		//Dictionary<Town, float> townProbability = new Dictionary<Town, float>();
+		float[] probs = new float[towns.Count];
+		for(int i =0; i < towns.Count; i++){
+			probs[i] = GetProbability(towns[i]);
+		}
+		
+		int roll = MyStatistics.RandomWeightedIndex(probs);
+		return towns[roll];
+	}
+
+
 	public void Execute()
 	{
 		// Initialize the plan 
@@ -83,5 +123,33 @@ public class ExecuteGoTown: IPlanExecutor
 	public void Stop() 
 	{	
 		actor.SetCurrentAction(null);
+	}
+}
+
+/* Stochastics and statistcs
+*/
+public static class MyStatistics
+{
+	
+	public static int RandomWeightedIndex(int[] x)
+	{
+		// Find cumsum
+		int[] xcum = new int[x.Length];
+		for(int i = 0; i < x.Length;i++)
+			if(i == 0)
+				xcum[i] = x[i];
+			else
+				xcum[i] = xcum[i - 1] + x[i];
+		
+		
+		// Roll
+		float rollVal = Random.Range(0, xcum[xcum.Length - 1]);
+		
+		// Decide which bucket it falls in.
+		for(int i = 1; i < x.Length;i++)
+			if(rollVal > xcum[i-1] && rollVal <= xcum[i])
+				return i;
+		
+		return -1; // Error, cannot be 
 	}
 }
