@@ -122,9 +122,13 @@ public class ExecuteGoTown: IPlanExecutor
 	
 	public void Stop() 
 	{	
+	
+		// Actor can set sequeceion and indivcidual action
+		//Actor can stop all actions and sequence
 		actor.SetCurrentAction(null);
 	}
 }
+
 
 /* Stochastics and statistcs
 */
@@ -152,4 +156,50 @@ public static class MyStatistics
 		
 		return -1; // Error, cannot be 
 	}
+}
+
+
+
+public virtual class GenericLocationPlan<T> : IPlanExecutor
+{
+	Actor actor;
+	Dictionary<T, float> candidateWeightsDict;
+	float _totalWeights;
+
+
+	public GenericLocationPlan(Actor actor)
+	{
+		this.actor = actor;
+	}
+	
+	public virtual List<T> IdentifyCandidates<T>()
+	{
+		// Find all lairs
+		
+	}
+
+	public float GetProbability<T>(Object candidate)
+	{
+		return candidateWeightsDict[candidate]/_totalWeights;		
+	}
+	
+	public Object SelectCandidateRandomly()
+	{		
+		List<T> towns = IdentifyCandidates<T>();
+		
+		//Dictionary<Town, float> townProbability = new Dictionary<Town, float>();
+		float[] probs = new float[towns.Count];
+		for(int i =0; i < towns.Count; i++){
+			probs[i] = GetProbability(towns[i]);
+		}
+		
+		int roll = MyStatistics.RandomWeightedIndex(probs);
+		return towns[roll];
+	}
+	
+	public virtual void Execute()
+	{}
+	
+	public virtual void Stop()
+	{}
 }
