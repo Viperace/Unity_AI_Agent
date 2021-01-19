@@ -12,17 +12,24 @@ This function list the set of ALL POSSIBLE actions for this agent
 	- PatrolAreaForSocializing
 	- FleeFromDanger
 
+//TODO: When plan done, back to null
 */
 public class PlanManager
 {
 	Actor actor;
 
+	IPlanExecutor planExecutor;
+
 	// Dictionary to show completing this action yield how much value.	
 	Dictionary<HighLevelPlan, Needs> planBaseScoreDict = new Dictionary<HighLevelPlan, Needs>();
 
 	public HighLevelPlan currentPlan { get; set; }
-	
-	public PlanManager() => _InitDictionary();
+
+	public PlanManager(Actor actor)
+	{
+		this.actor = actor;
+		_InitDictionary();
+	}
 
 	void _InitDictionary()
 	{
@@ -30,14 +37,13 @@ public class PlanManager
 
 		planBaseScoreDict.Add(HighLevelPlan.Idle, needAdd);
 
-
 		needAdd.Energy = 100;
 		needAdd.Shopping = 10;
 		//needAdd.Socializing = 10;
 		planBaseScoreDict.Add(HighLevelPlan.GoTownAndSleep, needAdd);
 
 		needAdd.Energy = 30;
-		needAdd.Shopping = -10;
+		//needAdd.Shopping = -10; // No negative effect
 		planBaseScoreDict.Add(HighLevelPlan.EnactTentAndSleep, needAdd);
 
 		needAdd.Shopping = 35;
@@ -49,8 +55,8 @@ public class PlanManager
 		needAdd.BloodLust = 10;
 		planBaseScoreDict.Add(HighLevelPlan.PatrolAreaForCreep, needAdd);
 
-		needAdd.BloodLust = 30;
-		needAdd.Shopping = -10;
+		needAdd.BloodLust = 30*0;
+		//needAdd.Shopping = -10; // Should not have -ve effect
 		planBaseScoreDict.Add(HighLevelPlan.HuntCreep, needAdd);
 
 		// PatrolAreaForSocializing
@@ -68,17 +74,16 @@ public class PlanManager
 			return new Needs();
 	}
 
+	// FIXME: How to make it hunt creeps 
 	public HighLevelPlan EvaluateBestPlan(Utility utility, Needs currentNeeds, out float marginalScore)
 	{
-		HighLevelPlan bestPlan = HighLevelPlan.Idle;
-		float bestScore = -1000000;
-		foreach (HighLevelPlan plan in planBaseScoreDict.Keys)
-		{
-			// How much needs added for this plan 
-			Needs needsAdded = GetBaseNeeds(plan);
+		Dictionary<HighLevelPlan, float> planScoreDict = _GetPlanSensitivity(utility, currentNeeds);
 
-			// Convert the needs to marginal utility score
-			float score = utility.MarginalScore(currentNeeds, needsAdded);
+		HighLevelPlan bestPlan = HighLevelPlan.Idle;
+		float bestScore = -10000;
+		foreach (HighLevelPlan plan in planScoreDict.Keys)
+		{			
+			float score = planScoreDict[plan];
 			if (score > bestScore)
 			{
 				bestPlan = plan;
@@ -90,29 +95,41 @@ public class PlanManager
 		return bestPlan;
 	}
 
-	public ActionSequence ConvertPlanToActions(HighLevelPlan plan)
+	Dictionary<HighLevelPlan, float> _GetPlanSensitivity(Utility utility, Needs currentNeeds)
 	{
-		ActionSequence actions = new ActionSequence();
+		Dictionary<HighLevelPlan, float> planScoreDict = new Dictionary<HighLevelPlan, float>();
+
+		foreach (HighLevelPlan plan in planBaseScoreDict.Keys)
+		{
+			// How much needs added for this plan 
+			Needs needsAdded = GetBaseNeeds(plan);
+
+			// Convert the needs to marginal utility score
+			float score = utility.MarginalScore(currentNeeds, needsAdded);
+
+			// Save result to dict
+			planScoreDict.Add(plan, score);
+		}
+
+		return planScoreDict;
+	}
+
+	public void ExecutePlan(HighLevelPlan plan)
+	{
 		switch (plan)
 		{
 			case HighLevelPlan.Idle:
-				//Wander for random duration
-				//actions = new ActionSequence(actor, ?? DOIDLE ??);
+				actor.WanderAround(actor.transform.position, Random.Range(4f, 8f));
 				break;
 			case HighLevelPlan.GoTownAndSleep:
-				// Get all valid towns. Random select one 
-				//actions = new ActionSequence(actor, ?? GO RANDOM TOWN ??);
+				planExecutor = new ExecuteGoTown(this.actor);
 				break;
 			case HighLevelPlan.EnactTentAndSleep:
 				break;
 			case HighLevelPlan.GoShopping:
-				// Get player 
-				//actions = new ActionSequence(actor, ?? GO RANDOM MERCHANT ??);
 				break;
 			case HighLevelPlan.PatrolAreaForCreep:
-				// Get all lairs. Filter for valid one.
-				// Random select one
-				//actions = new ActionSequence(actor, ?? GO RANDOM LAIR ??);
+				planExecutor = new ExecutePatrolForCreeps(this.actor);
 				break;
 			case HighLevelPlan.HuntCreep:
 				// Get all monster within range. Filter valid one. 
@@ -120,7 +137,8 @@ public class PlanManager
 				break;
 		}
 
-		return actions;
+		if (planExecutor != null)
+			planExecutor.Execute();
 	}
 }
 

@@ -6,6 +6,9 @@ public static class MyStatistics
 {
     public static int RandomWeightedIndex(float[] x)
     {
+        if (x.Length == 1)
+            return 0; // Only 1 value, no need to do
+
         // Find cumsum
         float[] xcum = new float[x.Length];
         for (int i = 0; i < x.Length; i++)
@@ -13,7 +16,6 @@ public static class MyStatistics
                 xcum[i] = x[i];
             else
                 xcum[i] = xcum[i - 1] + x[i];
-
 
         // Roll
         float rollVal = Random.Range(0, xcum[xcum.Length - 1]);

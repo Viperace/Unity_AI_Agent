@@ -44,90 +44,10 @@ public interface IPlanExecutor
 {
 	//public List<T> IdentifyCandidates<T>();
 
-	//public float GetProbability(Object candidate);	
-	public Object SelectCandidateRandomly();
-	public void Execute(); 
+	//public float GetProbability(Object candidate);
+	public Object SelectCandidateRandomly();	
+	public void Execute();
+	public void Update();
 	public void Stop();
+	public void OnComplete();
 }
-
-// Lairs
-public class ExecuteGoTown: IPlanExecutor
-{
-	Actor actor;
-	Dictionary<Town, float> candidateWeightsDict;
-	float _totalWeights;
-	
-	
-	public ExecuteGoTown(Actor actor)
-	{
-		this.actor = actor;		
-	}
-	
-	public List<Town> IdentifyCandidates<T>()
-	{
-		List<Town> candidates = new List<Town>(Town.towns);
-		return candidates;
-	}
-	
-	public void ComputeWeights(List<Object> candidates)
-	{
-		// Convert var to Town object
-		candidateWeightsDict = new Dictionary<Town, float>();	
-		_totalWeights = 0;
-		foreach(Object candidate in candidates){
-			if(candidate is Town){
-				Town t = (Town) candidate;
-				
-				// Find distance between actor and this 
-				float distance = Vector3.Distance(actor.transform.position, t.transform.position);
-				float weight = 1/Mathf.Sqrt(distance); // Formula is 1/sqrt(d) . 1/d too high
-				
-				// Convert to weight
-				candidateWeightsDict.Add(t, weight);
-				
-				// Save total weight
-				_totalWeights += weight;
-			}
-		}								
-	}
-	
-	public float GetProbability(object candidate)
-	{
-		if (candidate is Town)
-			return candidateWeightsDict[(Town)candidate] / _totalWeights;
-		else
-			return 0;
-	}
-	
-	// Based on probability 
-	public Object SelectCandidateRandomly()
-	{
-		List<Town> towns = IdentifyCandidates<Town>();
-		
-		//Dictionary<Town, float> townProbability = new Dictionary<Town, float>();
-		float[] probs = new float[towns.Count];
-		for(int i =0; i < towns.Count; i++){
-			probs[i] = GetProbability(towns[i]);
-		}
-		
-		int roll = MyStatistics.RandomWeightedIndex(probs);
-		return towns[roll];
-	}
-
-
-	public void Execute()
-	{
-		// Initialize the plan 
-		//actor.GoTown
-	}
-	
-	public void Stop() 
-	{	
-	
-		// Actor can set sequeceion and indivcidual action
-		//Actor can stop all actions and sequence
-		actor.SetCurrentAction(null);
-	}
-
-}
-

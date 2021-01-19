@@ -885,6 +885,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}
+--- !u!1 &802981499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3340019789835021523, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}
+  m_PrefabInstance: {fileID: 3340019787891704644}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &802981500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802981499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b537dbf48323d9b439fbac5ee641fb15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Energy: 0
+  BloodLust: 0
+  Shopping: 0
+  forceEnergy: 0
+  forceBloodlust: 0
+  forceShopping: 0
 --- !u!1 &841953357 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8508058780952750575, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
@@ -1675,6 +1698,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 853ab5229acc6c249922ceae59c78b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _freezeBloodLust: 0
+  _freezeEnergy: 0
 --- !u!1 &1521953843
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,7 +2348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3340019789835021532, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}
       propertyPath: AttackPower
-      value: 6
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}

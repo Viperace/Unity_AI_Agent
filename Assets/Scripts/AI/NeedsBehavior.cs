@@ -9,6 +9,9 @@ public class NeedsBehavior : MonoBehaviour
 {
     [SerializeField] Needs _needs;
 
+    [SerializeField] bool _freezeBloodLust = false;
+    [SerializeField] bool _freezeEnergy = false;
+
     void Start()
     {
         InitNeeds();
@@ -26,9 +29,9 @@ public class NeedsBehavior : MonoBehaviour
 
     void Update()
     {
-        FrameUpdateEnergy();
-        FrameUpdateBloodLust();
-        FrameUpdateShopping();
+        if (!_freezeEnergy) FrameUpdateEnergy();
+        if (!_freezeBloodLust) FrameUpdateBloodLust();
+        if (true) FrameUpdateShopping();
     }
 
     
@@ -75,5 +78,7 @@ public class NeedsBehavior : MonoBehaviour
 
         return xcapfloor;
     }
+
+    public void _ForceSetNeeds(Needs needs) => this._needs = needs;
 }
 

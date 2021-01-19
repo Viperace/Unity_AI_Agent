@@ -9,7 +9,7 @@ public class Lair : MonoBehaviour
     [SerializeField] GameObject creepPrefab;
     HashSet<Creeps> creeps;
 
-    void Start()
+    void Awake()
     {
         creeps = new HashSet<Creeps>();
         RegisterLair();

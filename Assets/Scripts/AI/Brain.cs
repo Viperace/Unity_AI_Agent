@@ -14,7 +14,7 @@ public class Brain : MonoBehaviour
 	void Start()
 	{
 		this.actor = GetComponent<Actor>();
-		this.planManager = new PlanManager();
+		this.planManager = new PlanManager(this.actor);
 		this.needsBehavior = GetComponent<NeedsBehavior>();
 		utility = new Utility();
 
@@ -24,7 +24,6 @@ public class Brain : MonoBehaviour
 
 	void Update()
 	{
-		
 	}
 
 	IEnumerator _ThinkAndDoCoroutine(float reevalPeriod)
@@ -35,17 +34,14 @@ public class Brain : MonoBehaviour
 			float bestScore;
 			HighLevelPlan bestPlan = planManager.EvaluateBestPlan(utility, needsBehavior.needs, out bestScore);
 
-			// Do plan
-			if(planManager.currentPlan != bestPlan)
+			// Change of  plan
+			if (planManager.currentPlan != bestPlan & bestScore > 20f) 
             {
-				if(bestScore > 10f)
-                {
-					Debug.Log(actor.gameObject + " has New plan: " + bestPlan + " . Score:" + bestScore);
-				}
-				else
-					Debug.Log(actor.gameObject + " keep current plan");
+				planManager.currentPlan = bestPlan;
+				planManager.ExecutePlan(bestPlan);
+				Debug.Log(actor.gameObject + " has New plan: " + bestPlan + " . Score:" + bestScore);
 			}
-		
+
 			yield return new WaitForSeconds(reevalPeriod);
 		}
 	}
