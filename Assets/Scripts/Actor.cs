@@ -48,20 +48,28 @@ public class Actor : MonoBehaviour
 
 	public void PatrolWaypointsLoop(float maxChaseDistance, int numberOfLoop, params Vector3[] waypoints)
 	{
+		PatrolWaypointsLoop(maxChaseDistance, numberOfLoop, null, waypoints);
+	}
+
+	public void PatrolWaypointsLoop(float maxChaseDistance, int numberOfLoop, System.Action onCompleteAct, params Vector3[] waypoints)
+	{
 		Combatant combatant = this.GetComponent<Combatant>();
 		if (combatant)
 		{
 			currentActionSequence = new ActionSequence(this);
-			for(int i = 0; i < numberOfLoop; i++)
+			for (int i = 0; i < numberOfLoop; i++)
 				foreach (Vector3 pos in waypoints)
 				{
 					AggresiveGoto patrol = new AggresiveGoto(combatant, pos, maxChaseDistance);
 					currentActionSequence.Add(patrol);
 				}
 
+			//Attach oncomplete action
+			currentActionSequence.SetOnComplete(onCompleteAct);
 			currentActionSequence.Run();
 		}
 	}
+
 
 
 	public void StandAndWait()

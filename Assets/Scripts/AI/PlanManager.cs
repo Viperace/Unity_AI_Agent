@@ -23,7 +23,7 @@ public class PlanManager
 	// Dictionary to show completing this action yield how much value.	
 	Dictionary<HighLevelPlan, Needs> planBaseScoreDict = new Dictionary<HighLevelPlan, Needs>();
 
-	public HighLevelPlan currentPlan { get; set; }
+	public HighLevelPlan currentPlan { get; private set; }
 
 	public PlanManager(Actor actor)
 	{
@@ -114,8 +114,12 @@ public class PlanManager
 		return planScoreDict;
 	}
 
-	public void ExecutePlan(HighLevelPlan plan)
+	public void SetAndExecutePlan(HighLevelPlan plan)
 	{
+		// Set 
+		currentPlan = plan;
+
+		// Execute
 		switch (plan)
 		{
 			case HighLevelPlan.Idle:
@@ -138,7 +142,13 @@ public class PlanManager
 		}
 
 		if (planExecutor != null)
+        {
+			System.Action GoToIdle = () => this.SetAndExecutePlan(HighLevelPlan.Idle);
+			planExecutor.SetOnPlanComplete(GoToIdle);
 			planExecutor.Execute();
+		}
+			
+
 	}
 }
 

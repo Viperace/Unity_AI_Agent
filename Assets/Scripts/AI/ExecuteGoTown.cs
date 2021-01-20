@@ -7,6 +7,8 @@ public class ExecuteGoTown : IPlanExecutor
 	Dictionary<Town, float> candidateWeightsDict;
 	float _totalWeights;
 
+	public event System.Action OnPlanCompleted;
+
 	public ExecuteGoTown(Actor actor)
 	{
 		this.actor = actor;
@@ -92,9 +94,9 @@ public class ExecuteGoTown : IPlanExecutor
 		actor.SetCurrentActionSequence(null);
 	}
 
-	public void OnComplete()
-    {
-
-    }
+	public void SetOnPlanComplete(System.Action action)
+	{
+		OnPlanCompleted += action;
+	}
 }
 

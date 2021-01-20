@@ -37,8 +37,7 @@ public class Brain : MonoBehaviour
 			// Change of  plan
 			if (planManager.currentPlan != bestPlan & bestScore > 20f) 
             {
-				planManager.currentPlan = bestPlan;
-				planManager.ExecutePlan(bestPlan);
+				planManager.SetAndExecutePlan(bestPlan);
 				Debug.Log(actor.gameObject + " has New plan: " + bestPlan + " . Score:" + bestScore);
 			}
 

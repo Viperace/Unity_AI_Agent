@@ -5,18 +5,21 @@ using UnityEngine;
 public class ExecutePatrolForCreeps : IPlanExecutor
 {
     Actor actor;
+
     Dictionary<Lair, float> candidateWeightsDict;
+
     float _totalWeights;
 
-    public delegate void OnPlanCompleted();  // delegate
-    public static event OnPlanCompleted onPlanCompleted;
+    public event System.Action OnPlanCompleted;
 
     public ExecutePatrolForCreeps(Actor actor) => this.actor = actor;
     public void Execute()
     {
-        Lair lair = (Lair) SelectCandidateRandomly();
+        Lair lair = (Lair)SelectCandidateRandomly();
         Vector3[] waypoints = GetRandomWaypoints(lair.transform.position).ToArray();
-        actor.PatrolWaypointsLoop(7f, 10, waypoints);
+
+        // Define callback when complete        
+        actor.PatrolWaypointsLoop(7f, 4, OnPlanCompleted, waypoints);
     }
 
     // Ranomly define N waypoints around the epicenter
@@ -27,7 +30,7 @@ public class ExecutePatrolForCreeps : IPlanExecutor
         // Roll number of wp 
         int N = Random.Range(5, 8);
         Vector3 lastWaypoint = epicenter;
-        for(int i = 0; i < N; i++)
+        for (int i = 0; i < N; i++)
         {
             float epsx = Random.value > 0.5f ? 1f : -1f;
             float epsz = Random.value > 0.5f ? 1f : -1f;
@@ -36,9 +39,9 @@ public class ExecutePatrolForCreeps : IPlanExecutor
             Vector3 pos = lastWaypoint + new Vector3(x * epsx, epicenter.y, z * epsz);
 
             // Update 
-            lastWaypoint = (lastWaypoint + epicenter)*0.5f;
+            lastWaypoint = (lastWaypoint + epicenter) * 0.5f;
             //Save 
-            wp.Add(pos); 
+            wp.Add(pos);
         }
 
         return wp;
@@ -106,12 +109,9 @@ public class ExecutePatrolForCreeps : IPlanExecutor
     public void Update()
     {
     }
-    public void OnComplete()
-    {
-        if (onPlanCompleted != null)
-            onPlanCompleted();
 
-        //TODO : Chk how this work
-        // Link this to Action Sequence
+    public void SetOnPlanComplete(System.Action action)
+    {        
+        OnPlanCompleted += action;
     }
 }

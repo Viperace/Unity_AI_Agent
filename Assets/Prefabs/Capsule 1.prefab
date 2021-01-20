@@ -1479,6 +1479,7 @@ GameObject:
   - component: {fileID: 3340019789835021529}
   - component: {fileID: 40754106}
   - component: {fileID: 40754107}
+  - component: {fileID: 802981500}
   m_Layer: 0
   m_Name: Capsule 1
   m_TagString: Hero
@@ -1564,7 +1565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993fd7474327a754fa1403b36252ccfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackPower: 10
+  AttackPower: 16
   attack1Cooldown: 0
   attack2Cooldown: 0
 --- !u!114 &3340019789835021529
@@ -1594,6 +1595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 853ab5229acc6c249922ceae59c78b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _freezeBloodLust: 0
+  _freezeEnergy: 0
 --- !u!114 &40754107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1606,3 +1609,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e972e98b9827bd8479c18d518feaec82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &802981500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340019789835021523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b537dbf48323d9b439fbac5ee641fb15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Energy: 0
+  BloodLust: 0
+  Shopping: 0
+  forceEnergy: 0
+  forceBloodlust: 0
+  forceShopping: 0

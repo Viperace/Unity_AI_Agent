@@ -58,6 +58,7 @@ public class ActionSequence
 			act.AddOnCompleteFunc(nextAct.Run );
 			act.AddOnCompleteFunc( () => this.numberOfCompletedAction++ );
 		}
+
 	}
 
 
@@ -72,4 +73,12 @@ public class ActionSequence
 
 		return n;
     }
+
+	public void SetOnComplete(System.Action onCompleteAction)
+    {
+		// Add OnComplete Action to the last action
+		if (actions != null)
+			actions[actions.Count - 1].AddOnCompleteFunc(onCompleteAction);
+
+	}
 }

@@ -49,5 +49,5 @@ public interface IPlanExecutor
 	public void Execute();
 	public void Update();
 	public void Stop();
-	public void OnComplete();
+	public void SetOnPlanComplete(System.Action action);
 }
