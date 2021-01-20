@@ -10,31 +10,46 @@ public class Brain : MonoBehaviour
 	Utility utility;
 
 	float _reevalPeriod = 3f;
-
+	IEnumerator coroutine;
 	void Start()
 	{
 		this.actor = GetComponent<Actor>();
 		this.planManager = new PlanManager(this.actor);
 		this.needsBehavior = GetComponent<NeedsBehavior>();
 		utility = new Utility();
-
-		// Init thinking
-		StartCoroutine(_ThinkAndDoCoroutine(_reevalPeriod));
+		
+		// Init
+		Restart();
 	}
 
+	// To use if this GO is inactive
+	public void Restart()
+	{
+		// Reset to idle first
+		if(planManager != null) planManager.SetAndExecutePlan(HighLevelPlan.Idle);
+
+		// Define coroutine thinking
+		coroutine = _ThinkAndDoCoroutine(_reevalPeriod);
+		StartCoroutine(coroutine);
+	}
 	void Update()
 	{
 	}
 
+	void OnEnable()
+    {
+		Restart();
+    }
+
 	IEnumerator _ThinkAndDoCoroutine(float reevalPeriod)
     {
-		while (true)
+		while (planManager != null)
 		{
 			// Eval plan
 			float bestScore;
 			HighLevelPlan bestPlan = planManager.EvaluateBestPlan(utility, needsBehavior.needs, out bestScore);
 
-			// Change of  plan
+			// Change of  plan if this new plan is so much better
 			if (planManager.currentPlan != bestPlan & bestScore > 20f) 
             {
 				planManager.SetAndExecutePlan(bestPlan);

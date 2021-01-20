@@ -96,6 +96,7 @@ public class ExecuteGoTown : IPlanExecutor
 
 	public void SetOnPlanComplete(System.Action action)
 	{
+		// Don't need to set here. Once enter town, gameObject will be inactive anyway. So this is useless
 		OnPlanCompleted += action;
 	}
 }
