@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public struct Needs
 {
@@ -35,22 +34,14 @@ public struct Needs
 /// </summary>
 public class Utility
 {
-	public Utility()
-	{
-
-	}
-
+	public Utility() { }
+	
 	public float AggregateScore(Needs needs)
 	{
 		float bloodUtility = GetYfromRates(needs.BloodLust, GetBloodLustUtilityRate);
 		float energytility = GetYfromRates(needs.Energy, GetEnergyUtilityRate);
 		float shoppingUtility = GetYfromRates(needs.Shopping, GetShoppingUtilityRate);
 		float survivalUtility = GetYfromRates(needs.HP, GetHPUtilityRate);
-
-		//float bloodUtility = GetBloodLustUtilityRate(needs.BloodLust) * needs.BloodLust;
-		//float energytility = GetEnergyUtilityRate(needs.Energy) * needs.Energy;
-		//float shoppingUtility = GetShoppingUtilityRate(needs.Shopping) * needs.Shopping;
-		//float survivalUtility = GetHPUtilityRate(needs.HP) * needs.HP;
 
 		float score = bloodUtility + energytility + shoppingUtility + survivalUtility;
 

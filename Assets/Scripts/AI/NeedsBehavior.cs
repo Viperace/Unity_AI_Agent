@@ -1,5 +1,3 @@
-using System.Reflection;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,7 +6,6 @@ using UnityEngine;
 public class NeedsBehavior : MonoBehaviour
 {
     [SerializeField] Needs _needs;
-
     [SerializeField] bool _freezeBloodLust = false;
     [SerializeField] bool _freezeEnergy = false;
 
@@ -32,6 +29,8 @@ public class NeedsBehavior : MonoBehaviour
         if (!_freezeEnergy) FrameUpdateEnergy();
         if (!_freezeBloodLust) FrameUpdateBloodLust();
         if (true) FrameUpdateShopping();
+
+        _needs = CapFloor(_needs);
     }
 
     

@@ -9,6 +9,7 @@ public class Combat
     CombatStat initiatorStat;
     CombatStat targetStat;
 
+
     //CombatResultEnum result;
     CombatResult combatResult;
 
@@ -33,7 +34,7 @@ public class Combat
         combatResult = new CombatResult();
         combatResult.Simulate(initiatorStat, targetStat);
 
-        Debug.Log("Precomputed result: Winner lose HP: " + combatResult.winnerHPlost);
+        //Debug.Log("Precomputed result: Winner lose HP: " + combatResult.winnerHPlost);
 
         // Declare winner/loser (runner if there is)
         switch (combatResult.result)
@@ -72,24 +73,18 @@ public enum CombatResultEnum
 
 public class CombatResult
 {
-    public CombatResultEnum result;
-    public int winnerHPlost;
-    public int runnerHPlost;
-    public int energyUsed;
-    public int winnerBloodLustGained;
-    public int winnerXPgained;
-    public int winnerFameGained;
-    public int runnerBloodLustGained;
-    public int runnerXPgained;
-    public int runnerFameGained;
-
+    public CombatResultEnum result { get; private set; }
+    int winnerHPlost;
+    int runnerHPlost;
+    int winnerXPgained;
+    int winnerFameGained;
+    int runnerXPgained;
+    int runnerFameGained;
+    
     public CombatResult() 
     {
-        energyUsed = 10;
-        winnerBloodLustGained = 10;
         winnerXPgained = 1;
         winnerFameGained = 1;
-        runnerBloodLustGained = 3;
         runnerXPgained = 0;
         runnerFameGained = 0;
     }
@@ -112,8 +107,11 @@ public class CombatResult
             else
                 aHP--;
 
-        // Winner HP lost
+        // Winner HP lost        
         winnerHPlost = nrounds - Mathf.Max(aHP, dHP);
+
+        // runner
+        runnerHPlost = winnerHPlost; // todo
 
         // Result
         if (aHP > dHP)
@@ -123,5 +121,20 @@ public class CombatResult
         else
             result = CombatResultEnum.InitiatorFlee;
 
+    }
+
+    public KillCreepsEffect GetWinnerEffect()
+    {
+        KillCreepsEffect winEffect = new KillCreepsEffect();
+        winEffect.SetHealthLost(winnerHPlost);
+        return winEffect;
+    }
+
+    public FleeEffect GetFleeEffect()
+    {
+        FleeEffect runawayEffect = new FleeEffect();
+        runawayEffect.SetHealthLost(runnerHPlost);
+
+        return runawayEffect;
     }
 }

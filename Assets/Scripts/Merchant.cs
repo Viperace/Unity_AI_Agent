@@ -6,6 +6,21 @@ public class Merchant : GenericLocation
 {
     [SerializeField] float minQueueDistance = 1;
     [SerializeField] float maxQueueDistance = 3;
+    ShoppingEffect effect = new ShoppingEffect();
+    public static HashSet<Merchant> shops;
+
+    protected new void Start()
+    {
+        base.Start();
+        RegisterSelf();
+    }
+    void RegisterSelf()
+    {
+        if (shops == null)
+            shops = new HashSet<Merchant>();
+        shops.Add(this);
+        shops.Remove(null);
+    }
 
     // Put actor to stand at random location, with lower index closer.
     public override IEnumerator TrapActorForDurationCoroutine(Actor actor, float duration)
@@ -21,6 +36,8 @@ public class Merchant : GenericLocation
 
         // Do nothing
         actor.StandAndWait();
+        Brain brain = actor.GetComponent<Brain>();
+        if (brain) brain.enabled = false;
         yield return new WaitForSeconds(duration);
 
         // Remove the coroutine list
@@ -38,5 +55,18 @@ public class Merchant : GenericLocation
         float dx = Random.Range(-range, range);
         float dz = Random.Range(-range, range);
         return new Vector3(mid.x + dx, mid.y, mid.z + dz);
+    }
+
+    public override void Release(Actor actor)
+    {
+        base.Release(actor);
+
+        // Add bonus
+        NeedsBehavior needsBehavior = actor.GetComponent<NeedsBehavior>();
+        if (needsBehavior)
+            effect.Apply(needsBehavior);
+
+        Brain brain = actor.GetComponent<Brain>();
+        if (brain) brain.enabled = true;
     }
 }

@@ -17,6 +17,7 @@ public class GenericLocation : MonoBehaviour, ILocation
 
     public virtual IEnumerator TrapActorForDurationCoroutine(Actor actor, float duration)
     {
+        // Stand and stop thinking
         actor.StandAndWait();
         yield return new WaitForSeconds(duration);
 
@@ -37,7 +38,7 @@ public class GenericLocation : MonoBehaviour, ILocation
 
     public virtual void Release(Actor actor)
     {
-        actor.SetCurrentAction(null);
+        actor.StopAllActions();
     }
 
     public float AdmitRadius { get { return admitRadius; } }
@@ -63,6 +64,7 @@ public class GenericLocation : MonoBehaviour, ILocation
 public class Town : GenericLocation
 {
     public static HashSet<Town> towns;
+    RestAtTownEffect effect = new RestAtTownEffect();
 
     protected new void Start()
     {
@@ -99,6 +101,11 @@ public class Town : GenericLocation
 
             // Eject at random loc
             actor.GetComponentInParent<Transform>().position = this.transform.position + new Vector3(Random.Range(-3f, 3f), 0, Random.Range(-3f, 3f));
+
+            // Add bonus
+            NeedsBehavior needsBehavior = actor.GetComponent<NeedsBehavior>();
+            if (needsBehavior)
+                effect.Apply(needsBehavior);
         }
     }
 

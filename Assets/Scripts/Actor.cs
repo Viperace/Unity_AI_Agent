@@ -12,6 +12,15 @@ public class Actor : MonoBehaviour
 	public void SetCurrentAction(IAgentAction act) => this.currentAction = act;
     
 	public void SetCurrentActionSequence(ActionSequence seq	) => this.currentActionSequence = seq;
+	public void StopAllActions()
+    {
+		NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+		if (navMeshAgent)
+			navMeshAgent.SetDestination(this.transform.position);
+
+		SetCurrentAction(null);
+		SetCurrentActionSequence(null);
+	}
 
 	public void WanderAround(Vector3 pos, float radius = 5, float totalDuration = 30, float idleDuration = 4, float idleDurationVar = 5)
     {
@@ -20,13 +29,21 @@ public class Actor : MonoBehaviour
 		wander.Run();
 	}
 
-
 	public void GotoTownAndEnter(Town town, float stayDuration)
 	{
 		IAgentAction goTown = new GotoTarget(this.gameObject, town.gameObject, town.AdmitRadius*0.5f);
 		IAgentAction enterTown = new EnterLocation(this, town, stayDuration);
 
 		currentActionSequence = new ActionSequence(this, goTown, enterTown);
+		currentActionSequence.Run();
+	}
+
+	public void GotoShopAndShopping(Merchant shop, float stayDuration)
+	{
+		IAgentAction goShop = new GotoTarget(this.gameObject, shop.gameObject, shop.AdmitRadius * 0.5f);
+		IAgentAction startShopping = new EnterLocation(this, shop, stayDuration);
+
+		currentActionSequence = new ActionSequence(this, goShop, startShopping);
 		currentActionSequence.Run();
 	}
 
@@ -69,8 +86,6 @@ public class Actor : MonoBehaviour
 			currentActionSequence.Run();
 		}
 	}
-
-
 
 	public void StandAndWait()
     {

@@ -1235,6 +1235,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 40754107, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 647232641046694095, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}
       propertyPath: m_Radius
       value: 4
@@ -2537,11 +2541,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315259690}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 853ab5229acc6c249922ceae59c78b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _freezeBloodLust: 0
+  _freezeEnergy: 0
 --- !u!1 &1331438517
 GameObject:
   m_ObjectHideFlags: 0
@@ -3511,6 +3517,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 40754107, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 802981500, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3340019789835021523, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}
       propertyPath: m_Name
       value: Capsule 1

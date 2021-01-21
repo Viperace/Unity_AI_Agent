@@ -204,43 +204,31 @@ public class Combatant : MonoBehaviour
         // Apply results
         NeedsBehavior needsBehavior = actor.GetComponent<NeedsBehavior>();
         CombatResult combatResult = combat.GetResult();
+        IUtilityEffect effect = null;
         if (this == combat.winner)
         {             
             OnWinAction();
-            Debug.Log("This winner will lose HP " + combatResult.winnerHPlost);
 
             if (needsBehavior)
-            {
-                Needs add = Needs.zero;
-                add.HP = -combatResult.winnerHPlost * hpToNeedsModifier;
-                add.BloodLust = combatResult.winnerBloodLustGained;
-                //add.HP = combatResult.winnerFameGained;
-                //add.HP = combatResult.winnerXPgained;
-
-                needsBehavior.AddNeeds(add);
-            }
+                effect = combatResult.GetWinnerEffect();
         }            
         else if (this == combat.loser)
         {
             OnLoseAction();
-            //Debug.Log(this.gameObject + " do death");
         }            
         else if (this == combat.runner)
         {
             OnFleeAction();
 
-            if (needsBehavior)
-            {
-                Needs add = Needs.zero;
-                add.HP = -combatResult.runnerHPlost * hpToNeedsModifier;
-                add.BloodLust = combatResult.runnerBloodLustGained;
-                needsBehavior.AddNeeds(add);
-            }
+            if (needsBehavior) 
+                effect = combatResult.GetFleeEffect();                
 
             Debug.Log(this.gameObject + " do running away from " + combat.winner);
         }
 
-        
+        // Add win/lose effect 
+        if(effect != null)
+            effect.Apply(needsBehavior);
 
         OnComplete();        
     }

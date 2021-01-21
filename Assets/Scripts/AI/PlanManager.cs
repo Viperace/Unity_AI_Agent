@@ -37,24 +37,31 @@ public class PlanManager
 
 		planBaseScoreDict.Add(HighLevelPlan.Idle, needAdd);
 
+		needAdd = Needs.zero;
 		needAdd.Energy = 100;
-		needAdd.Shopping = 10;
+		needAdd.HP = 30;
+		needAdd.Shopping = 10;		
 		//needAdd.Socializing = 10;
 		planBaseScoreDict.Add(HighLevelPlan.GoTownAndSleep, needAdd);
 
+		needAdd = Needs.zero;
 		needAdd.Energy = 30;
 		//needAdd.Shopping = -10; // No negative effect
 		planBaseScoreDict.Add(HighLevelPlan.EnactTentAndSleep, needAdd);
 
+		needAdd = Needs.zero;
 		needAdd.Shopping = 35;
 		planBaseScoreDict.Add(HighLevelPlan.GoShopping, needAdd);
 
+		needAdd = Needs.zero;
 		needAdd.HP = 100;
 		planBaseScoreDict.Add(HighLevelPlan.FleeFromDanger, needAdd);
 
+		needAdd = Needs.zero;
 		needAdd.BloodLust = 10;
 		planBaseScoreDict.Add(HighLevelPlan.PatrolAreaForCreep, needAdd);
 
+		needAdd = Needs.zero;
 		needAdd.BloodLust = 30*0;
 		//needAdd.Shopping = -10; // Should not have -ve effect
 		planBaseScoreDict.Add(HighLevelPlan.HuntCreep, needAdd);
@@ -131,6 +138,7 @@ public class PlanManager
 			case HighLevelPlan.EnactTentAndSleep:
 				break;
 			case HighLevelPlan.GoShopping:
+				planExecutor = new ExecuteGoShopping(this.actor);
 				break;
 			case HighLevelPlan.PatrolAreaForCreep:
 				planExecutor = new ExecutePatrolForCreeps(this.actor);

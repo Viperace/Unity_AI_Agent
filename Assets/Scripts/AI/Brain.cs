@@ -25,12 +25,16 @@ public class Brain : MonoBehaviour
 	// To use if this GO is inactive
 	public void Restart()
 	{
-		// Reset to idle first
-		if(planManager != null) planManager.SetAndExecutePlan(HighLevelPlan.Idle);
-
+		// Reset all actions
+		if (actor)
+			actor.StopAllActions();
+		
 		// Define coroutine thinking
 		coroutine = _ThinkAndDoCoroutine(_reevalPeriod);
 		StartCoroutine(coroutine);
+
+		// Reset to idle first
+		if (planManager != null) planManager.SetAndExecutePlan(HighLevelPlan.Idle);
 	}
 	void Update()
 	{
@@ -41,8 +45,10 @@ public class Brain : MonoBehaviour
 		Restart();
     }
 
-	IEnumerator _ThinkAndDoCoroutine(float reevalPeriod)
+	IEnumerator _ThinkAndDoCoroutine(float reevalPeriod, float firstStartDelay = 1f)
     {
+		yield return new WaitForSeconds(firstStartDelay);
+
 		while (planManager != null)
 		{
 			// Eval plan
@@ -50,8 +56,11 @@ public class Brain : MonoBehaviour
 			HighLevelPlan bestPlan = planManager.EvaluateBestPlan(utility, needsBehavior.needs, out bestScore);
 
 			// Change of  plan if this new plan is so much better
-			if (planManager.currentPlan != bestPlan & bestScore > 20f) 
-            {
+			//if (planManager.currentPlan != bestPlan & bestScore > 20f) 
+			bool nothingBetterToDo = planManager.currentPlan == HighLevelPlan.Idle;
+			bool hasSubOptimalPlan = (planManager.currentPlan != bestPlan & bestScore > 20f);
+			if (nothingBetterToDo || hasSubOptimalPlan)
+			{
 				planManager.SetAndExecutePlan(bestPlan);
 				Debug.Log(actor.gameObject + " has New plan: " + bestPlan + " . Score:" + bestScore);
 			}

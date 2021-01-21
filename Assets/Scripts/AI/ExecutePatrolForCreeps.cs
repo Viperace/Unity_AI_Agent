@@ -102,8 +102,7 @@ public class ExecutePatrolForCreeps : IPlanExecutor
 
     public void Stop()
     {
-        actor.SetCurrentAction(null);
-        actor.SetCurrentActionSequence(null);
+        actor.StopAllActions();
     }
 
     public void Update()
