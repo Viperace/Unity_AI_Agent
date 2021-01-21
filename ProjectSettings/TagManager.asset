@@ -43,3 +43,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Actor UI
+    uniqueID: 1852185751
+    locked: 0

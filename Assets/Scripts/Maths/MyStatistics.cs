@@ -23,9 +23,8 @@ public static class MyStatistics
         // Decide which bucket it falls in.
         for (int i = 1; i < x.Length; i++)
             if (rollVal > xcum[i - 1] && rollVal <= xcum[i])
-                return i;
-
-        return -1; // Error, cannot be 
+                return i;        
+        return 0;
     }
 }
 

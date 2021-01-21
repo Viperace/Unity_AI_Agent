@@ -56,4 +56,6 @@ public class Lair : MonoBehaviour
         foreach (Creeps c in creeps)
             c.GoHome();
     }
+
+    public int CreepsCount { get { return creeps.Count;} }
 }
