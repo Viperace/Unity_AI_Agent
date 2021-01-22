@@ -5,12 +5,26 @@ using UnityEngine.AI;
 
 public class Actor : MonoBehaviour
 {
+	public static HashSet<Actor> actors;
+
 	protected IAgentAction currentAction;
 
 	protected ActionSequence currentActionSequence;
-    
-	public void SetCurrentAction(IAgentAction act) => this.currentAction = act;
-    
+
+    void Start()
+    {
+		// Register		
+		if (actors == null)
+			actors = new HashSet<Actor>();
+		actors.Add(this);
+		actors.Remove(null);
+	}
+    void OnDestroy()
+    {
+		if(actors!=null)
+			actors.Remove(this);
+    }
+    public void SetCurrentAction(IAgentAction act) => this.currentAction = act;    
 	public void SetCurrentActionSequence(ActionSequence seq	) => this.currentActionSequence = seq;
 	public void StopAllActions()
     {
@@ -21,7 +35,6 @@ public class Actor : MonoBehaviour
 		SetCurrentAction(null);
 		SetCurrentActionSequence(null);
 	}
-
 	public void WanderAround(Vector3 pos, float radius = 5, float totalDuration = 30, float idleDuration = 4, float idleDurationVar = 5)
     {
 		IAgentAction wander = new Wander(this, pos, radius, totalDuration);

@@ -69,4 +69,5 @@ public class Brain : MonoBehaviour
 		}
 	}
 
+	public HighLevelPlan CurrentPlan { get { return planManager.currentPlan; } }
 }

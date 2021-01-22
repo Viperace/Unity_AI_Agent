@@ -64,7 +64,7 @@ public class Combatant : MonoBehaviour
             {
                 if (NotifyCombat(target))
                 {
-                    Debug.Log("Attack msg sent. Start killing!");
+                    //Debug.Log("Attack msg sent. Start killing!");
                     _BeginAttackSequence(target);
                 }
                 else
