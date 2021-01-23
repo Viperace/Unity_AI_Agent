@@ -40,23 +40,32 @@ public class NeedsBehavior : MonoBehaviour
         float energyTotalDuration = 300f;  // in sec  // 5 mins to go from 100 to 0
         float rate = 100f / energyTotalDuration;
         _needs.Energy -= Time.deltaTime * rate;
-    }    
+    }
 
     // Decay over time, floor at 20
+    float bloodLustRate = 0;
     void FrameUpdateBloodLust()
     {
         float totDuration = 300f;
-        float rate = 100f / totDuration;
-        _needs.BloodLust -= Time.deltaTime * rate;
-        _needs.BloodLust = Mathf.Max(20f, _needs.BloodLust); // Floor at 20
+
+        if(_needs.BloodLust > 50f)
+            bloodLustRate = 100f / totDuration;
+        else if(_needs.BloodLust > 50f)
+            bloodLustRate = 50f / totDuration;
+        else if (_needs.BloodLust > 20f)
+            bloodLustRate = 10f / totDuration;
+        else
+            bloodLustRate = 1f / totDuration;
+        _needs.BloodLust -= Time.deltaTime * bloodLustRate;
+
+        //_needs.BloodLust = Mathf.Max(20f, _needs.BloodLust); // Floor at 20
     }
 
     // Shopping will decay over time (Full life = 10mins). Will also decay after combat
+    float shoppingRate = 100f / 600f;
     void FrameUpdateShopping()
     {
-        float totDuration = 600f;
-        float rate = 100f / totDuration;
-        _needs.Shopping -= Time.deltaTime * rate;
+        _needs.Shopping -= Time.deltaTime * shoppingRate;
     }
 
     public Needs needs { get { return _needs; } }

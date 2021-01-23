@@ -74,8 +74,11 @@ public enum CombatResultEnum
 public class CombatResult
 {
     public CombatResultEnum result { get; private set; }
-    int winnerHPlost;
-    int runnerHPlost;
+    
+    int totalCombatRounds = 3;  // Total round  to roll dice
+    int winnerRoundLost; 
+    int runnerRoundLost;
+    float roundLostToHPmodifier = 10f; 
     int winnerXPgained;
     int winnerFameGained;
     int runnerXPgained;
@@ -96,22 +99,21 @@ public class CombatResult
     // Probability of attacker win (defender - 1hp) = A /(A + D)
     // TODO: Attacker Flee! 
     public void Simulate(CombatStat attackerStat, CombatStat defenderStat)
-    {
-        int nrounds = 3;
-        int aHP = nrounds;
-        int dHP = nrounds;
+    {        
+        int aHP = totalCombatRounds;
+        int dHP = totalCombatRounds;
         float probability_initiator_win = attackerStat.AttackPower / (attackerStat.AttackPower + defenderStat.AttackPower);
-        for (int i = 0; i < nrounds; i++)
+        for (int i = 0; i < totalCombatRounds; i++)
             if (Random.value < probability_initiator_win)
                 dHP--;
             else
                 aHP--;
 
         // Winner HP lost        
-        winnerHPlost = nrounds - Mathf.Max(aHP, dHP);
+        winnerRoundLost = totalCombatRounds - Mathf.Max(aHP, dHP);
 
         // runner
-        runnerHPlost = winnerHPlost; // todo
+        runnerRoundLost = winnerRoundLost; // todo
 
         // Result
         if (aHP > dHP)
@@ -126,14 +128,14 @@ public class CombatResult
     public KillCreepsEffect GetWinnerEffect()
     {
         KillCreepsEffect winEffect = new KillCreepsEffect();
-        winEffect.SetHealthLost(winnerHPlost);
+        winEffect.SetHealthLost(winnerRoundLost * roundLostToHPmodifier);
         return winEffect;
     }
 
     public FleeEffect GetFleeEffect()
     {
         FleeEffect runawayEffect = new FleeEffect();
-        runawayEffect.SetHealthLost(runnerHPlost);
+        runawayEffect.SetHealthLost(runnerRoundLost * roundLostToHPmodifier);
 
         return runawayEffect;
     }

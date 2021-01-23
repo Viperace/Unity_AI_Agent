@@ -19,11 +19,12 @@ public class _TestMiniWorld : MonoBehaviour
 
     int TallyTotalMonster()
     {
-        GameObject[] creeps = GameObject.FindGameObjectsWithTag("Creeps");
-        if (creeps != null)
-            return creeps.Length;
-        else
-            return 0;
+        int count = 0;
+        foreach(Actor act in FindObjectsOfType<Actor>())
+            if (act.CompareTag("Creeps"))
+                count++;
+
+        return count;
     }
 
     int TallyTotalHeros()
@@ -37,14 +38,23 @@ public class _TestMiniWorld : MonoBehaviour
 
     void RandomSpawnMonster()
     {
-        Vector3 pos = new Vector3(Random.Range(-35, 35), 0, Random.Range(-35, 35));
-        Instantiate(monsterPrefab, pos, Quaternion.identity);
+        int n = Lair.lairs.Count;
+        List<Lair> lairList = new List<Lair>(Lair.lairs);
+        Lair rolledLair = lairList[Random.Range(0, n)];
+        rolledLair.SpawnCreeps();
+        rolledLair.SpawnCreeps();
+        rolledLair.SpawnCreeps();        
     }
 
     void SpawnRandomHero()
     {
-        Vector3 pos = new Vector3(Random.Range(-35, 35), 0, Random.Range(-35, 35));
-        GameObject heroGO = Instantiate(heroPrefab, pos, Quaternion.identity);
+        // Find location to spawn near town
+        List<Town> allTowns = new List<Town>(Town.towns);
+        Town rolledTown = allTowns[Random.Range(0, allTowns.Count)];
+        Vector3 rolledPos = rolledTown.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3));
+
+        // Instantiate
+        GameObject heroGO = Instantiate(heroPrefab, rolledPos, Quaternion.identity);
         heroGO.GetComponent<Brain>().Restart();
     }
 

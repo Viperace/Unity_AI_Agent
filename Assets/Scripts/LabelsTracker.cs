@@ -60,7 +60,7 @@ public class LabelsTracker : MonoBehaviour
     }
 
     Vector3 namePos;
-    void LateUpdate()
+    void Update()
     {
         // Refresh hero to load
         _refreshCooldown -= Time.deltaTime;
@@ -74,9 +74,10 @@ public class LabelsTracker : MonoBehaviour
         // Update their movement
         if(herosWithinView != null)
             foreach(ViewedByCamera v in herosWithinView)
-            {
-                namePos = Camera.main.WorldToScreenPoint(v.transform.position - Vector3.down * offsetY);
-                actorPositionDict[v].transform.position = namePos;
-            }
+                if (v)
+                {
+                    namePos = Camera.main.WorldToScreenPoint(v.transform.position - Vector3.down * offsetY);
+                    actorPositionDict[v].transform.position = namePos;
+                }
     }
 }

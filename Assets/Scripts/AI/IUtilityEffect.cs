@@ -20,7 +20,7 @@ public class KillCreepsEffect : IUtilityEffect
     public void SetHealthLost(float healthLost) => this.healthLost = healthLost;
     public void Apply(NeedsBehavior needsBehavior)
     {
-        Needs x = new Needs(30, -10, 0, -healthLost);
+        Needs x = new Needs(30, -10, -5, -healthLost);
         needsBehavior.AddNeeds(x);
     }
 }

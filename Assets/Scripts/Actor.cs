@@ -29,7 +29,7 @@ public class Actor : MonoBehaviour
 	public void StopAllActions()
     {
 		NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
-		if (navMeshAgent)
+		if (navMeshAgent.enabled && navMeshAgent.gameObject.activeInHierarchy)
 			navMeshAgent.SetDestination(this.transform.position);
 
 		SetCurrentAction(null);
