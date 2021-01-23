@@ -1493,6 +1493,7 @@ GameObject:
   - component: {fileID: 40754106}
   - component: {fileID: 40754107}
   - component: {fileID: 802981500}
+  - component: {fileID: 1053136445}
   m_Layer: 0
   m_Name: Capsule 1
   m_TagString: Hero
@@ -1640,3 +1641,15 @@ MonoBehaviour:
   forceEnergy: 0
   forceBloodlust: 0
   forceShopping: 0
+--- !u!114 &1053136445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340019789835021523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2076e79f9a65c8d4fa360d3a467ca5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

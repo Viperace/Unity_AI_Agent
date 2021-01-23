@@ -43,20 +43,30 @@ public class LabelsTracker : MonoBehaviour
             {
                 actorPositionDict.Add(herosWithinView[i], labelTexts[i]);
                 labelTexts[i].gameObject.SetActive(true);
-                labelTexts[i].text = GetHighLevelPlanText(herosWithinView[i]);
+                labelTexts[i].text = SetTextToShow(herosWithinView[i]);
             }
             else
                 labelTexts[i].gameObject.SetActive(false);
         }
     }
 
-    string GetHighLevelPlanText(ViewedByCamera v)
+   
+    string _SetTextToShow_Plan(ViewedByCamera v)
     {
         Brain brain = v.GetComponentInParent<Brain>();
         if (brain != null)
             return brain.CurrentPlan.ToString();
         else
             return "UNKNOWN";
+    }
+
+    string SetTextToShow(ViewedByCamera v)
+    {
+        RolePlayingStatBehavior rpgBehavior = v.GetComponentInParent<RolePlayingStatBehavior>();
+        if (rpgBehavior != null)
+            return string.Concat(rpgBehavior.Name, ",L", rpgBehavior.Level);
+        else
+            return "unknown";
     }
 
     Vector3 namePos;
