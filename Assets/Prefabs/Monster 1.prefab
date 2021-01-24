@@ -163,8 +163,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8508058780952750564}
   - component: {fileID: 8508058780952750563}
-  - component: {fileID: 8508058780952750561}
-  - component: {fileID: 8508058780952750560}
+  - component: {fileID: 3477602615287627911}
+  - component: {fileID: 1954367915513917302}
   - component: {fileID: 8508058780952750565}
   - component: {fileID: 443517999984858723}
   m_Layer: 0
@@ -212,7 +212,21 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8508058780952750561
+--- !u!114 &3477602615287627911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8508058780952750575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c56df40f2f294724589d07768c05b379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 2
+  defendPower: 0
+--- !u!114 &1954367915513917302
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,24 +238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253779d4f0cc21a418958851481e929f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackRange: 2
+  _attackRange: 1
   IsFighting: 0
-  notifyDistance: 10
---- !u!114 &8508058780952750560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8508058780952750575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 993fd7474327a754fa1403b36252ccfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AttackPower: 2
-  attack1Cooldown: 0
-  attack2Cooldown: 0
+  notifyDistance: 5
 --- !u!114 &8508058780952750565
 MonoBehaviour:
   m_ObjectHideFlags: 0

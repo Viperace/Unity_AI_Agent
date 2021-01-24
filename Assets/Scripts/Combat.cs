@@ -6,8 +6,8 @@ public class Combat
 {
     Combatant initiator;
     Combatant target;
-    CombatStat initiatorStat;
-    CombatStat targetStat;
+    ICombatStat initiatorStat;
+    ICombatStat targetStat;
 
 
     //CombatResultEnum result;
@@ -19,7 +19,7 @@ public class Combat
 
     public Combat() { }
 
-    public Combat(Combatant initiator, Combatant target, CombatStat initiatorStat, CombatStat targetStat)
+    public Combat(Combatant initiator, Combatant target, ICombatStat initiatorStat, ICombatStat targetStat)
     {
         this.initiator = initiator;
         this.target = target;
@@ -98,11 +98,11 @@ public class CombatResult
     // Survivor=winner, has actual hp being minused        
     // Probability of attacker win (defender - 1hp) = A /(A + D)
     // TODO: Attacker Flee! 
-    public void Simulate(CombatStat attackerStat, CombatStat defenderStat)
+    public void Simulate(ICombatStat attackerStat, ICombatStat defenderStat)
     {        
         int aHP = totalCombatRounds;
         int dHP = totalCombatRounds;
-        float probability_initiator_win = attackerStat.AttackPower / (attackerStat.AttackPower + defenderStat.AttackPower);
+        float probability_initiator_win = attackerStat.AttackPower() / (attackerStat.AttackPower() + defenderStat.AttackPower());
         for (int i = 0; i < totalCombatRounds; i++)
             if (Random.value < probability_initiator_win)
                 dHP--;

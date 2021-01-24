@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(CombatStat))]
+//[RequireComponent(typeof(HeroCombatStat))]
 public class Combatant : MonoBehaviour
 {
 
@@ -37,7 +37,10 @@ public class Combatant : MonoBehaviour
     {
         actor = GetComponent<Actor>();
 
-        combatStat = GetComponent<CombatStat>();
+        if(CompareTag("Hero"))
+            combatStat = GetComponent<HeroCombatStat>();
+        else
+            combatStat = GetComponent<CombatStat>();
 
         navMeshAgent = GetComponent<NavMeshAgent>();
 

@@ -14,7 +14,6 @@ public class RolePlayingStatBehavior : MonoBehaviour
         rpgStat = RolePlayingStat.GenerateNewProfile(sex);
         levelUp = new LevelUp();
     }
-
     void OnEnable()
     {
         StartCoroutine(UpdateLevelUp());

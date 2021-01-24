@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Creeps : Actor
 {
+    [SerializeField] int level = 1;
     Lair home;
 
     void Start()
