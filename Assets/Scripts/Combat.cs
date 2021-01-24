@@ -129,6 +129,7 @@ public class CombatResult
     {
         KillCreepsEffect winEffect = new KillCreepsEffect();
         winEffect.SetHealthLost(winnerRoundLost * roundLostToHPmodifier);
+        winEffect.SetExperiencePointGain(winnerXPgained);
         return winEffect;
     }
 

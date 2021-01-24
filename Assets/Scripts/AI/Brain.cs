@@ -18,7 +18,6 @@ public class Brain : MonoBehaviour
 		this.needsBehavior = GetComponent<NeedsBehavior>();
 		utility = new Utility();
 
-		Debug.Log("Name is " + NameGenerator.Instance.GenerateRandomName());
 		// Init
 		Restart();
 	}

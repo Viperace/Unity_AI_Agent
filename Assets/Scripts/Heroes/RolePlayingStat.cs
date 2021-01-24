@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class RolePlayingStat
 {
     public string name;
     public int level;
     public float experiencePoint;
-
+    // To add: classType, race;
     public RolePlayingStat()
     {
         name = "Unnamed";
@@ -37,16 +38,5 @@ public class RolePlayingRecord
         kills = 0;
         numberOfTimesFlee = 0;
         numberOfTimesVisitTown = 0;
-    }
-}
-
-public class Inventory
-{
-    public int coins { get; set; }
-    public List<BasicGear> equipments;
-    public Inventory() 
-    { 
-        coins = 0;
-        equipments = new List<BasicGear>();
     }
 }

@@ -191,7 +191,6 @@ public class Combatant : MonoBehaviour
         DoneCombat();
     }
 
-    float hpToNeedsModifier = 10;
     // Stuff to set after finish combat
     // TODO: Make this to an event. 
     void DoneCombat()
@@ -203,6 +202,7 @@ public class Combatant : MonoBehaviour
 
         // Apply results
         NeedsBehavior needsBehavior = actor.GetComponent<NeedsBehavior>();
+        RolePlayingStatBehavior rpgStatBehavior = actor.GetComponent<RolePlayingStatBehavior>();
         CombatResult combatResult = combat.GetResult();
         IUtilityEffect effect = null;
         if (this == combat.winner)
@@ -227,8 +227,12 @@ public class Combatant : MonoBehaviour
         }
 
         // Add win/lose effect 
-        if(effect != null)
-            effect.Apply(needsBehavior);
+        if (effect != null)
+        {
+            //effect.Apply(needsBehavior);
+            if (effect is KillCreepsEffect)
+                ((KillCreepsEffect) effect).ApplyAll(needsBehavior, rpgStatBehavior.rpgStat, actor.GetComponent<Inventory>());
+        }
 
         OnComplete();        
     }

@@ -50,7 +50,7 @@ public class PlanManager
 		planBaseScoreDict.Add(HighLevelPlan.EnactTentAndSleep, needAdd);
 
 		needAdd = Needs.zero;
-		needAdd.Shopping = 35;
+		needAdd.Shopping = 65;
 		planBaseScoreDict.Add(HighLevelPlan.GoShopping, needAdd);
 
 		needAdd = Needs.zero;

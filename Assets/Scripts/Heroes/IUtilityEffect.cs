@@ -3,6 +3,15 @@ public interface IUtilityEffect
     public void Apply(NeedsBehavior needsBehavior);
 }
 
+public interface IRolePlayingEffect
+{
+    public void Apply(RolePlayingStat rpgStat);
+}
+public interface IInventoryEffect
+{
+    public void Apply(Inventory inventory);
+}
+
 public class RestAtTownEffect : IUtilityEffect
 {
     public RestAtTownEffect() {}
@@ -13,15 +22,33 @@ public class RestAtTownEffect : IUtilityEffect
     }
 }
 
-public class KillCreepsEffect : IUtilityEffect
+public class KillCreepsEffect : IUtilityEffect, IRolePlayingEffect, IInventoryEffect
 {
     float healthLost;
+    float xpGained;
     public KillCreepsEffect() {}
     public void SetHealthLost(float healthLost) => this.healthLost = healthLost;
+    public void SetExperiencePointGain(float xpGained) => this.xpGained = xpGained;
+
     public void Apply(NeedsBehavior needsBehavior)
     {
         Needs x = new Needs(30, -10, -5, -healthLost);
         needsBehavior.AddNeeds(x);
+    }
+    public void Apply(RolePlayingStat rpgStat)
+    {
+        rpgStat.experiencePoint += xpGained;
+    }
+    public void Apply(Inventory inventory)
+    {
+        if(inventory)
+            inventory.UpdateGearDurability(-0.1f);
+    }
+    public void ApplyAll(NeedsBehavior needsBehavior, RolePlayingStat rpgStat, Inventory inventory)
+    {
+        Apply(needsBehavior);
+        Apply(rpgStat);
+        Apply(inventory);
     }
 }
 
@@ -38,13 +65,18 @@ public class FleeEffect : IUtilityEffect
 }
 
 
-public class ShoppingEffect : IUtilityEffect
+public class ShoppingEffect : IUtilityEffect, IInventoryEffect
 {
     public ShoppingEffect() { }
     public void Apply(NeedsBehavior needsBehavior)
     {
-        Needs x = new Needs(0, 0, 35, 0);
+        Needs x = new Needs(0, 0, 65, 0);
         needsBehavior.AddNeeds(x);
+    }
+
+    public void Apply(Inventory inventory)
+    {
+        inventory.UpdateGearDurability(1f);
     }
 }
 

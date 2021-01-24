@@ -167,8 +167,7 @@ public class ExecuteGoShopping : IPlanExecutor
 
 	float DecideStayDuration()
 	{
-		//return Random.Range(15f, 30f);
-		return 2f;
+		return Random.Range(15f, 30f);
 	}
 
 	// Call from update cycle

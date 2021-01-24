@@ -64,7 +64,7 @@ public class LabelsTracker : MonoBehaviour
     {
         RolePlayingStatBehavior rpgBehavior = v.GetComponentInParent<RolePlayingStatBehavior>();
         if (rpgBehavior != null)
-            return string.Concat(rpgBehavior.Name, ",L", rpgBehavior.Level);
+            return string.Concat(rpgBehavior.Name, ", lv ", rpgBehavior.Level);
         else
             return "unknown";
     }

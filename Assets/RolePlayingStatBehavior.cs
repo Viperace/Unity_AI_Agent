@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class RolePlayingStatBehavior : MonoBehaviour
 {
-    RolePlayingStat rpgStat;
+    [SerializeField] public RolePlayingStat rpgStat;
     LevelUp levelUp;
 
     void Awake()
@@ -14,19 +15,19 @@ public class RolePlayingStatBehavior : MonoBehaviour
         levelUp = new LevelUp();
     }
 
-    void Update()
+    void OnEnable()
     {
-        UpdateLevelUp();
+        StartCoroutine(UpdateLevelUp());
     }
 
     // Exprience point > Threshold = level up
-    void UpdateLevelUp()
+    IEnumerator UpdateLevelUp()
     {
-        bool doLevelUp = levelUp.ApplyLevelUpOnce(this.rpgStat);
-        if (doLevelUp)
+        while (true)
         {
-            Debug.Log(rpgStat.name + " level up to " + rpgStat.level);
-        }
+            levelUp.ApplyLevelUpOnce(this.rpgStat);
+            yield return new WaitForSeconds(1f);
+        }        
     }
 
     #region Setters
@@ -34,7 +35,6 @@ public class RolePlayingStatBehavior : MonoBehaviour
     
     #endregion
     #region Getters
-    public RolePlayingStat RPGstat { get { return rpgStat; } }
     public string Name { get { return rpgStat.name; } }
     public int Level { get { return rpgStat.level; } }
 
@@ -49,7 +49,7 @@ class LevelUp
     {
         levelCap = 10;
         // Threshold
-        xpThreshold = new int[] { 3, 8, 14, 23, 35, 70, 105, 140, 180 };
+        xpThreshold = new int[] { 3, 8, 14, 23, 35, 70, 105, 140, 180 };        
     }
     public bool CanLevelUp(int level, float xp)
     {
@@ -62,7 +62,7 @@ class LevelUp
     {
         if (CanLevelUp(stat.level, stat.experiencePoint))
         {
-            stat.experiencePoint -= xpThreshold[stat.level = 1];
+            stat.experiencePoint -= xpThreshold[stat.level - 1];
             stat.level++;
             return true;
         }

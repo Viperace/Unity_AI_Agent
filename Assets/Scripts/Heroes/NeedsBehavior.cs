@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 /// <summary>
 /// This class manage the dynamics of all needs numbers
@@ -8,12 +9,18 @@ public class NeedsBehavior : MonoBehaviour
     [SerializeField] Needs _needs;
     [SerializeField] bool _freezeBloodLust = false;
     [SerializeField] bool _freezeEnergy = false;
+    Inventory inventory;
 
     void Start()
     {
         InitNeeds();
+        inventory = GetComponent<Inventory>();
     }
-
+    void OnEnable()
+    {
+        // Init counter
+        StartCoroutine(SlowUpdateShopping(2f));
+    }
     void InitNeeds()
     {
         // Initialize
@@ -61,11 +68,25 @@ public class NeedsBehavior : MonoBehaviour
         //_needs.BloodLust = Mathf.Max(20f, _needs.BloodLust); // Floor at 20
     }
 
-    // Shopping will decay over time (Full life = 10mins). Will also decay after combat
-    float shoppingRate = 100f / 600f;
-    void FrameUpdateShopping()
+    /// <summary>
+    /// Shopping will decay over time (Full life = 10mins); and is dependent on Gear Duratbility (which decay after combat)
+    /// </summary>
+    float shoppingDecayRate = 100f / 600f;
+    void FrameUpdateShopping() => _needs.Shopping -= Time.deltaTime * shoppingDecayRate;
+    
+    float _lastDurability = 1f;
+    IEnumerator SlowUpdateShopping(float waitDur)
     {
-        _needs.Shopping -= Time.deltaTime * shoppingRate;
+        while (true)
+        {
+            if (inventory != null)
+            {
+                float dropInDurability = inventory.MinimumDurability - _lastDurability; // Check lost in durability since last update
+                _needs.Shopping -= dropInDurability * 100f; // Update the drops into the Shopping needs
+                _lastDurability = inventory.MinimumDurability; // Update durability
+            }
+            yield return new WaitForSeconds(waitDur);
+        }        
     }
 
     public Needs needs { get { return _needs; } }
