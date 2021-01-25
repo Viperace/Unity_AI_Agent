@@ -13,6 +13,9 @@ This function list the set of ALL POSSIBLE actions for this agent
 	- FleeFromDanger
 
 //TODO: When plan done, back to null
+TODO:
+fatigueLevel,
+
 */
 public class PlanManager
 {
@@ -24,6 +27,8 @@ public class PlanManager
 	Dictionary<HighLevelPlan, Needs> planBaseScoreDict = new Dictionary<HighLevelPlan, Needs>();
 
 	public HighLevelPlan currentPlan { get; private set; }
+	
+	public float currentPlanTimeStamp { get; set; }
 
 	public PlanManager(Actor actor)
 	{
@@ -126,11 +131,15 @@ public class PlanManager
 		// Set 
 		currentPlan = plan;
 
+		// Record time
+		currentPlanTimeStamp = Time.time;
+
 		// Execute
 		switch (plan)
 		{
 			case HighLevelPlan.Idle:
-				actor.WanderAround(actor.transform.position, Random.Range(4f, 8f));
+				//actor.WanderAround(actor.transform.position, Random.Range(8f, 16f));
+				planExecutor = new ExecuteIdlingAtSafePlace(this.actor);
 				break;
 			case HighLevelPlan.GoTownAndSleep:
 				planExecutor = new ExecuteGoTown(this.actor);

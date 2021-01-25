@@ -35,7 +35,8 @@ public class Actor : MonoBehaviour
 		SetCurrentAction(null);
 		SetCurrentActionSequence(null);
 	}
-	public void WanderAround(Vector3 pos, float radius = 5, float totalDuration = 30, float idleDuration = 4, float idleDurationVar = 5)
+	public void WanderAround(Vector3 pos, float radius = 5, float totalDuration = 30, 
+		float idleDuration = 4, float idleDurationVar = 5)
     {
 		IAgentAction wander = new Wander(this, pos, radius, totalDuration);
 		SetCurrentAction(wander);

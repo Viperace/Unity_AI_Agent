@@ -44,7 +44,7 @@ public interface IPlanExecutor
 	//public List<T> IdentifyCandidates<T>();
 
 	//public float GetProbability(Object candidate);
-	public Object SelectCandidateRandomly();	
+	//public Object SelectCandidateRandomly();	
 	public void Execute();
 	public void Update();
 	public void Stop();

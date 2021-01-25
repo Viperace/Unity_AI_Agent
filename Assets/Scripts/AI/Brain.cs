@@ -6,9 +6,9 @@ public class Brain : MonoBehaviour
 {
 	Actor actor;
 	PlanManager planManager;
+	FatigueLevel fatigueLevel;
 	NeedsBehavior needsBehavior;
 	Utility utility;
-
 	float _reevalPeriod = 3f;
 	IEnumerator coroutine;
 	void Start()
@@ -17,6 +17,7 @@ public class Brain : MonoBehaviour
 		this.planManager = new PlanManager(this.actor);
 		this.needsBehavior = GetComponent<NeedsBehavior>();
 		utility = new Utility();
+		fatigueLevel = new FatigueLevel();
 
 		// Init
 		Restart();
@@ -60,14 +61,48 @@ public class Brain : MonoBehaviour
 			bool nothingBetterToDo = planManager.currentPlan == HighLevelPlan.Idle;
 			bool hasSubOptimalPlan = (planManager.currentPlan != bestPlan & bestScore > 20f);
 			if (nothingBetterToDo || hasSubOptimalPlan)
-			{
-				planManager.SetAndExecutePlan(bestPlan);
-				Debug.Log(actor.gameObject + " has New plan: " + bestPlan + " . Score:" + bestScore);
-			}
+                if (fatigueLevel.ShouldIRest())
+                {
+					planManager.SetAndExecutePlan(HighLevelPlan.Idle);
+					fatigueLevel.Reset();
+				}
+				else
+                {
+					planManager.SetAndExecutePlan(bestPlan);
+					fatigueLevel.AddFatigue();
+					//Debug.Log(actor.gameObject + " has New plan: " + bestPlan + " . Score:" + bestScore);
+				}
 
 			yield return new WaitForSeconds(reevalPeriod);
 		}
 	}
 
 	public HighLevelPlan CurrentPlan { get { return planManager.currentPlan; } }
+}
+
+
+class FatigueLevel
+{
+	int numberOfPlanCarriedOut;
+	public FatigueLevel() { }
+	public void AddFatigue() => numberOfPlanCarriedOut++;
+  
+	public void Reset()
+    {
+		numberOfPlanCarriedOut = 0;
+    }
+	public bool ShouldIRest()
+    {
+		float roll = Random.value;
+		if (numberOfPlanCarriedOut > 5)
+			return roll > 0;
+		else if (numberOfPlanCarriedOut > 4)
+			return roll > 0.1f;
+		else if (numberOfPlanCarriedOut > 3)
+			return roll > 0.15f;
+		else if (numberOfPlanCarriedOut > 2)
+			return roll > 0.2f;
+		else
+			return false;
+	}
 }
