@@ -7,7 +7,7 @@ public class _TestMiniWorld : MonoBehaviour
     [SerializeField] int totalCreepsInLairs = 0;
     [SerializeField] int totalHeros = 0;
 
-    public int creepsLimit = 20;
+    //public int creepsLimit = 20;
     public int herosLimit = 10;
 
     public GameObject monsterPrefab;
@@ -75,9 +75,6 @@ public class _TestMiniWorld : MonoBehaviour
         {
             if (totalHeros < herosLimit)
                 SpawnRandomHero();
-
-            if (totalCreepsInLairs < creepsLimit)
-                RandomSpawnMonster();
 
             _spawnCooldown = 1f;
         }

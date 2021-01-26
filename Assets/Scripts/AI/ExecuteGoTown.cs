@@ -28,21 +28,19 @@ public class ExecuteGoTown : IPlanExecutor
 		_totalWeights = 0;
 		foreach (Object candidate in candidates)
 		{
-			if (candidate is Town)
-			{
-				Town t = (Town)candidate;
+            if (candidate is Town t)
+            {
+                // Find distance between actor and this 
+                float distance = Vector3.Distance(actor.transform.position, t.transform.position);
+                float weight = 1 / Mathf.Sqrt(distance); // Formula is 1/sqrt(d) . 1/d too high
 
-				// Find distance between actor and this 
-				float distance = Vector3.Distance(actor.transform.position, t.transform.position);
-				float weight = 1 / Mathf.Sqrt(distance); // Formula is 1/sqrt(d) . 1/d too high
+                // Convert to weight
+                candidateWeightsDict.Add(t, weight);
 
-				// Convert to weight
-				candidateWeightsDict.Add(t, weight);
-
-				// Save total weight
-				_totalWeights += weight;
-			}
-		}
+                // Save total weight
+                _totalWeights += weight;
+            }
+        }
 	}
 
 	public float GetProbability(object candidate)

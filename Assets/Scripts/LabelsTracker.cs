@@ -70,7 +70,7 @@ public class LabelsTracker : MonoBehaviour
     }
 
     Vector3 namePos;
-    void Update()
+    void LateUpdate()
     {
         // Refresh hero to load
         _refreshCooldown -= Time.deltaTime;

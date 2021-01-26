@@ -14,7 +14,7 @@ public class ExecutePatrolForCreeps : IPlanExecutor
 
     public ExecutePatrolForCreeps(Actor actor) => this.actor = actor;
     public void Execute()
-    {
+    {        
         Lair lair = (Lair)SelectCandidateRandomly();
         Vector3[] waypoints = GetRandomWaypoints(lair.transform.position).ToArray();
 
@@ -61,26 +61,45 @@ public class ExecutePatrolForCreeps : IPlanExecutor
         return lairs[roll];
     }
 
+    /* Distance decide weight
+     * Level of the lair decide conditions. Lair that is too high level, which is off hero's capability will not be selected
+     */
     public void ComputeWeights(List<Lair> candidates)
     {
+        // hero level cap
+        int heroLevel = actor.GetComponent<RolePlayingStatBehavior>().rpgStat.level;
+        float heroAttack = actor.GetComponent<HeroCombatStat>().AttackPower();
+
         // Convert var to Town object
         candidateWeightsDict = new Dictionary<Lair, float>();
         _totalWeights = 0;
         foreach (Object candidate in candidates)
         {
-            if (candidate is Lair)
+            if (candidate is Lair t)
             {
-                Lair t = (Lair)candidate;
+                float discount;
+                float expectedProbWin = heroAttack / (t.AverageCreepsAttack + heroAttack);
+                if (expectedProbWin < 0.15f) 
+                    discount = 0f;
+                else if(expectedProbWin < 0.3f) 
+                    discount = 0.2f;
+                else if (expectedProbWin < 0.5f)
+                    discount = 0.5f;
+                else
+                    discount = 1f;
 
                 // Find distance between actor and this 
                 float distance = Vector3.Distance(actor.transform.position, t.transform.position);
                 float weight = 1 / Mathf.Sqrt(distance); // Formula is 1/sqrt(d) . 1/d too high
 
+                // Final weight
+                float finalWeight = weight * discount;
+
                 // Convert to weight
-                candidateWeightsDict.Add(t, weight);
+                candidateWeightsDict.Add(t, finalWeight);
 
                 // Save total weight
-                _totalWeights += weight;
+                _totalWeights += finalWeight;
             }
         }
     }

@@ -163,12 +163,12 @@ public class Combatant : MonoBehaviour
 
         // Begin attack
         // TODO: duration updat
-        AttackAnimationCoroutine = AttackAnimation(Time.time + 3);
+        AttackAnimationCoroutine = AttackAnimation(Time.time + 3, target.GetComponent<Actor>());
         StartCoroutine(AttackAnimationCoroutine);
         
     }
 
-    IEnumerator AttackAnimation(float endTime)
+    IEnumerator AttackAnimation(float endTime, Actor target)
     {
         // Do attack (subject to cooldown), unttil time run out. Special atk prioritize
         while (Time.time < endTime)
@@ -191,12 +191,12 @@ public class Combatant : MonoBehaviour
             yield return null;
         }
 
-        DoneCombat();
+        DoneCombat(target);
     }
 
     // Stuff to set after finish combat
     // TODO: Make this to an event. 
-    void DoneCombat()
+    void DoneCombat(Actor target)
     {
         // Set off
         IsFighting = false;
@@ -213,7 +213,7 @@ public class Combatant : MonoBehaviour
             OnWinAction();
 
             if (needsBehavior)
-                effect = combatResult.GetWinnerEffect();
+                effect = combatResult.GetWinnerEffect(target);
         }            
         else if (this == combat.loser)
         {

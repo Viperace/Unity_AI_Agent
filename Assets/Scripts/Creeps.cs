@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Creeps : Actor
 {
@@ -24,4 +24,5 @@ public class Creeps : Actor
 
         this.GotoTarget(home.gameObject, killSelf, home.enterRadius);
     }
+    public int Level { get { return level; } }
 }

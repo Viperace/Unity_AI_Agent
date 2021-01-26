@@ -19,7 +19,7 @@ public class Actor : MonoBehaviour
 		actors.Add(this);
 		actors.Remove(null);
 	}
-    void OnDestroy()
+    protected void OnDestroy()
     {
 		if(actors!=null)
 			actors.Remove(this);
@@ -117,7 +117,7 @@ public class Actor : MonoBehaviour
 			SetCurrentAction(null);
 		}
 
-		// Turn off 
+		// Turn off  ? destroy??
 		this.GetComponent<NavMeshAgent>().enabled = false;
 		this.GetComponent<SlowLookAt>().enabled = false;
 		this.GetComponent<Combatant>().enabled = false;
@@ -128,7 +128,7 @@ public class Actor : MonoBehaviour
 		StartCoroutine(DeathAnimation());
 	}
 
-	IEnumerator DeathAnimation()
+	protected IEnumerator DeathAnimation()
     {		
 		// Do Rotate to death
 		this.transform.Rotate(Vector3.forward, 90);
@@ -149,7 +149,8 @@ public class Actor : MonoBehaviour
         }
 
 		// Do kill
-		Destroy(this.gameObject);		
+		Destroy(this.gameObject);
+		Destroy(this);
 	}
 
 	void Update()

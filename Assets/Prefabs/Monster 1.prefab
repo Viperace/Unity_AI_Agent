@@ -224,8 +224,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56df40f2f294724589d07768c05b379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPower: 2
+  attackPower: 1
   defendPower: 0
+  attack1Cooldown: 0
+  attack2Cooldown: 0
 --- !u!114 &1954367915513917302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad126be528a126e4c8f365f30abc915f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 1
 --- !u!1 &8508058781021868338
 GameObject:
   m_ObjectHideFlags: 0

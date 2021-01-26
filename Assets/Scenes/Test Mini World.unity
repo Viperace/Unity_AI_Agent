@@ -601,7 +601,7 @@ Transform:
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 656416980}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &382196001
 GameObject:
@@ -1144,7 +1144,7 @@ Transform:
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 656416980}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &581643877
 GameObject:
@@ -1313,10 +1313,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 925771470}
-  - {fileID: 318093507}
-  - {fileID: 2089809983}
   - {fileID: 2082668361}
+  - {fileID: 318093507}
   - {fileID: 571812406}
+  - {fileID: 2089809983}
   - {fileID: 1451235992}
   - {fileID: 2025231644}
   - {fileID: 567967331}
@@ -2893,8 +2893,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalCreepsInLairs: 0
   totalHeros: 0
-  creepsLimit: 20
-  herosLimit: 10
+  herosLimit: 7
   monsterPrefab: {fileID: 8508058780952750575, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
   heroPrefab: {fileID: 3340019789835021523, guid: 086c98cf73fb5b94d8acf8d0d07c9192, type: 3}
 --- !u!114 &1072291346
@@ -3992,7 +3991,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enterRadius: 3
-  creepPrefab: {fileID: 8508058780952750575, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
+  creepsCapacity: 6
+  spawnInterval: 10
+  spawnIntervalVariance: 2
+  creepPrefabs:
+  - {fileID: 1073273018463963382, guid: 75bcfbcb9fffaa5408feaf667acbe0aa, type: 3}
+  - {fileID: 3151312158713742301, guid: 2b2291c00f1f08449acbb8ac121e2920, type: 3}
 --- !u!135 &1451235989
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4025,7 +4029,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6124bee92cb0a184886bf84acd715fbe, type: 2}
+  - {fileID: 2100000, guid: 051a1c443395af241bc04d617671aae2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4064,7 +4068,7 @@ Transform:
   m_GameObject: {fileID: 1451235987}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -340.44867, y: -131.72002, z: 18.256943}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 1080676958}
   m_Father: {fileID: 656416980}
@@ -5374,7 +5378,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enterRadius: 3
-  creepPrefab: {fileID: 8508058780952750575, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
+  creepsCapacity: 6
+  spawnInterval: 10
+  spawnIntervalVariance: 2
+  creepPrefabs:
+  - {fileID: 8508058780952750575, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
+  - {fileID: 1073273018463963382, guid: 75bcfbcb9fffaa5408feaf667acbe0aa, type: 3}
+  - {fileID: 3151312158713742301, guid: 2b2291c00f1f08449acbb8ac121e2920, type: 3}
 --- !u!135 &2025231641
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5559,7 +5569,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 656416980}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2089809978
 GameObject:
@@ -5594,7 +5604,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enterRadius: 3
-  creepPrefab: {fileID: 8508058780952750575, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
+  creepsCapacity: 6
+  spawnInterval: 10
+  spawnIntervalVariance: 2
+  creepPrefabs:
+  - {fileID: 8508058780952750575, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
+  - {fileID: 1073273018463963382, guid: 75bcfbcb9fffaa5408feaf667acbe0aa, type: 3}
 --- !u!135 &2089809980
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5670,7 +5685,7 @@ Transform:
   m_Children:
   - {fileID: 592905996}
   m_Father: {fileID: 656416980}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3340019787891704644
 PrefabInstance:

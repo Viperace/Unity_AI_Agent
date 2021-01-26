@@ -86,12 +86,40 @@ public class CombatResult
     
     public CombatResult() 
     {
-        winnerXPgained = 1;
         winnerFameGained = 1;
         runnerXPgained = 0;
         runnerFameGained = 0;
     }
 
+    int CalculateWinnerExperienceGained(Actor target)
+    {
+        // Find out target level
+        int targetLevel;
+        if (target && target.GetComponent<RolePlayingStatBehavior>()) // Is Hero ?
+        {
+            targetLevel = target.GetComponent<RolePlayingStatBehavior>().Level;            
+        } 
+        else if (target && target.GetComponent<Creeps>()) // Is Creeps
+        {
+            targetLevel = target.GetComponent<Creeps>().Level;
+        }
+        else
+            return 1;
+
+        // Decide threshold
+        if (targetLevel == 1)
+            return 1;
+        else if(targetLevel == 2)
+            return 2;
+        else if (targetLevel <= 5 )
+            return Mathf.RoundToInt(targetLevel * 1.5f);
+        else if (targetLevel <= 7)
+            return Mathf.RoundToInt(targetLevel * 2f);
+        else if (targetLevel <= 9)
+            return Mathf.RoundToInt(targetLevel * 3f);
+        else
+            return Mathf.RoundToInt(targetLevel * 4f);
+    }
 
     // 3 rounds of combat, each combatant has 3 HP. Every combat result in loser -1 hp.
     // By end of 3rd round, whoever has lesser HP lose the combat and killed.
@@ -125,11 +153,15 @@ public class CombatResult
 
     }
 
-    public KillCreepsEffect GetWinnerEffect()
+    public KillCreepsEffect GetWinnerEffect(Actor target)
     {
         KillCreepsEffect winEffect = new KillCreepsEffect();
+        
         winEffect.SetHealthLost(winnerRoundLost * roundLostToHPmodifier);
+
+        winnerXPgained = CalculateWinnerExperienceGained(target);
         winEffect.SetExperiencePointGain(winnerXPgained);
+
         return winEffect;
     }
 
