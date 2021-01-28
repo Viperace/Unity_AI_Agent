@@ -16,7 +16,12 @@ public class ExecutePatrolForCreeps : IPlanExecutor
     public void Execute()
     {        
         Lair lair = (Lair)SelectCandidateRandomly();
-        Vector3[] waypoints = GetRandomWaypoints(lair.transform.position).ToArray();
+
+        Vector3[] waypoints;
+        if (lair == null)
+            waypoints = GetRandomWaypoints(actor.transform.position).ToArray();
+        else
+            waypoints = GetRandomWaypoints(lair.transform.position).ToArray();
 
         // Define callback when complete        
         actor.PatrolWaypointsLoop(7f, 4, OnPlanCompleted, waypoints);
@@ -51,14 +56,19 @@ public class ExecutePatrolForCreeps : IPlanExecutor
     {
         List<Lair> lairs = IdentifyCandidates<Lair>();
 
-        float[] probs = new float[lairs.Count];
-        for (int i = 0; i < lairs.Count; i++)
+        if (lairs.Count > 0)
         {
-            probs[i] = GetProbability(lairs[i]);
-        }
+            float[] probs = new float[lairs.Count];
+            for (int i = 0; i < lairs.Count; i++)
+            {
+                probs[i] = GetProbability(lairs[i]);
+            }
 
-        int roll = MyStatistics.RandomWeightedIndex(probs);
-        return lairs[roll];
+            int roll = MyStatistics.RandomWeightedIndex(probs);
+            return lairs[roll];
+        }
+        else
+            return null;
     }
 
     /* Distance decide weight
@@ -106,6 +116,8 @@ public class ExecutePatrolForCreeps : IPlanExecutor
 
     public List<Lair> IdentifyCandidates<T>()
     {
+        if (Lair.lairs == null)
+            return new List<Lair>();
         List<Lair> candidates = new List<Lair>(Lair.lairs);
         ComputeWeights(candidates);
         return candidates;

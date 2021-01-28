@@ -9,7 +9,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] List<BasicGear> equipments;
     void Start()
     {
-        coins = 0;
+        // Initial distribution
+        coins = 2000 + Random.Range(-2, 9)*100;
         equipments = BasicGear.GenerateBasicEquipments();
     }
 
@@ -41,6 +42,7 @@ public class Inventory : MonoBehaviour
 
     #region Getters
     public List<BasicGear> Equipments { get { return equipments; } }
+    public int Coins { get { return coins; } }
 
     float averageDurability;
     public float AverageDurability

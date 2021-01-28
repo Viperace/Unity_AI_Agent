@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Actor : MonoBehaviour
+public class Actor : MonoBehaviour, Ishopper
 {
 	public static HashSet<Actor> actors;
 
@@ -157,6 +157,40 @@ public class Actor : MonoBehaviour
 	{
 		if(currentAction != null)
 			currentAction.Update();
+	}
+
+	// Hero decide among all presented gears, which to purchase. Top 3
+    public List<BasicGear> DecideShoppingList(List<BasicGear> allGears)
+    {
+		int maxPurchase = 2;
+		List<BasicGear> itemInCart = new List<BasicGear>();
+		foreach (BasicGear gear in allGears)
+        {
+			// TODO: Do logic here
+			if (Random.value > 0.5f & itemInCart.Count < maxPurchase)
+				itemInCart.Add(gear);
+        }
+		return itemInCart;
+    }
+
+    public bool Pay(int amount)
+    {
+		Inventory inventory = GetComponent<Inventory>();
+		if (inventory.Coins >= amount)
+        {
+			inventory.RemoveCoins(amount);
+			return true;
+		}			
+		else
+			return false;
+    }
+
+	// Attach bought items to actor's inventory, and give a satisfaction score
+	public void TakeItems(List<BasicGear> gears)
+    {
+		Inventory inventory = GetComponent<Inventory>();
+		foreach (BasicGear g in gears)
+			inventory.Add(g);
 	}
 }
 

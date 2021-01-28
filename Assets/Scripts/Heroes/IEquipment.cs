@@ -42,8 +42,11 @@ public class BasicGear : IEquipment
     public static List<BasicGear> GenerateBasicEquipments()
     {        
         List<BasicGear> gears = new List<BasicGear>();
-        gears.Add(new BasicGear("Leather Armor", Rarity.COMMON, EquipmentSlot.BODY, 0, 1));
-        gears.Add(new BasicGear("Wooden Stick", Rarity.COMMON, EquipmentSlot.MAIN_WEAPON, 1, 0));
+        //gears.Add(new BasicGear("Leather Armor", Rarity.COMMON, EquipmentSlot.BODY, 0, 1));
+        //gears.Add(new BasicGear("Wooden Stick", Rarity.COMMON, EquipmentSlot.RIGHT_HAND, 1, 0));
+        // gears.Add(LoadItem.Instance.Spawn("Crossbow"));
+        gears.Add(LoadItem.Instance.SpawnRandomItem());
+        gears.Add(LoadItem.Instance.SpawnRandomItem());
         return gears;
     }
 }
@@ -55,8 +58,10 @@ public enum Rarity
 }
 public enum EquipmentSlot
 {
-    MAIN_WEAPON,
-    AUX_WEAPON,
+    LEFT_HAND,
+    RIGHT_HAND,
+    BOTH_HAND,
+    HEAD,
     ARM,
     BODY,
     LEG

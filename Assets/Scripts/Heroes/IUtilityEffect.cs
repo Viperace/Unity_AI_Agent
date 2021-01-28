@@ -67,10 +67,11 @@ public class FleeEffect : IUtilityEffect
 
 public class ShoppingEffect : IUtilityEffect, IInventoryEffect
 {
+    float satisfactionDiscount = 1f;
     public ShoppingEffect() { }
     public void Apply(NeedsBehavior needsBehavior)
     {
-        Needs x = new Needs(0, 0, 65, 0);
+        Needs x = new Needs(0, 0, 65 * satisfactionDiscount, 0);
         needsBehavior.AddNeeds(x);
     }
 
@@ -78,5 +79,7 @@ public class ShoppingEffect : IUtilityEffect, IInventoryEffect
     {
         inventory.UpdateGearDurability(1f);
     }
+
+    public void SetSatisfactionDiscount(float value) => this.satisfactionDiscount = value;
 }
 

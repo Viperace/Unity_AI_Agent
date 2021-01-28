@@ -24,7 +24,11 @@ public class ExecuteIdlingAtSafePlace : IPlanExecutor
     }
 
     public Vector3 IdentifyCandidates()
-    { 
+    {
+        // If no lair, just quit
+        if (Lair.lairs == null)
+            return actor.transform.position;
+
         // Find Position that is not near lair
         List<Vector3> nearbyLairsPositions = new List<Vector3>();
         foreach(Lair lair in Lair.lairs)

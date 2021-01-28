@@ -48,14 +48,17 @@ public class _TestMiniWorld : MonoBehaviour
 
     void SpawnRandomHero()
     {
-        // Find location to spawn near town
-        List<Town> allTowns = new List<Town>(Town.towns);
-        Town rolledTown = allTowns[Random.Range(0, allTowns.Count)];
-        Vector3 rolledPos = rolledTown.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3));
+        if (Town.towns != null)
+        {
+            // Find location to spawn near town
+            List<Town> allTowns = new List<Town>(Town.towns);
+            Town rolledTown = allTowns[Random.Range(0, allTowns.Count)];
+            Vector3 rolledPos = rolledTown.transform.position + new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3));
 
-        // Instantiate
-        GameObject heroGO = Instantiate(heroPrefab, rolledPos, Quaternion.identity);
-        heroGO.GetComponent<Brain>().Restart();
+            // Instantiate
+            GameObject heroGO = Instantiate(heroPrefab, rolledPos, Quaternion.identity);
+            heroGO.GetComponent<Brain>().Restart();
+        }
     }
 
     float _cooldown = 1;
