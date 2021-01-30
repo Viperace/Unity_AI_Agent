@@ -16,13 +16,6 @@ public class HeroInfoUI : MonoBehaviour
     void Start()
     {
         panel = transform.Find("Panel").GetComponent<RectTransform>();
-
-    }
-
-    IEnumerator _Test()
-    {
-        yield return new WaitForSeconds(1);
-        FillDisplay();
     }
 
     void SelectActor(GameObject gameObject)
@@ -51,7 +44,6 @@ public class HeroInfoUI : MonoBehaviour
             titleText.text = string.Concat(rpgStat.Name, ", Lv", rpgStat.Level);            
         else
             titleText.text = "Not selected";
-
 
         // Middle
         if(inventory)

@@ -23,11 +23,10 @@ public class Inventory : MonoBehaviour
     public void RemoveCoins(int number) => coins -= number;
     public string SummaryString()
     {
-        string str = string.Concat("Coin:", coins, ". Gear:");
+        string str = string.Concat("Gold: ", coins, "\n");
         for (int i = 0; i < equipments.Count; i++)
         {
-            string symbol = i == equipments.Count - 1 ? "." : ",";
-            str = string.Concat(str, equipments[i].name, symbol);
+            str = string.Concat(str, equipments[i].name, "\n");
         }
         return str;
     }    
