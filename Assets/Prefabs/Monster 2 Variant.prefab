@@ -65,12 +65,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8508058780952750575, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
       propertyPath: m_Name
-      value: Monster 2
+      value: Monster 2 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8508058781021868341, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: cd71291c91c8cce499cb663b5db9970e, type: 2}
+      objectReference: {fileID: 2100000, guid: 7e0a65a0f415a614a9daaaf0cd15793e, type: 2}
     - target: {fileID: 8508058781021868343, guid: 473dccdd8abb79b479d8616ea0f3d776, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.4

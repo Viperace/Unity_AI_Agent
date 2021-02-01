@@ -134,5 +134,6 @@ namespace UnityEngine.UI.Extensions
                 vh.AddUIVertexQuad(SetVbo(new[] { pos0, pos1, pos2, pos3 }, new[] { uv0, uv1, uv2, uv3 }));
             }
         }
+
     }
 }

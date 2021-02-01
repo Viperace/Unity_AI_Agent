@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 051a1c443395af241bc04d617671aae2, type: 2}
     - target: {fileID: 1073273018463963382, guid: 75bcfbcb9fffaa5408feaf667acbe0aa, type: 3}
       propertyPath: m_Name
-      value: Monster 3
+      value: Monster 3 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1073273018463963388, guid: 75bcfbcb9fffaa5408feaf667acbe0aa, type: 3}
       propertyPath: speed
@@ -71,6 +71,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1073273018532835372, guid: 75bcfbcb9fffaa5408feaf667acbe0aa, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d8f900d5948c6ef49bc4dde9ad86778a, type: 2}
     - target: {fileID: 1073273018532835373, guid: 75bcfbcb9fffaa5408feaf667acbe0aa, type: 3}
       propertyPath: m_Enabled
       value: 1
