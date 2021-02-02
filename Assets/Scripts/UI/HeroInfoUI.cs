@@ -64,8 +64,11 @@ public class HeroInfoUI : MonoBehaviour
             if (hit)
             {
                 Debug.Log("Player Click " + hitInfo.transform.gameObject.name);
-                if (hitInfo.transform.CompareTag("Hero") || (hitInfo.transform.parent && hitInfo.transform.parent.CompareTag("Hero")))
+                if ( hitInfo.transform.CompareTag("Hero") || (hitInfo.transform.parent && hitInfo.transform.parent.CompareTag("Hero")))
                 {
+                    // FIME: Ignore FOV.
+                    // If FOV, further check that it is close enough to the main body
+                    
                     // Select this 
                     SelectActor(hitInfo.transform.gameObject);
                     FillDisplay();

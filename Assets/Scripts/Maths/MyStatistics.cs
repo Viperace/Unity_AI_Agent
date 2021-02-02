@@ -26,5 +26,42 @@ public static class MyStatistics
                 return i;        
         return 0;
     }
+
+	// Return lower matrix
+	//https://www.geeksforgeeks.org/cholesky-decomposition-matrix-decomposition/
+	public static float[,] Cholesky_Decomposition(float[,] matrix, int n)
+	{
+		float[,] lower = new float[n, n];
+
+		// Decomposing a matrix
+		// into Lower Triangular
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j <= i; j++)
+			{
+				float sum = 0;
+
+				// summation for diagnols
+				if (j == i)
+				{
+					for (int k = 0; k < j; k++)
+						sum += (float)System.Math.Pow(lower[j, k], 2);
+					lower[j, j] = (float)System.Math.Sqrt(matrix[j, j] - sum);
+				}
+
+				else
+				{
+					// Evaluating L(i, j)
+					// using L(j, j)
+					for (int k = 0; k < j; k++)
+						sum += (lower[i, k] * lower[j, k]);
+					lower[i, j] = (matrix[i, j] - sum) / lower[j, j];
+				}
+			}
+		}
+
+		return lower;
+	}
+
 }
 
