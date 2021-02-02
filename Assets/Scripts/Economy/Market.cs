@@ -9,7 +9,8 @@ public class Market : MonoBehaviour
     public static Market Instance { get { return _instance; } }
 
     Dictionary<Commodity, float> prices = new Dictionary<Commodity, float>();
-	Dictionary<Commodity, float> volatilities = new Dictionary<Commodity, float>();
+    Dictionary<Commodity, float> volatilities = new Dictionary<Commodity, float>();
+    Dictionary<Commodity, float> drifts = new Dictionary<Commodity, float>();
     float _stepSize = 60; // in seconds
     float _stepCooldown;
 	
@@ -30,8 +31,14 @@ public class Market : MonoBehaviour
         prices.Add(Commodity.STEEL, 25);
         prices.Add(Commodity.ORICHALCUM, 500);
 		
-		// Init vol
-		volatilities.Add(Commodity.GOLD, 0);
+	// Init drifts
+	drifts.Add(Commodity.GOLD, 0);
+        drifts.Add(Commodity.ORE, 0);
+        drifts.Add(Commodity.STEEL, 0);
+        drifts.Add(Commodity.ORICHALCUM, 0);		
+	
+	// Init vol
+	volatilities.Add(Commodity.GOLD, 0);
         volatilities.Add(Commodity.ORE, 0.3);
         volatilities.Add(Commodity.STEEL, 0.15);
         volatilities.Add(Commodity.ORICHALCUM, 0.2);		
@@ -59,11 +66,12 @@ public class Market : MonoBehaviour
 		foreach(Commodity comm in Enum.GetValues(typeof(Commodity)))
 		{
 			//Commodity comm = Commodity.ORE;
+			float mu = drifts[comm];
 			float vol = volatilities[comm];
 			float S0 = prices[comm];
 			float dt = _stepSize / Mathf.Sqrt(250);
 			float eps = rng.NextGaussian();
-			float Snew = S0*Mathf.Exp(-0.5*vol*vol*dt + vol*Mathf.Sqrt(dt)*eps);
+			float Snew = S0*Mathf.Exp((mu-0.5*vol*vol)*dt + vol*Mathf.Sqrt(dt)*eps);
 			prices[comm] = Snew;
 		}
 		
