@@ -1,4 +1,7 @@
 using UnityEngine;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using Superbest_random;
 
 /* Stochastics and statistcs
 */
@@ -27,41 +30,67 @@ public static class MyStatistics
         return 0;
     }
 
-	// Return lower matrix
-	//https://www.geeksforgeeks.org/cholesky-decomposition-matrix-decomposition/
-	public static float[,] Cholesky_Decomposition(float[,] matrix, int n)
+	// Useless crap
+	//// Return lower matrix
+	////https://www.geeksforgeeks.org/cholesky-decomposition-matrix-decomposition/
+	//public static float[,] Cholesky_Decomposition(float[,] matrix, int n)
+	//{
+	//	float[,] lower = new float[n, n];
+
+	//	// Decomposing a matrix
+	//	// into Lower Triangular
+	//	for (int i = 0; i < n; i++)
+	//	{
+	//		for (int j = 0; j <= i; j++)
+	//		{
+	//			float sum = 0;
+
+	//			// summation for diagnols
+	//			if (j == i)
+	//			{
+	//				for (int k = 0; k < j; k++)
+	//					sum += (float)System.Math.Pow(lower[j, k], 2);
+	//				lower[j, j] = (float)System.Math.Sqrt(matrix[j, j] - sum);
+	//			}
+
+	//			else
+	//			{
+	//				// Evaluating L(i, j)
+	//				// using L(j, j)
+	//				for (int k = 0; k < j; k++)
+	//					sum += (lower[i, k] * lower[j, k]);
+	//				lower[i, j] = (matrix[i, j] - sum) / lower[j, j];
+	//			}
+	//		}
+	//	}
+
+	//	return lower;
+	//}
+
+
+	// Install mathnet
+	// https://answers.unity.com/questions/462042/unity-and-mathnet.html
+
+	public static float[] GenerateCorrelatedRandomVariables(float[,] corr_matrix, System.Random rng)
 	{
-		float[,] lower = new float[n, n];
+		// Get dimension
+		int n = corr_matrix.GetLength(0);
 
-		// Decomposing a matrix
-		// into Lower Triangular
+		// Create lower diagonal matrix
+		var cormat = Matrix<float>.Build.DenseOfArray(corr_matrix);
+		Matrix<float> Lmat = cormat.Cholesky().Factor;
+		
+		// Create IID RV
+		float[] eps = new float[n];
 		for (int i = 0; i < n; i++)
-		{
-			for (int j = 0; j <= i; j++)
-			{
-				float sum = 0;
+			eps[i] = (float) rng.NextGaussian();
 
-				// summation for diagnols
-				if (j == i)
-				{
-					for (int k = 0; k < j; k++)
-						sum += (float)System.Math.Pow(lower[j, k], 2);
-					lower[j, j] = (float)System.Math.Sqrt(matrix[j, j] - sum);
-				}
+		// Matrix multiplication
+		// Corr RV = L * IID_RV
+		var V = Vector<float>.Build.Dense(eps);
+		Vector<float> corrRV = Lmat * V;
 
-				else
-				{
-					// Evaluating L(i, j)
-					// using L(j, j)
-					for (int k = 0; k < j; k++)
-						sum += (lower[i, k] * lower[j, k]);
-					lower[i, j] = (matrix[i, j] - sum) / lower[j, j];
-				}
-			}
-		}
-
-		return lower;
+		return corrRV.ToArray();
 	}
 
 }
-
