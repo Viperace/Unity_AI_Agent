@@ -54,24 +54,25 @@ public class HeroInfoUI : MonoBehaviour
         // Bottom
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hitInfo = new RaycastHit();
-            bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
-            if (hit)
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition), 200);
+
+            //RaycastHit hitInfo = new RaycastHit();
+            //bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+            for(int i = 0; i < hits.Length; i++)
             {
-                Debug.Log("Player Click " + hitInfo.transform.gameObject.name);
-                if ( hitInfo.transform.CompareTag("Hero") || (hitInfo.transform.parent && hitInfo.transform.parent.CompareTag("Hero")))
+                RaycastHit hitInfo = hits[i];
+                if ( hitInfo.transform.GetComponent<MeshRenderer>() && hitInfo.transform.parent && hitInfo.transform.parent.CompareTag("Hero"))
                 {
-                    // FIME: Ignore FOV.
-                    // If FOV, further check that it is close enough to the main body
-                    
+                    Debug.Log("Player Click " + hitInfo.transform.gameObject.name);
                     // Select this 
                     SelectActor(hitInfo.transform.gameObject);
                     FillDisplay();
+                    break;
                 }
                 else
                     SelectActor(null);
@@ -83,4 +84,5 @@ public class HeroInfoUI : MonoBehaviour
                 panel.gameObject.SetActive(false);
         }
     }
+
 }
