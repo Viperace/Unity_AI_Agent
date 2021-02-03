@@ -104,6 +104,14 @@ public class Market : MonoBehaviour
     {
         return Mathf.RoundToInt(prices[commodity]);
     }
+
+    public int[] GetBidAsk(Commodity commodity)
+    {
+        int bid = Mathf.RoundToInt(prices[commodity]);
+        int ask = Mathf.Max(bid + 1, Mathf.RoundToInt(prices[commodity]*1.05f));
+        int[] bidask = new int[2] { bid, ask };
+        return bidask;
+    }
 }
 
 public enum Commodity
