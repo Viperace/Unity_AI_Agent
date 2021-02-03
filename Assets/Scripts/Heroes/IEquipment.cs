@@ -49,6 +49,14 @@ public class BasicGear : IEquipment
         gears.Add(LoadItem.Instance.SpawnRandomItem());
         return gears;
     }
+    
+    public static BasicGear CreateFromBlueprint(Blueprint blueprint)
+    {
+        BasicGear gear = new BasicGear(blueprint.name, 
+            blueprint.rarity, blueprint.slot, blueprint.attack, blueprint.defend, 
+            blueprint.attackBonus, blueprint.defendBonus, blueprint.durability);		
+        return gear;
+    }
 }
 
 public enum Rarity
