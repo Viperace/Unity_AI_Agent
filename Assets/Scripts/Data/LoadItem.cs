@@ -6,7 +6,8 @@ public class LoadItem : MonoBehaviour
 {
     static LoadItem _instance;
 
-    GearDataArray allgears;
+    public GearDataArray gearsData { get; private set; }
+    public List<GameObject> allGearPrefabs;
     public static LoadItem Instance
     {
         get
@@ -22,13 +23,13 @@ public class LoadItem : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         TextAsset jsonFile = Resources.Load("items") as TextAsset;
-        allgears = JsonUtility.FromJson<GearDataArray>(jsonFile.text);
+        gearsData = JsonUtility.FromJson<GearDataArray>(jsonFile.text);
     }
 
 
     public BasicGear Spawn(string name)
     {
-        foreach (GearJsonData x in allgears.gears)
+        foreach (GearJsonData x in gearsData.gears)
             if (x.name == name)
                 return GearJsonData.Spawn(x);
         return null;
@@ -36,9 +37,20 @@ public class LoadItem : MonoBehaviour
 
     public BasicGear SpawnRandomItem()
     {
-        int roll = Random.Range(0, allgears.gears.Length);
-        return GearJsonData.Spawn(allgears.gears[roll]);
+        int roll = Random.Range(0, gearsData.gears.Length);
+        return GearJsonData.Spawn(gearsData.gears[roll]);
     }
+
+    // Exact name
+    public GameObject GetPrefabByName(string name)
+    {
+        foreach (GameObject g in allGearPrefabs)
+            if (string.Equals(g.name, name, System.StringComparison.OrdinalIgnoreCase))
+                return g;
+
+        return null;
+    }
+
 }
 
 
