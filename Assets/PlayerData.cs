@@ -13,6 +13,7 @@ public class PlayerData : MonoBehaviour
     public int ore { get; set; }
     public int steel { get; set; }
     public int orichalcum { get; set; }
+    public int coal { get; set; }
     public List<BasicGear> stashedItems { get; private set; }
     public List<BasicGear> itemsOnSales { get; private set; }
 
@@ -78,6 +79,9 @@ public class PlayerData : MonoBehaviour
             case Commodity.ORICHALCUM:
                 orichalcum += quantity;
                 break;
+            case Commodity.COAL:
+                coal += quantity;
+                break;
         }
     }
 
@@ -93,6 +97,8 @@ public class PlayerData : MonoBehaviour
                 return steel;
             case Commodity.ORICHALCUM:
                 return orichalcum;
+            case Commodity.COAL:
+                return coal;
         }
 
         return 0;

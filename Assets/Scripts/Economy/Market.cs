@@ -33,18 +33,21 @@ public class Market : MonoBehaviour
         // Init price
         prices.Add(Commodity.GOLD, 1);
         prices.Add(Commodity.ORE, 5);
+        prices.Add(Commodity.COAL, 8);
         prices.Add(Commodity.STEEL, 25);
         prices.Add(Commodity.ORICHALCUM, 500);
 
         // Init drifts
         drifts.Add(Commodity.GOLD, 0);
         drifts.Add(Commodity.ORE, 0);
+        drifts.Add(Commodity.COAL, 0);
         drifts.Add(Commodity.STEEL, 0);
         drifts.Add(Commodity.ORICHALCUM, 0);
 
         // Init vol
         volatilities.Add(Commodity.GOLD, 0);
         volatilities.Add(Commodity.ORE, 0.3f);
+        volatilities.Add(Commodity.COAL, 0.18f);
         volatilities.Add(Commodity.STEEL, 0.15f);
         volatilities.Add(Commodity.ORICHALCUM, 0.2f);
 
@@ -116,5 +119,6 @@ public class Market : MonoBehaviour
 
 public enum Commodity
 {
-    GOLD, ORE, STEEL, ORICHALCUM
+    GOLD, ORE, STEEL, ORICHALCUM, 
+    COAL
 }

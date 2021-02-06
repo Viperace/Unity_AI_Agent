@@ -50,8 +50,9 @@ public class StashSizeControl : MonoBehaviour
         go.transform.localPosition = new Vector3(0, 0, -100);
         go.transform.localScale = Vector3.one * 150; 
 
-        // Addcomp
+        // Add component
         go.AddComponent<RotateIfOnUI>();
+        go.AddComponent<DragTransform>();
 
     }
 

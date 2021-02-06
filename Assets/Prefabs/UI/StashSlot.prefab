@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 8869686074721104670}
   - component: {fileID: 8869686074721104671}
   - component: {fileID: 8869686074721104657}
+  - component: {fileID: 7121948106794531738}
   m_Layer: 5
   m_Name: StashSlot
   m_TagString: Untagged
@@ -491,5 +492,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f2a5bc35b64755409b6f1c5b3091c45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7121948106794531738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8869686074721104669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed45afa1058093140ae507d398f15218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

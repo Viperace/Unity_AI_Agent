@@ -18,6 +18,7 @@ public class StashUIItemsManager : MonoBehaviour
 
     Dictionary<BasicGear, GameObject> dataToUIDictionary; // Record that match player data with actual UI
 
+    Coroutine runningCoroutine;
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -30,7 +31,10 @@ public class StashUIItemsManager : MonoBehaviour
 
     void Start()
     {
-        stashControl = FindObjectOfType<StashSizeControl>();        
+        stashControl = FindObjectOfType<StashSizeControl>();
+
+        // Populate
+        runningCoroutine = StartCoroutine(UpdateStashCoroutine());
     }
 
     void OnEnable()
@@ -39,8 +43,10 @@ public class StashUIItemsManager : MonoBehaviour
         if(stashControl)
             stashControl.RearrangeItems();
 
-        // Populate
-        StartCoroutine(UpdateStashCoroutine());
+        // Stop start
+        if(runningCoroutine != null)
+            StopCoroutine(runningCoroutine);            
+        runningCoroutine = StartCoroutine(UpdateStashCoroutine());
     }
 
     // Periodically call UpdateStashItems
@@ -48,7 +54,7 @@ public class StashUIItemsManager : MonoBehaviour
     {
         yield return null;
         while (true)
-        {
+        {            
             UpdateStashItems();
             yield return new WaitForSeconds(updatePeriod);
         }

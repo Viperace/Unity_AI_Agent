@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 public class StashSlot : MonoBehaviour
 {
@@ -9,6 +6,8 @@ public class StashSlot : MonoBehaviour
     public TMP_Text infoText { get; private set; }
     public TMP_Text bottomText { get; private set; }
 
+    BasicGear gear;
+    GearTextDisplay gearTextDisplay;
     private void Start()
     {
         headerText = transform.Find("HeaderText").GetComponent<TMP_Text>();
@@ -34,11 +33,11 @@ public class StashSlot : MonoBehaviour
         {
             GameObject itemInSlot = meshRenderer.gameObject;
 
-            BasicGear gear = StashUIItemsManager.Instance.GetDataFromUIgameObject(itemInSlot);
-            Debug.Log("Gear found " + gear.name);
+            gear = StashUIItemsManager.Instance.GetDataFromUIgameObject(itemInSlot);
+            gearTextDisplay = new GearTextDisplay(gear);
 
-            headerText.text = gear.name;
-            infoText.text = gear.attack.ToString();
+            headerText.text = gearTextDisplay.ColoredName();
+            infoText.text = gearTextDisplay.ColoredStat();
             bottomText.text = "100g";
         }
         else
