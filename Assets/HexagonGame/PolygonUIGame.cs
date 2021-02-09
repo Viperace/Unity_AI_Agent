@@ -7,32 +7,18 @@ using TMPro;
 public class PolygonUIGame : MonoBehaviour
 {
     List<Button> buttons;
-    List<TMP_Text> labelTexts;
     [SerializeField] UIPolygon targetHex;
     [SerializeField] UIPolygon currentHex;
     [SerializeField] UIPolygon backgroundHex;
     [SerializeField] float triggerPercentage = 0.1f;
-    Polygon target;
-    Polygon current;
-    int maxValue = 6;
+    [SerializeField] int maxValue = 6;
+    public Polygon target { get; private set; }
+    public Polygon current { get; private set; }
     int minValue = 1;
     int _currentNvertices;
 
     public float score { get; private set; }
 
-    void Start()
-    {
-        
-    }
-
-    void LateUpdate()
-    {
-        if (current != null && labelTexts != null)
-            for (int i = 0; i < labelTexts.Count; i++)
-            {
-                labelTexts[i].text = string.Concat(current.hexagonValues[i], "/6");
-            }
-    }
 
     /// <summary>
     /// This is to overcome the very odd bug. UIPolygon will NOT RESPECT set vertices at first load of new vertices. We need to wait for X frames or time, and reload it
@@ -77,10 +63,6 @@ public class PolygonUIGame : MonoBehaviour
         StartCoroutine(_ForcedUpdateUI(backgroundHex, Polygon.MaxValue(N, maxValue)));
         StartCoroutine(_ForcedUpdateUI(targetHex, target));
         StartCoroutine(_ForcedUpdateUI(currentHex, current));
-
-        //_TestdUpdateUI(backgroundHex, Polygon.MaxValue(N, maxValue));
-        //_TestdUpdateUI(targetHex, target);
-        //_TestdUpdateUI(currentHex, current);
     }
 
     public void _PushButton(int i)
@@ -138,21 +120,22 @@ public class PolygonUIGame : MonoBehaviour
         if (current != null)
         {
             int n = current.hexagonValues.Length;
-            float score = 0;
+            float deviation = 0;
             for (int i = 0; i < n; i++)
-                score += current.hexagonValues[i] - target.hexagonValues[i];
+                deviation += Mathf.Abs(current.hexagonValues[i] - target.hexagonValues[i]);
 
-            //score /= n;
+            float score = 1f - deviation / ((float) maxValue * n);
+
             return score;
         }
         else
-            return -1;
+            return 0f;
     }
 }
 
 
 
-class Polygon
+public class Polygon
 {
     // Start with topright
     public int[] hexagonValues { get; private set; }

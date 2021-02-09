@@ -34,8 +34,8 @@ public class SpawnPolygonButtons : MonoBehaviour
         List<Vector2> pos = new List<Vector2>();
         for(int i = 0; i < N; i++)
         {
-            float x = (_radius + _radiusOffset) * Mathf.Cos(angle * i);
-            float y = (_radius + _radiusOffset) * Mathf.Sin(angle * i);
+            float x = -(_radius + _radiusOffset) * Mathf.Cos(angle * i);
+            float y = -(_radius + _radiusOffset) * Mathf.Sin(angle * i);
             pos.Add(new Vector2(x, y));
         }
 
@@ -64,10 +64,16 @@ public class SpawnPolygonButtons : MonoBehaviour
     TMP_Text[] SpawnTextsAroundCorners()
     {
         List<TMP_Text> buttons = new List<TMP_Text>();
-        foreach (Vector2 pos in _cornerLocations)
+        for (int i = 0; i < _cornerLocations.Length; i++)
         {
+            Vector2 pos = _cornerLocations[i];
             TMP_Text t = Instantiate<TMP_Text>(cornerTextPrefab, this.transform);
             t.GetComponent<RectTransform>().localPosition = pos + new Vector2(0, _textYOffset);
+
+            // Set the button index
+            PolygonCornerText cornerText = t.GetComponent<PolygonCornerText>();
+            cornerText.SetCornerIndex(i);
+
             buttons.Add(t);
         }
         return buttons.ToArray();
@@ -76,13 +82,21 @@ public class SpawnPolygonButtons : MonoBehaviour
     TMP_Text[] SpawnTextsBelowButtons()
     {
         List<TMP_Text> texts = new List<TMP_Text>();
-        foreach (Button btn in _buttons)
+        //foreach (Button btn in _buttons)
+        for (int i = 0; i < _buttons.Length; i++)
+        {
+            Button btn = _buttons[i];
             if (btn != null)
             {
                 TMP_Text t = Instantiate<TMP_Text>(cornerTextPrefab, btn.transform);
                 t.GetComponent<RectTransform>().localPosition = new Vector2(0, _textYOffset);
                 texts.Add(t);
+
+                // Set the button index
+                PolygonCornerText cornerText = t.GetComponent<PolygonCornerText>();
+                cornerText.SetCornerIndex(i);
             }
+        }
         return texts.ToArray();
     }
 

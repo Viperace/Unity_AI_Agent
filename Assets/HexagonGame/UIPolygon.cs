@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace UnityEngine.UI.Extensions
 {
-    [ExecuteAlways]
+    //[ExecuteAlways]
     [AddComponentMenu("UI/Extensions/Primitives/UI Polygon")]
     public class UIPolygon : MaskableGraphic
     {
