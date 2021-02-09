@@ -14,7 +14,7 @@ public class PolygonUIGame : MonoBehaviour
     [SerializeField] int maxValue = 6;
     public Polygon target { get; private set; }
     public Polygon current { get; private set; }
-    int minValue = 1;
+    int minValue = 2;
     int _currentNvertices;
 
     public float score { get; private set; }
@@ -26,14 +26,21 @@ public class PolygonUIGame : MonoBehaviour
     /// </summary>
     public void NewGame(int N = 6)
     {
+        // Draw UI
         StartCoroutine(NewGameUnfix(N));
         StartCoroutine(NewGameUnfix(N, 5));
 
+        // Spawn buttons
         SpawnPolygonButtons spawnButtons = GetComponentInChildren<SpawnPolygonButtons>();
         if (spawnButtons)
             spawnButtons.SpawnButtonsForNewGame(N);
+
+        // Draw background lines
+        DrawPolygonBackgroundLines draw = GetComponentInChildren<DrawPolygonBackgroundLines>();
+        if (draw)
+            draw.InitBackgroundLines(maxValue, N);
     }
-    IEnumerator NewGameUnfix(int N, float nFrame=1)
+    IEnumerator NewGameUnfix(int N, float nFramesToSkip = 1)
     {
         _currentNvertices = N;
         
@@ -53,7 +60,7 @@ public class PolygonUIGame : MonoBehaviour
         backgroundHex.sides = N;
 
         // Wait for N frames
-        for(int i = 0; i < nFrame; i++)
+        for(int i = 0; i < nFramesToSkip; i++)
             yield return null;
 
         // Refresh
