@@ -82,7 +82,6 @@ public class SpawnPolygonButtons : MonoBehaviour
     TMP_Text[] SpawnTextsBelowButtons()
     {
         List<TMP_Text> texts = new List<TMP_Text>();
-        //foreach (Button btn in _buttons)
         for (int i = 0; i < _buttons.Length; i++)
         {
             Button btn = _buttons[i];
@@ -95,6 +94,9 @@ public class SpawnPolygonButtons : MonoBehaviour
                 // Set the button index
                 PolygonCornerText cornerText = t.GetComponent<PolygonCornerText>();
                 cornerText.SetCornerIndex(i);
+
+                // TODO: Cap the position of text to prevent out of bound
+                //t.rectTransform.position = new Vector2(t.rectTransform.position.x, )
             }
         }
         return texts.ToArray();

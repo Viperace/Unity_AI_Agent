@@ -9,6 +9,7 @@ public class _HexScoreText : MonoBehaviour
     void Start()
     {
         scoreText = GetComponent<Text>();
+
     }
 
     // Update is called once per frame
@@ -16,7 +17,7 @@ public class _HexScoreText : MonoBehaviour
     {
         if (polygonGame)
         {
-            scoreText.text = Mathf.RoundToInt(polygonGame.score * 100).ToString();
+            scoreText.text = Mathf.RoundToInt(polygonGame.score).ToString();
         }
         else
             scoreText.text = "-";

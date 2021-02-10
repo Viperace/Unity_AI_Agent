@@ -12,10 +12,16 @@ public class PolygonUIGame : MonoBehaviour
     [SerializeField] UIPolygon backgroundHex;
     [SerializeField] float triggerPercentage = 0.1f;
     [SerializeField] int maxValue = 6;
+
+    PolygonGameScorer scorer;
+    GameState gameState = GameState.RUNNING;
+
+    public delegate void OnGameOver();
+    public event OnGameOver onGameover; 
+
     public Polygon target { get; private set; }
     public Polygon current { get; private set; }
     int minValue = 2;
-    int _currentNvertices;
 
     public float score { get; private set; }
 
@@ -39,11 +45,16 @@ public class PolygonUIGame : MonoBehaviour
         DrawPolygonBackgroundLines draw = GetComponentInChildren<DrawPolygonBackgroundLines>();
         if (draw)
             draw.InitBackgroundLines(maxValue, N);
+
+        // Set scorer
+        scorer = new PolygonGameScorer(current, target);
+
+        // Init
+        gameState = GameState.RUNNING;
+        onGameover = null;
     }
     IEnumerator NewGameUnfix(int N, float nFramesToSkip = 1)
     {
-        _currentNvertices = N;
-        
         // Randomize hex to solve        
         target = new Polygon(N);
         for (int i = 0; i < N; i++)
@@ -72,6 +83,11 @@ public class PolygonUIGame : MonoBehaviour
         StartCoroutine(_ForcedUpdateUI(currentHex, current));
     }
 
+    public void QuitGame()
+    {
+        ExecuteEndGame();
+    }
+
     public void _PushButton(int i)
     {
         if (current != null && current.hexagonValues.Length >= i)
@@ -96,10 +112,10 @@ public class PolygonUIGame : MonoBehaviour
         this.score = GetScore();
 
         // Update UI        
-        _TestdUpdateUI(currentHex, current);
+        UpdateCurrentPolygon(currentHex, current);
     }
 
-    void _TestdUpdateUI(UIPolygon hexUI, Polygon hexvalue)
+    void UpdateCurrentPolygon(UIPolygon hexUI, Polygon hexvalue)
     {
         hexUI.SetVerticesDirty();
 
@@ -124,23 +140,41 @@ public class PolygonUIGame : MonoBehaviour
     // The lowest the better
     float GetScore()
     {
-        if (current != null)
-        {
-            int n = current.hexagonValues.Length;
-            float deviation = 0;
-            for (int i = 0; i < n; i++)
-                deviation += Mathf.Abs(current.hexagonValues[i] - target.hexagonValues[i]);
-
-            float score = 1f - deviation / ((float) maxValue * n);
-
-            return score;
-        }
-        else
-            return 0f;
+        return scorer.GetScore();
     }
+
+    void Update()
+    {
+        if (gameState == GameState.RUNNING)
+        {
+            // Check if game completed
+            if(scorer != null)
+                if (score == 10 || scorer.AllFulfilled()) 
+                    ExecuteEndGame();
+        }
+    }
+
+    void ExecuteEndGame()
+    {
+        gameState = GameState.END;
+
+        // Calculate rewards
+
+        // Do release control
+        if (onGameover != null)
+            onGameover();
+
+        // Do 
+        Debug.Log("HexGame completed. Your score is " + score);
+    }
+
 }
 
-
+enum GameState
+{
+    RUNNING,
+    END
+}
 
 public class Polygon
 {
