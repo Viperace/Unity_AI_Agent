@@ -23,16 +23,17 @@ public class GearTextDisplay
         Color[] palettes = ColorPalette.Instance.ItemTextTheme;
         string legendaryColor = ColorToHex(palettes[0]);
         string commonColor = ColorToHex(palettes[1]);
+        string exceptionalColor = ColorToHex(palettes[2]);
 
         switch (basicGear.rarity)
         {
-            case Rarity.COMMON:
-                return string.Concat("<color=#", commonColor, ">", basicGear.name, "</color>");
+            case Rarity.EXCEPTIONAL:
+                return string.Concat("<color=#", exceptionalColor, ">", basicGear.name, "</color>");
             case Rarity.LEGENDARY:
                 return string.Concat("<color=#", legendaryColor, ">", basicGear.name , "</color>");
+            default:
+                return string.Concat("<color=#", commonColor, ">", basicGear.name, "</color>");
         }
-
-        return "";
     }
 
     public string ColoredAttack()

@@ -72,7 +72,7 @@ public class StashUIItemsManager : MonoBehaviour
                 // Check if UI contain this already, if so skip. Else, spawn
                 if (!dataToUIDictionary.ContainsKey(gear))
                 {
-                    GameObject prefabToLoad = LoadItem.Instance.GetPrefabByName(gear.name);
+                    GameObject prefabToLoad = LoadItem.Instance.GetPrefabByName(gear.prefabName);
                     if (prefabToLoad == null)
                         prefabToLoad = defaultPrefab;
                     // Todo decide UI Effects

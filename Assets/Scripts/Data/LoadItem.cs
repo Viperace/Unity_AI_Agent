@@ -7,7 +7,7 @@ public class LoadItem : MonoBehaviour
     static LoadItem _instance;
 
     public GearDataArray gearsData { get; private set; }
-    public List<GameObject> allGearPrefabs;
+    [SerializeField] List<GameObject> allGearPrefabs;
     public static LoadItem Instance
     {
         get
@@ -73,12 +73,19 @@ public class GearJsonData
     public int level;
     public int star;
     public int starCap;
+    // Cost
+    public int ore;
+    public int steel;
+    public int coal;
+    public int orichalcum;
+    // stat
     public int baseAttack;
     public int baseDefend;
     public float attackMod;
     public float defendMod;
     public int durabilityCap;
     public int basePrice;
+    public string PrefabFile;
 
     public static BasicGear Spawn(GearJsonData data)
     {
@@ -86,12 +93,13 @@ public class GearJsonData
 
         // Fill in 
         basicGear.name = data.name;
-        basicGear.rarity = Rarity.COMMON;
+        basicGear.rarity = stringToRarity(data.grade);
         basicGear.attack = data.baseAttack;
         basicGear.defend = data.baseDefend;
         basicGear.attackBonus = data.attackMod;
         basicGear.defendBonus = data.defendMod;
         basicGear.durability = data.durabilityCap;
+        basicGear.prefabName = data.PrefabFile;
 
         if (data.weaponOrArmor == "Weapon")
         {
@@ -104,7 +112,6 @@ public class GearJsonData
                 Debug.Log("Unknown weapon hand");
                 basicGear.slot = EquipmentSlot.RIGHT_HAND;
             }
-                
         }
         else
         {
@@ -119,4 +126,16 @@ public class GearJsonData
         return basicGear;
     }
 
+    public static Rarity stringToRarity(string x)
+    {
+        int numOfRarity = System.Enum.GetNames(typeof(Rarity)).Length;
+        for (int i = 0; i < numOfRarity; i++)
+        {
+            Rarity rarity = (Rarity)i;
+            if (x.ToUpper().Equals(rarity.ToString()))
+                return rarity;
+        }
+
+        return Rarity.COMMON;
+    }
 }

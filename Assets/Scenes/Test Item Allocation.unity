@@ -183,7 +183,7 @@ MonoBehaviour:
   m_text: Take Item
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1111,6 +1111,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 209671840, guid: ffe834524e203524abfa23566e8d8f64, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 209671840, guid: ffe834524e203524abfa23566e8d8f64, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 209671840, guid: ffe834524e203524abfa23566e8d8f64, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 209671840, guid: ffe834524e203524abfa23566e8d8f64, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6979748020023312451, guid: ffe834524e203524abfa23566e8d8f64, type: 3}
       propertyPath: m_Name
       value: HUDCanvas
@@ -2821,14 +2837,14 @@ MonoBehaviour:
   m_text: Give Item
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10608,192 +10624,192 @@ PrefabInstance:
       objectReference: {fileID: 4300000, guid: f6b14acc9fb15b64ea25db8182ec3e95, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.size
-      value: 59
+      value: 46
       objectReference: {fileID: 0}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 191248, guid: 33dcf8e45a480524f87f4af6f7f6df03, type: 3}
+      objectReference: {fileID: 2937329587390384376, guid: 0448366e86683f94886fbac5b94e6762, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 136552, guid: c70288e2b17ad224f9c592a3778b15f7, type: 3}
+      objectReference: {fileID: 8579576069400509247, guid: 18829bc3882a72b4cab5e43f8b6c1a00, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[2]
       value: 
-      objectReference: {fileID: 114716, guid: c53a198160d4f8243ab18028168d214f, type: 3}
+      objectReference: {fileID: 1288720008879956254, guid: fe01eff85b7125347b36d80c6aba688e, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[3]
       value: 
-      objectReference: {fileID: 199242, guid: 4e9e8b7425f52c849bc77e4ff046a634, type: 3}
+      objectReference: {fileID: 7884222769148389488, guid: 37684ec5aad2fe74c81d85cb1b4656ea, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[4]
       value: 
-      objectReference: {fileID: 134768, guid: 8dc48a4e52f842c468f8ebcf580e0730, type: 3}
+      objectReference: {fileID: 4832859685319371893, guid: 728bf4b2cb8b14e45aecd741ee88b717, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[5]
       value: 
-      objectReference: {fileID: 162502, guid: 49e5fa70d91a1fa43a20d3753b6ca736, type: 3}
+      objectReference: {fileID: 755316009301092529, guid: 150cd9e8bbdee0744b32d43de5100b52, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[6]
       value: 
-      objectReference: {fileID: 150326, guid: 8e5fc5a880dc5d64da57194722c9b657, type: 3}
+      objectReference: {fileID: 8923166443692718892, guid: 11ffec00627e7fc40acdae5953053d39, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[7]
       value: 
-      objectReference: {fileID: 114616, guid: f7ad6d62a7c36204bb9660d95e93fcf3, type: 3}
+      objectReference: {fileID: 4456871765443038361, guid: b3dec3e84be192d42815758dd4dd2ba0, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[8]
       value: 
-      objectReference: {fileID: 138482, guid: fdf12632d1fe24a4eab7f99cc6588597, type: 3}
+      objectReference: {fileID: 5550367497172637194, guid: 38413c6caa2870f4a96f82dd2fa5f28a, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[9]
       value: 
-      objectReference: {fileID: 104448, guid: d9180e977e7f5624abe455fc98a39729, type: 3}
+      objectReference: {fileID: 54876007100006954, guid: 353fc6c2d5b9eb740b29333b4e70838a, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[10]
       value: 
-      objectReference: {fileID: 166046, guid: d19c730e9dbd1d04c8c16b05f104a766, type: 3}
+      objectReference: {fileID: 2801576915494984593, guid: 940a207c7eca4cf4c925680510858e9f, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[11]
       value: 
-      objectReference: {fileID: 174438, guid: 0272f4ead49dc7e4795783083986c751, type: 3}
+      objectReference: {fileID: 6790320395499735289, guid: f3f6df95701d18440b28de8f9616259e, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[12]
       value: 
-      objectReference: {fileID: 140650, guid: 8df54da4fc1792b44bbd595abdf84efa, type: 3}
+      objectReference: {fileID: 7885250177432759583, guid: 780f7b295f2b5ee40837b3531f640ebd, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[13]
       value: 
-      objectReference: {fileID: 162082, guid: b9e03d3b76ac17c4eb746d147bab1089, type: 3}
+      objectReference: {fileID: 3729903554447345442, guid: c269e1c9d90e80041bd25104ad8ec414, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[14]
       value: 
-      objectReference: {fileID: 100970, guid: 18d854d94b01688468d7957254974ccb, type: 3}
+      objectReference: {fileID: 5246916546405645711, guid: 0204c7c914b55a240b960c3608b4cc59, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[15]
       value: 
-      objectReference: {fileID: 196956, guid: d94ef9db8548e114eae3d54defe17d4c, type: 3}
+      objectReference: {fileID: 2091522634552855, guid: 53bee3c6f219fe14193f2e86b5de9314, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[16]
       value: 
-      objectReference: {fileID: 131832, guid: fae18266d7d0ba64e89f5c0056b84bcd, type: 3}
+      objectReference: {fileID: 4254109262783648312, guid: 94f5c6b06582d9949b704f7322178900, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[17]
       value: 
-      objectReference: {fileID: 107444, guid: 6438e8bd11efdd446abcfbdb080351a7, type: 3}
+      objectReference: {fileID: 5905163016958530216, guid: 93cb26270b0df374885088afbf88c901, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[18]
       value: 
-      objectReference: {fileID: 194386, guid: 04a1662158c6b284c9b5f6146c52ac51, type: 3}
+      objectReference: {fileID: 2561471179181022200, guid: bf1f5406df63fd3449888e3da02798f3, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[19]
       value: 
-      objectReference: {fileID: 198108, guid: e6be97378a020554594c4e2a796dd2b7, type: 3}
+      objectReference: {fileID: 2130277585192262940, guid: 019a9123fd6c42e4ea3174d23ef67d82, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[20]
       value: 
-      objectReference: {fileID: 175602, guid: 921bea7d268089a43b74d80185e7e1ec, type: 3}
+      objectReference: {fileID: 5486613501476875680, guid: 43882737d12aa7341b64151f1b59bb41, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[21]
       value: 
-      objectReference: {fileID: 181596, guid: fc49fd51095a1224e9ebde81b11cab39, type: 3}
+      objectReference: {fileID: 3786739178996342394, guid: 920ebdabdb894e14ebf285c864e1581e, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[22]
       value: 
-      objectReference: {fileID: 195022, guid: ed12d348ca017b540bf6a4163bea5491, type: 3}
+      objectReference: {fileID: 5814488999548728127, guid: b6fc4556ec8521044913e57219a57c2b, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[23]
       value: 
-      objectReference: {fileID: 167814, guid: f74df35cc3be2084f8325821e3127c86, type: 3}
+      objectReference: {fileID: 4697469305827586308, guid: 1450909efc26c3348ae5d156154d0c11, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[24]
       value: 
-      objectReference: {fileID: 127198, guid: 166d2af8f8b1fc84581cd73f26fa007d, type: 3}
+      objectReference: {fileID: 7216051509567029984, guid: c4c08cc0462483f4c9987287c9668402, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[25]
       value: 
-      objectReference: {fileID: 117498, guid: 2bb70e0d84e4a1947a1370fedc648f67, type: 3}
+      objectReference: {fileID: 6730263550615478507, guid: a651024f3e1946e4b8366acd998f8448, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[26]
       value: 
-      objectReference: {fileID: 117750, guid: dd23dd5337adeb445b653355b59a6768, type: 3}
+      objectReference: {fileID: 7684938601087893205, guid: e7257cb6a36f80740b7833512f705cb3, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[27]
       value: 
-      objectReference: {fileID: 106122, guid: 9178a69be76fb464695c51245a44961b, type: 3}
+      objectReference: {fileID: 8045813045101532338, guid: 3d1c2290e4a7171458befd7ff4b83126, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[28]
       value: 
-      objectReference: {fileID: 138756, guid: 367c4d4f1a265ea489180c95e5961142, type: 3}
+      objectReference: {fileID: 8630407156382655951, guid: 1cce6358e6a32a1418dd048b689961a0, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[29]
       value: 
-      objectReference: {fileID: 172054, guid: 13afb61a226d61848a65611c55564c7e, type: 3}
+      objectReference: {fileID: 608153130429934410, guid: 605c6cb8639477048bedbcbe69019753, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[30]
       value: 
-      objectReference: {fileID: 123784, guid: f4799da8bfe256c4e983f03ece908e91, type: 3}
+      objectReference: {fileID: 8408468807574053137, guid: ae93f72fb3db0f14e819cb508c580ffe, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[31]
       value: 
-      objectReference: {fileID: 175474, guid: dde1acb417f6afa428c5a1d207c1fe68, type: 3}
+      objectReference: {fileID: 8232175174284193795, guid: c74413c41ac45c341b9cbd998ee1c218, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[32]
       value: 
-      objectReference: {fileID: 108170, guid: 542d85348e5d7124aaf7d0f70c7d9cf8, type: 3}
+      objectReference: {fileID: 6052968958422443835, guid: c6995b06e2c78ec45916eab98deec2aa, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[33]
       value: 
-      objectReference: {fileID: 172134, guid: 0519869719e4293478fbe89b43019864, type: 3}
+      objectReference: {fileID: 3522118445646132063, guid: f9863180fa12628458e9dafe2db7c56c, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[34]
       value: 
-      objectReference: {fileID: 102954, guid: a459190f1f5e5ed4d854b306fb2c9b43, type: 3}
+      objectReference: {fileID: 7113399305903001007, guid: 8f7be60656f4893448330814704100f0, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[35]
       value: 
-      objectReference: {fileID: 139614, guid: 6ee9cd4229c740b4c92f35b16db8750b, type: 3}
+      objectReference: {fileID: 3510069703974860497, guid: b2b9496a03519ee47bfcb7545535cf4a, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[36]
       value: 
-      objectReference: {fileID: 188562, guid: faa130e366022e34c85cd0ebb056e8d4, type: 3}
+      objectReference: {fileID: 3095737493141349895, guid: c2f5472c1a96a4a44a3b7475a65b3989, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[37]
       value: 
-      objectReference: {fileID: 117736, guid: 08efdc5d371b7874c8adcddf28245f8d, type: 3}
+      objectReference: {fileID: 3796016820131541374, guid: 5bebe63d48bed4746bf23a8e1fa641f0, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[38]
       value: 
-      objectReference: {fileID: 166300, guid: 117e7d0bbafc64445bc82a0aca3d4d89, type: 3}
+      objectReference: {fileID: 6166434439667854140, guid: 62cd3279d852f0d4898b686a3c526b39, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[39]
       value: 
-      objectReference: {fileID: 176438, guid: 6ebc2e12ac6d08043aaf350a25fee088, type: 3}
+      objectReference: {fileID: 2288751557149848934, guid: 133d30634bf51c34f862b4ebe7ca6eb7, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[40]
       value: 
-      objectReference: {fileID: 190628, guid: 2fee0b0d23ab05449b372524f3bf54fe, type: 3}
+      objectReference: {fileID: 6603897274093494572, guid: 6fe5ffa077fe92a4daa73138aff35670, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[41]
       value: 
-      objectReference: {fileID: 118916, guid: 2e503b479f0c2274c8420107a5a1c2fa, type: 3}
+      objectReference: {fileID: 8631031128442699218, guid: d01860ab9e54ac1428ea61f26316f930, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[42]
       value: 
-      objectReference: {fileID: 150228, guid: 2c7ab8cbb59b06a41a07126a90ef7be2, type: 3}
+      objectReference: {fileID: 7509629971082449493, guid: 6e9f7dd044970c14093f7147d67c46ed, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[43]
       value: 
-      objectReference: {fileID: 124264, guid: c12b268c1b2b102439e545b7590dd4d2, type: 3}
+      objectReference: {fileID: 2013070968729165074, guid: b435f4242426f6a499dd73c55ecf440c, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[44]
       value: 
-      objectReference: {fileID: 130656, guid: 2797b9cde2aeb8f45b5d85077aa6c209, type: 3}
+      objectReference: {fileID: 8591133996767404608, guid: 9c278000f98f81d41aa72669d9a09c96, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[45]
       value: 
-      objectReference: {fileID: 157226, guid: 427e558955764e5458de66961f1bef4f, type: 3}
+      objectReference: {fileID: 313242650714260329, guid: ead8c817b4104454cb99a85c002107f0, type: 3}
     - target: {fileID: 1537325772824492905, guid: 99e98388f2218fb47a78712bb9939d83, type: 3}
       propertyPath: allGearPrefabs.Array.data[46]
       value: 
@@ -11441,10 +11457,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8603497145975368893, guid: 996b245d7b4678d49b9be5cc05b85083, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8603497146643286047, guid: 996b245d7b4678d49b9be5cc05b85083, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8603497146643921624, guid: 996b245d7b4678d49b9be5cc05b85083, type: 3}

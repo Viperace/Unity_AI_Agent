@@ -16,6 +16,7 @@ public class BasicGear : IEquipment
     public float attackBonus; // Percentage. default = 0%
     public float defendBonus;
     public float durability;  // 0 to 1
+    public string prefabName;
     public BasicGear() 
     {
         name = "";
@@ -26,9 +27,10 @@ public class BasicGear : IEquipment
         attackBonus = 0;
         defendBonus = 0;
         durability = 1f;
+        prefabName = "";
     }
     public BasicGear(string name, Rarity rarity, EquipmentSlot slot, int attack, int defend, 
-        float attackBonus = 0, float defendBonus = 0, float durability = 1f)
+        float attackBonus = 0, float defendBonus = 0, float durability = 1f, string prefabName="")
     {
         this.name = name;
         this.rarity = rarity;
@@ -38,6 +40,7 @@ public class BasicGear : IEquipment
         this.attackBonus = attackBonus;
         this.defendBonus = defendBonus;
         this.durability = durability;
+        this.prefabName = prefabName;
     }
     public static List<BasicGear> GenerateBasicEquipments()
     {        
@@ -54,14 +57,17 @@ public class BasicGear : IEquipment
     {
         BasicGear gear = new BasicGear(blueprint.name, 
             blueprint.rarity, blueprint.slot, blueprint.attack, blueprint.defend, 
-            blueprint.attackBonus, blueprint.defendBonus, blueprint.durability);		
+            blueprint.attackBonus, blueprint.defendBonus, blueprint.durability, blueprint.prefabName);		
         return gear;
     }
 }
 
 public enum Rarity
 {
-    COMMON = 0,
+    CRUDE = 0,
+    COMMON,
+    FINE,
+    EXCEPTIONAL,
     LEGENDARY
 }
 public enum EquipmentSlot

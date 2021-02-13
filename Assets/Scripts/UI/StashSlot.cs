@@ -16,22 +16,23 @@ public class StashSlot : MonoBehaviour
     }
 
     float _cooldown = 0;
+    float _updatePeriod = 0.25f;
     private void LateUpdate()
     {
         if(_cooldown < 0)
         {
             UpdateItemInfo();
-            _cooldown = 1f;
+            _cooldown = _updatePeriod;
         }
         _cooldown -= Time.deltaTime;
     }
     void UpdateItemInfo()
     {
-        // Check if children exists
-        MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
-        if (meshRenderer)
+        // Check if children exists by checking DragTransform Component
+        DragTransform dragTransform = GetComponentInChildren<DragTransform>();
+        if (dragTransform)
         {
-            GameObject itemInSlot = meshRenderer.gameObject;
+            GameObject itemInSlot = dragTransform.gameObject;
 
             gear = StashUIItemsManager.Instance.GetDataFromUIgameObject(itemInSlot);
             gearTextDisplay = new GearTextDisplay(gear);

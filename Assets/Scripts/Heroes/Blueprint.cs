@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class Blueprint : BasicGear
 {
-	Mesh mesh {get; set;}
+    public int ore { get; set; }
+    public int steel { get; set; }
+    public int coal { get; set; }
+    public int orichalcum { get; set; }
+    Mesh mesh {get; set;}
   
 	public Blueprint(){}
 }
