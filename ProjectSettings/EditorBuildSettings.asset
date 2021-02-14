@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test Mini World.unity
     guid: 378e6cf2729a4594fad94594f97ac176
+  - enabled: 1
+    path: Assets/Scenes/Test Item Allocation.unity
+    guid: 4bf254ca073f1e949a08005b6c092fa6
   m_configObjects: {}

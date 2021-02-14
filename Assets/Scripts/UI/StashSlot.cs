@@ -29,7 +29,7 @@ public class StashSlot : MonoBehaviour
     void UpdateItemInfo()
     {
         // Check if children exists by checking DragTransform Component
-        DragTransform dragTransform = GetComponentInChildren<DragTransform>();
+        RotateIfOnUI dragTransform = GetComponentInChildren<RotateIfOnUI>();
         if (dragTransform)
         {
             GameObject itemInSlot = dragTransform.gameObject;

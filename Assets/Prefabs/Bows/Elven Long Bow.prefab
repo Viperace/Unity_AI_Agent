@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 691198659178778856}
   - component: {fileID: 691198659180073160}
   - component: {fileID: 691198659181072904}
+  - component: {fileID: 320685780805059515}
   m_Layer: 0
   m_Name: Elven Long Bow
   m_TagString: Untagged
@@ -81,6 +82,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &320685780805059515
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691198659178810568}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 022a72268e462114788abcf0c0b07418, type: 3}
 --- !u!1 &1288720008879956254
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ public class DragTransform : MonoBehaviour
 
     void Start()
     {
-        myRenderer = GetComponent<Renderer>();        
+        myRenderer = GetComponent<Renderer>();
     }
 
     void OnEnable()
@@ -37,7 +37,7 @@ public class DragTransform : MonoBehaviour
     void OnMouseDown()
     {
         distance = Vector3.Distance(transform.position, Camera.main.transform.position);
-        origLocalPos = this.transform.localPosition;
+        origLocalPos = transform.parent.localPosition;
         dragging = true;
     }
 
@@ -50,8 +50,8 @@ public class DragTransform : MonoBehaviour
             if (a.ReceiveTarget(this))
                 return;
         
-        // If no, snap back.
-        transform.localPosition = origLocalPos;
+        // If no, snap back.  This assuming COllider is one level child of the parent
+        transform.parent.localPosition = origLocalPos;
     }
 
 
@@ -61,7 +61,8 @@ public class DragTransform : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Vector3 rayPoint = ray.GetPoint(distance - 10f); // If zero, what clip behind camera
-            transform.position = rayPoint;
+            //transform.position = rayPoint;
+            transform.parent.position = rayPoint;
         }
     }
 }

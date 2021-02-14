@@ -16,8 +16,8 @@ public class DropArea : MonoBehaviour
     {
         if (CheckIfMouseWithinRect() & !IsOccupied())
         {
-            dragTransform.transform.SetParent(this.transform);
-            dragTransform.transform.localPosition = new Vector3(0, 0, -100f);
+            dragTransform.transform.parent.SetParent(this.transform);
+            dragTransform.transform.parent.localPosition = new Vector3(0, 0, -100f);
             return true;
         }
         else

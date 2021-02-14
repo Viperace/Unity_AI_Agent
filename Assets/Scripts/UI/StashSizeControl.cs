@@ -52,8 +52,9 @@ public class StashSizeControl : MonoBehaviour
 
         // Add component
         go.AddComponent<RotateIfOnUI>();
-        go.AddComponent<DragTransform>();
-
+        //go.AddComponent<DragTransform>();
+        if (go.GetComponentInChildren<MeshRenderer>())
+            go.GetComponentInChildren<MeshRenderer>().gameObject.AddComponent<DragTransform>();
     }
 
     public void ExpandSizeForOneScreen()
