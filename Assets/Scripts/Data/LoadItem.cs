@@ -31,14 +31,14 @@ public class LoadItem : MonoBehaviour
     {
         foreach (GearJsonData x in gearsData.gears)
             if (x.name == name)
-                return GearJsonData.Spawn(x);
+                return GearJsonData.SpawnGear(x);
         return null;
     }
 
     public BasicGear SpawnRandomItem()
     {
         int roll = Random.Range(0, gearsData.gears.Length);
-        return GearJsonData.Spawn(gearsData.gears[roll]);
+        return GearJsonData.SpawnGear(gearsData.gears[roll]);
     }
 
     // Exact name
@@ -63,9 +63,11 @@ public class GearDataArray
 [System.Serializable]
 public class GearJsonData
 {
+    // These variable must follow exactly what is defined in Json
     public string name;
     public string weaponOrArmor;
     public string type;
+    public string Subtype;
     public string carryHand;
     public string singleOrTwoHanded;
     public string grade;
@@ -87,7 +89,7 @@ public class GearJsonData
     public int basePrice;
     public string PrefabFile;
 
-    public static BasicGear Spawn(GearJsonData data)
+    public static BasicGear SpawnGear(GearJsonData data)
     {
         BasicGear basicGear = new BasicGear();
 
@@ -100,6 +102,8 @@ public class GearJsonData
         basicGear.defendBonus = data.defendMod;
         basicGear.durability = data.durabilityCap;
         basicGear.prefabName = data.PrefabFile;
+        basicGear.type = data.type;
+        basicGear.subtype = data.Subtype;
 
         if (data.weaponOrArmor == "Weapon")
         {
@@ -124,6 +128,15 @@ public class GearJsonData
         }
 
         return basicGear;
+    }
+
+    public static Blueprint SpawnBlueprint(GearJsonData data)
+    {
+        BasicGear gear = GearJsonData.SpawnGear(data);
+        
+        Blueprint blueprint = new Blueprint(gear, data.ore, data.steel, data.coal, data.orichalcum, data.PrefabFile);
+
+        return blueprint;
     }
 
     public static Rarity stringToRarity(string x)

@@ -11,6 +11,8 @@ public class BasicGear : IEquipment
     public string name;
     public Rarity rarity;
     public EquipmentSlot slot;
+    public string type;
+    public string subtype;
     public int attack;
     public int defend;
     public float attackBonus; // Percentage. default = 0%

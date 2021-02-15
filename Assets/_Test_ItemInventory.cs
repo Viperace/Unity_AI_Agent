@@ -22,7 +22,7 @@ public class _Test_ItemInventory : MonoBehaviour
         //BasicGear x2 = LoadItem.Instance.Spawn("Hammer");
 
         int roll = Random.Range(0, LoadItem.Instance.gearsData.gears.Length);
-        BasicGear x = GearJsonData.Spawn(LoadItem.Instance.gearsData.gears[roll]);
+        BasicGear x = GearJsonData.SpawnGear(LoadItem.Instance.gearsData.gears[roll]);
         PlayerData.Instance.AddGearToStash(x);
         Debug.Log("Spawn Free item " + x.name);
     }
