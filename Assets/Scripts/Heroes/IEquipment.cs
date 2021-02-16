@@ -67,10 +67,10 @@ public class BasicGear : IEquipment
 public enum Rarity
 {
     CRUDE = 0,
-    COMMON,
-    FINE,
-    EXCEPTIONAL,
-    LEGENDARY
+    COMMON = 1,
+    FINE = 2,
+    EXCEPTIONAL = 3,
+    LEGENDARY= 4 
 }
 public enum EquipmentSlot
 {

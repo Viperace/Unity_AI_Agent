@@ -16,6 +16,7 @@ public class PlayerData : MonoBehaviour
     public int coal { get; set; }
     public List<BasicGear> stashedItems { get; private set; }
     public List<BasicGear> itemsOnSales { get; private set; }
+    public HashSet<Blueprint> unlockedBlueprints { get; private set; }
 
     void Awake()
     {
@@ -36,17 +37,75 @@ public class PlayerData : MonoBehaviour
         // Init
         stashedItems = new List<BasicGear>();
         itemsOnSales = new List<BasicGear>();
+        unlockedBlueprints = new HashSet<Blueprint>();
 
-        _DebugAddItems();
+        Invoke("_DebugAddItems", 0.5f);
     }
 
     void _DebugAddItems()
     {
-        BasicGear x1 = new BasicGear("Wooden Sword", Rarity.COMMON, EquipmentSlot.RIGHT_HAND, 2, 0);
-        BasicGear x2 = new BasicGear("Simple Axe", Rarity.COMMON, EquipmentSlot.RIGHT_HAND, 2, 0);
-        BasicGear x3 = LoadItem.Instance.Spawn("Shield");
-        BasicGear x4 = LoadItem.Instance.Spawn("Sword");
-        AddGearToStash(x1, x2, x3, x4);
+        // Item
+        //BasicGear x1 = new BasicGear("Wooden Sword", Rarity.COMMON, EquipmentSlot.RIGHT_HAND, 2, 0);
+        //BasicGear x2 = new BasicGear("Simple Axe", Rarity.COMMON, EquipmentSlot.RIGHT_HAND, 2, 0);
+        //BasicGear x3 = LoadItem.Instance.Spawn("Shield");
+        //BasicGear x4 = LoadItem.Instance.Spawn("Sword");
+        BasicGear x1 = LoadItem.Instance.Spawn("War Crafter");
+        BasicGear x2 = LoadItem.Instance.Spawn("Warhammer");
+        AddGearToStash(x1, x2);
+
+        // Blue print
+        UnlockBlueprint("Short Sword");
+        UnlockBlueprint("Club");
+        UnlockBlueprint("Short Staff");
+        UnlockBlueprint("Short Bow");
+        UnlockBlueprint("Buckler");
+        UnlockBlueprint("War Crafter");
+        
+        UnlockBlueprint("Cutlass");
+    }
+
+    public bool UnlockBlueprint(string blueprintName)
+    {
+        // Validate this blue print is within database 
+        if (Blueprint.BlueprintsDictionary.ContainsKey(blueprintName))
+        {
+            // Validate this has not already exist
+            foreach (Blueprint b in unlockedBlueprints)
+                if(b.name == blueprintName)
+                {
+                    Debug.LogWarning("Blueprint already unlocked by player. " + blueprintName);
+                    return false;
+                }
+
+            // Spoawn and add
+            Blueprint blueprint = Blueprint.SpawnBlueprint(blueprintName);
+            unlockedBlueprints.Add(blueprint);
+            return true;
+        }
+        else
+        {
+            Debug.LogWarning("Blueprint does not exist in database. Not added to player. " + blueprintName);
+            return false;
+        }
+    }
+
+    public bool _LockBlueprint(string blueprintName)
+    {
+        // Validate this blue print is good
+        if (Blueprint.BlueprintsDictionary.ContainsKey(blueprintName))
+        {
+            Blueprint toDelete = null;
+            foreach(Blueprint b in unlockedBlueprints)
+                if (b.name == blueprintName)
+                    toDelete = b;
+
+            unlockedBlueprints.Remove(toDelete);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void AddGearToStash(params BasicGear[] gears)
