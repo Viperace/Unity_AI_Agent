@@ -76,10 +76,10 @@ public class GearJsonData
     public int star;
     public int starCap;
     // Cost
-    public int ore;
-    public int steel;
-    public int coal;
-    public int orichalcum;
+    public int Ore;
+    public int Steel;
+    public int Coal;
+    public int Orichalcum;
     // stat
     public int baseAttack;
     public int baseDefend;
@@ -134,7 +134,7 @@ public class GearJsonData
     {
         BasicGear gear = GearJsonData.SpawnGear(data);
         
-        Blueprint blueprint = new Blueprint(gear, data.ore, data.steel, data.coal, data.orichalcum, data.PrefabFile);
+        Blueprint blueprint = new Blueprint(gear, data.Ore, data.Steel, data.Coal, data.Orichalcum, data.PrefabFile);
 
         return blueprint;
     }

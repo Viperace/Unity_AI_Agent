@@ -75,11 +75,11 @@ public class StashSizeControl : MonoBehaviour
     public void RearrangeItems()
     {
         StashSlot[] slots = scrollPanel.GetComponentsInChildren<StashSlot>();
-        List<MeshRenderer> items = new List<MeshRenderer>();
+        List<RotateIfOnUI> items = new List<RotateIfOnUI>();
         foreach(StashSlot slot in slots)
         {
             // Check if got item, if so, unparent it
-            MeshRenderer item = slot.GetComponentInChildren<MeshRenderer>();
+            RotateIfOnUI item = slot.GetComponentInChildren<RotateIfOnUI>();
             if (item)
             {
                 items.Add(item);

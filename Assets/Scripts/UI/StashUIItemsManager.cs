@@ -18,7 +18,7 @@ public class StashUIItemsManager : MonoBehaviour
 
     Dictionary<BasicGear, GameObject> dataToUIDictionary; // Record that match player data with actual UI
 
-    Coroutine runningCoroutine;
+    IEnumerator runningCoroutine;
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -32,9 +32,6 @@ public class StashUIItemsManager : MonoBehaviour
     void Start()
     {
         stashControl = FindObjectOfType<StashSizeControl>();
-
-        // Populate
-        runningCoroutine = StartCoroutine(UpdateStashCoroutine());
     }
 
     void OnEnable()
@@ -45,8 +42,14 @@ public class StashUIItemsManager : MonoBehaviour
 
         // Stop start
         if(runningCoroutine != null)
-            StopCoroutine(runningCoroutine);            
-        runningCoroutine = StartCoroutine(UpdateStashCoroutine());
+            StopCoroutine(runningCoroutine);
+        runningCoroutine = UpdateStashCoroutine();
+        StartCoroutine(runningCoroutine);
+    }
+
+    void OnDisable()
+    {
+        StopCoroutine(runningCoroutine);
     }
 
     // Periodically call UpdateStashItems
@@ -76,8 +79,9 @@ public class StashUIItemsManager : MonoBehaviour
                     if (prefabToLoad == null)
                         prefabToLoad = defaultPrefab;
                     // Todo decide UI Effects
-                    
+
                     // Instantiate, create proper scale & add to slot
+                    print("Indsfds " + prefabToLoad);
                     GameObject uiItem = Instantiate(prefabToLoad);
                     stashControl.AddItem(uiItem);
 

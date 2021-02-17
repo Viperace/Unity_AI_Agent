@@ -135,6 +135,8 @@ MonoBehaviour:
   TradingPanel: {fileID: 0}
   StashPanel: {fileID: 0}
   SalesPanel: {fileID: 0}
+  BlueprintTreePanel: {fileID: 0}
+  HUDpanel: {fileID: 0}
 --- !u!114 &488679594
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,38 +17,7 @@ public class PopulateDetailedBlueprintUI : MonoBehaviour
             btn.gameObject.SetActive(false);
     }
 
-    GearTextDisplay _gearTextDisplay;
-    public void PopulateButtonWrong(params Blueprint[] blueprints)
-    {
-        for(int i = 0; i < craftButtons.Length; i++)
-        {
-            // Get texts UI
-            TMP_Text itemText = craftButtons[i].transform.Find("ItemText").GetComponent<TMP_Text>();
-            TMP_Text statText = craftButtons[i].transform.Find("StatText").GetComponent<TMP_Text>();
-            TMP_Text costText = craftButtons[i].transform.Find("CostText").GetComponent<TMP_Text>();
-
-            if (i >= blueprints.Length) 
-            {
-                craftButtons[i].gameObject.SetActive(false);
-            }
-            else
-            {
-                craftButtons[i].gameObject.SetActive(true);
-
-                // Populate text
-                _gearTextDisplay = new GearTextDisplay(blueprints[i]);
-                itemText.text = _gearTextDisplay.ColoredName();
-                statText.text = _gearTextDisplay.ColoredStat();
-                costText.text = blueprints[i].ore.ToString();
-            }
-        }
-
-        // Check, prevent overflow
-        if(blueprints.Length > craftButtons.Length)
-            Debug.LogWarning("PopulateDetailedBlueprintUI: Button number < blueprints to populate ");
-
-    }
-
+    BlueprintTextDisplay _gearTextDisplay;
     public void PopulateButton(params Blueprint[] buttonTaggedBlueprints)
     {
         // Intersect player VS button tagged
@@ -70,11 +39,11 @@ public class PopulateDetailedBlueprintUI : MonoBehaviour
             {
                 craftButtons[i].gameObject.SetActive(true);
 
-                // Populate text
-                _gearTextDisplay = new GearTextDisplay(intersectBPs[i]);
+                // Populate text using standard format
+                _gearTextDisplay = new BlueprintTextDisplay(intersectBPs[i]);
                 itemText.text = _gearTextDisplay.ColoredName();
                 statText.text = _gearTextDisplay.ColoredStat();
-                costText.text = intersectBPs[i].ore.ToString();
+                costText.text = _gearTextDisplay.ColoredCost();
             }
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GearTextDisplay
 {
-    BasicGear basicGear;
+    protected BasicGear basicGear;
 
     public GearTextDisplay() { }
 
@@ -76,5 +76,44 @@ public class GearTextDisplay
         }
 
         return string.Concat(attackText, defendText);
+    }
+}
+
+public class BlueprintTextDisplay: GearTextDisplay
+{
+    Blueprint blueprint;
+
+    public BlueprintTextDisplay() { }
+
+    public BlueprintTextDisplay(Blueprint blueprint)
+    {
+        base.basicGear = blueprint;
+        this.blueprint = blueprint;
+    }
+
+    public string ColoredCost()
+    {
+        string outputText = "";
+        if (blueprint.ore != 0)
+        {
+            outputText = string.Concat(outputText, "Ore: ", blueprint.ore, "\t ");
+        }
+
+        if (blueprint.steel != 0)
+        {
+            outputText = string.Concat(outputText, "Steel: ", blueprint.steel, "\n");
+        }
+
+        if (blueprint.orichalcum != 0)
+        {
+            outputText = string.Concat(outputText, "Ori.: ", blueprint.orichalcum, "\t ");
+        }
+
+        if (blueprint.coal != 0)
+        {
+            outputText = string.Concat(outputText, "Coal: ", blueprint.coal);
+        }
+
+        return outputText;
     }
 }
