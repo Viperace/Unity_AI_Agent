@@ -66,6 +66,11 @@ public class PlayerData : MonoBehaviour
 
     public bool UnlockBlueprint(string blueprintName)
     {
+        if (Blueprint.BlueprintsDictionary == null)
+        {
+            Blueprint b = new Blueprint(); // Awake it
+        }
+
         // Validate this blue print is within database 
         if (Blueprint.BlueprintsDictionary.ContainsKey(blueprintName))
         {
